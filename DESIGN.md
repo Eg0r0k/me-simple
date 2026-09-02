@@ -26,8 +26,9 @@
 - **Светлая и тёмная темы равноправны.** Тёмная — не «инверсия», у неё свои значения.
   Переключение — атрибут `data-theme="dark"` на корне.
 - **Одна анимация — нажатие.** `scale(.96)` за 100ms. Hover только на десктопе.
-- **Три шрифта с разными обязанностями.** Archivo — всё содержательное, Geist Mono — только
-  мета (11px, капс), Shantell Sans — «рука», 1–2 раза на экран, только несодержательное.
+- **Три шрифта с разными обязанностями.** Archivo — весь текст, включая мету; Geist Mono —
+  только по-настоящему машинное содержимое; Shantell Sans — «рука», 1–2 раза на экран,
+  только несодержательное. Мету от текста отличают размер и цвет, а не гарнитура.
 - **Акценты маркируют, а не украшают.** Максимум 2–3 акцента на экран.
 
 ---
@@ -161,8 +162,10 @@
   --text-subheading: 20px; --text-subheading-lh: 1.3;--text-subheading-ls: -0.012em;
   --text-body: 16px;       --text-body-lh: 1.6;
   --text-small: 13.5px;    --text-small-lh: 1.55;
-  --text-label: 11px;      --text-label-ls: 0.08em;
-  --text-hand: 34px;       --hand-tilt: -6deg;
+  --text-label: 12px;      --text-label-lh: 1.4;
+  --text-tech: 15px;       --text-tech-lh: 1.55;
+  --text-action: 14px;
+  --text-hand: 34px;
   --weight-regular: 400;   --weight-medium: 500;     --weight-semibold: 600;
 
   /* motion */
@@ -248,10 +251,20 @@ body.is-mobile .press-scale:active {
 7. **Каждый нажимаемый элемент получает класс `press-scale`.** Hover — `@media (hover: hover)`.
 8. **`transition` только по `background`, `color`, `filter`, `transform`, `opacity`.**
    Никаких `transition-all`.
-9. **Мета-текст (даты, годы, версии, номера, счётчики) — Geist Mono 11px, uppercase,
-   `letter-spacing: .08em`, цвет `--faint`.** Никогда не Archivo.
+9. **Мета-текст (даты, годы, версии, номера, счётчики, подписи, лейблы полей) — Archivo 12px,
+   цвет `--faint`, без uppercase и без разрядки.** Мету отличают размер и цвет, а не гарнитура.
+   **Geist Mono — только для по-настоящему машинного содержимого:** код, хеш коммита,
+   координаты, суммы в таблице. Моно в подписи читается как техническая пометка там, где её нет.
+   Частный случай, который ловится чаще всего: стек и теги нельзя выводить строкой через `·`
+   в моно (`Vue · TypeScript · WebGL`). Технологии — нормальной фразой Archivo 15px / lh 1.55 /
+   `--muted` («Звук в браузере: Web Audio API, десятиполосный эквалайзер, HLS») либо, если
+   перечень действительно нужен, 2–3 бейджами (§5.4).
+   Ссылка-действие рядом с заголовком («открыть на github ↗») — Archivo 14px в цвете акцента,
+   без моно и без капса.
 10. **Shantell Sans** — только номера разделов, год у проекта, короткие ремарки («soon!»).
-    Всегда `rotate(-6deg)`, всегда в цвете палитры. Никогда не заголовок, кнопка, лейбл, текст.
+    Всегда в цвете палитры и **всегда без наклона**: `transform: none`, `rotate(0)`,
+    `font-style: normal`. Наклонённая или курсивная «рука» читается как стикер-декор,
+    а рукописность и так видна по гарнитуре. Никогда не заголовок, кнопка, лейбл, текст.
 11. **Иконки — только Material Symbols Rounded, filled** (`.ms`, имя иконки текстом внутри).
     Никаких lucide/иных наборов, никаких рисованных SVG. Замена в shadcn-vue: все
     `lucide-vue-next` импорты → `<span class="ms">имя_иконки</span>`.
@@ -366,7 +379,7 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 Внутри плита `height: 132`, `border-radius: var(--radius-3)`, фон `--{tone}-soft`,
 глиф 40px цветом `--{tone}`, центрирован.
 Текстовый блок под плитой: `padding: 2px 8px 10px`, `gap: 6`.
-Заголовок 15.5px semibold `letter-spacing: -0.01em`; год — моно 11px `--faint`, справа
+Заголовок 15.5px semibold `letter-spacing: -0.01em`; год — Archivo 12px `--faint`, справа
 (`margin-left: auto`); подпись одна строка `--text-small` / lh 1.5 / `--muted`.
 
 Компакт-вариант: `padding: 20`, `gap: 12`, вместо плиты плитка 36×36 радиус
@@ -387,9 +400,9 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 Переход `background var(--dur-surface) ease`. **Разделителей нет — hover-заливка и есть разделитель.**
 
 Слева плитка 38×38 радиус `--radius-3` фон `--{tone}-soft`, иконка md цветом `--{tone}`;
-либо вариант с рукописным индексом: Shantell Sans 20px цветом `--clay`, без плитки.
+либо вариант с рукописным индексом: Shantell Sans 20px цветом `--clay`, без наклона, без плитки.
 Заголовок 15.5px semibold `-0.012em` с `text-overflow: ellipsis`; подпись `--text-small`
-`--muted`, скрывается на узких экранах. Справа: год моно 11px `--faint`, затем
+`--muted`, скрывается на узких экранах. Справа: год Archivo 12px `--faint`, затем
 `arrow_outward` sm `--faint`. Внутренние `gap`: 8 у заголовка, 12 у правой группы.
 
 Списки длиннее шести элементов используют строку, не карточку.
@@ -442,7 +455,7 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 (максимум одна primary). `fan` — три плитки, развёрнутые веером (каждая со своим
 `tone` + `icon`), самый громкий вариант. `layout="row"` — инлайн-ошибка внутри списка.
 `layout="silent"` — бесцветный слот, который просто ждёт.
-`note` — рукописная ремарка у плитки («soon!»), Shantell Sans, наклон −6°.
+`note` — рукописная ремарка у плитки («soon!»), Shantell Sans, без наклона.
 Копирайт: не извиняться, а говорить, что делать дальше.
 
 ### 5.11 Frame (нет в shadcn — база для `ui/avatar`, `ui/aspect-ratio`, любых картинок)
@@ -454,8 +467,8 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 Пустой кадр: фон `--{tone}-soft` и глиф 26px цветом `--{tone}` — тинтованный кадр лучше
 серого, если картинка принадлежит известному проекту; иначе `--sunk` + `--faint`.
 `placeholder` — полосатая заливка «drop a shot here».
-Подпись: моно `--text-label`, `--faint`. `note` — рукописная ремарка 16px `--clay`,
-приколотая в правом нижнем углу кадра.
+Подпись: Archivo `--text-label` (12px), `--faint`. `note` — рукописная ремарка 16px `--clay`,
+без наклона, приколотая в правом нижнем углу кадра.
 Картинка: `width/height: 100%`, `object-fit: cover`.
 
 ---
@@ -469,15 +482,15 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 `padding: 0 12px`, `font-size: 14px`, `color: var(--fg)`,
 placeholder `--faint`. Focus: `box-shadow: 0 0 0 2px var(--primary)` внутрь либо смена фона
 на `--fill` — никаких бордеров и ring-offset. Ошибка: `background: var(--danger-soft)`,
-текст ошибки `--danger-ink` `--text-small`. Лейбл над полем — моно `--text-label` `--muted`.
+текст ошибки `--danger-ink` `--text-small`. Лейбл над полем — Archivo `--text-label` (12px) `--faint`.
 
 **Select / Combobox / DropdownMenu / Popover / Command.** Триггер = Input (утопленный) с
 глифом `expand_more` 18px `--faint` справа. Меню: `background: var(--bg)`,
 `border-radius: var(--radius-3)`, `padding: 4`, `box-shadow: var(--shadow-2)`, без бордера.
 Итем = List row в компактной версии: height 34, `padding: 0 10px`,
 `border-radius: var(--radius-1)`, hover `--fill`, выбранный `--sunk` + глиф `check` 16px
-`--primary`. Разделитель групп — не линия, а заголовок группы моно `--text-label` `--muted`
-с `padding: 8px 10px 4px`.
+`--primary`. Разделитель групп — не линия, а заголовок группы Archivo `--text-label` (12px)
+`--faint` с `padding: 8px 10px 4px`.
 
 **Checkbox / Radio / Switch.** Невыбранное — `--fill`, выбранное — `--primary` с
 `--on-primary` глифом. Checkbox 18×18 радиус `--radius-xs`, radio 18×18 `--radius-full`,
@@ -488,8 +501,8 @@ switch 36×22 трек `--radius-full` (`--fill` → `--primary`), ручка 18
 `font-size: 12.5`, `padding: 6px 9px`, `border-radius: var(--radius-1)`, без стрелки,
 без бордера, тень `--shadow-2`.
 
-**Table.** Никаких `border-b` у строк. Шапка — моно `--text-label` `--muted`,
-`padding-bottom: 10`. Строки — List row (§5.7) с hover `--sunk` и отрицательными маргинами.
+**Table.** Никаких `border-b` у строк. Шапка — Archivo `--text-label` (12px) `--faint`,
+`padding-bottom: 10`. Числовые ячейки — единственное место в таблице, где уместен Geist Mono. Строки — List row (§5.7) с hover `--sunk` и отрицательными маргинами.
 Зебру не использовать.
 
 **Accordion / Collapsible.** Триггер — строка без бордера, глиф `expand_more` 18px `--faint`
@@ -525,8 +538,11 @@ switch 36×22 трек `--radius-full` (`--fill` → `--primary`), ручка 18
 | subheading | Archivo | 20 / 1.3 / −0.012em | 500–600 | `--fg` |
 | body | Archivo | 16 / 1.6 | 400 | `--fg` |
 | small | Archivo | 13.5 / 1.55 | 400 | `--muted` |
-| label (мета) | Geist Mono | 11 / +0.08em / uppercase | 400–500 | `--faint` |
-| hand | Shantell Sans | 34, наклон −6° | 600 | акцент палитры |
+| label (мета) | Archivo | 12 / 1.4 | 400–500 | `--faint` |
+| tech (стек фразой) | Archivo | 15 / 1.55 | 400 | `--muted` |
+| action (ссылка у заголовка) | Archivo | 14 | 500 | акцент палитры |
+| code (машинное) | Geist Mono | по контексту | 400–500 | `--muted` |
+| hand | Shantell Sans | 34, без наклона | 600 | акцент палитры |
 
 Крупные кегли задавать через `clamp()` (например `clamp(32px, 7.5vw, 58px)`), сохраняя
 `line-height` и `letter-spacing` из таблицы. Всем абзацам — `text-wrap: pretty`.
@@ -543,7 +559,9 @@ switch 36×22 трек `--radius-full` (`--fill` → `--primary`), ручка 18
 - [ ] Нажимаемые элементы имеют `press-scale`; hover под `@media (hover: hover)`.
 - [ ] `transition` перечисляет свойства, `transition-all` отсутствует.
 - [ ] Иконки — `.ms` (Material Symbols Rounded filled), lucide удалён.
-- [ ] Мета-текст в Geist Mono 11px caps; Shantell Sans не попал в UI-текст.
+- [ ] Мета-текст в Archivo 12px `--faint`, без капса и разрядки; Geist Mono только на
+      машинном содержимом; стек не выведен строкой через `·` в моно.
+- [ ] Shantell Sans не попал в UI-текст и нигде не наклонён.
 - [ ] Destructive — soft, не сплошной; primary на экране один.
 - [ ] Загрузочные состояния — Skeleton, не спиннер.
 - [ ] Тап-таргеты на мобильном ≥ 44px.

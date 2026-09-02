@@ -2,12 +2,18 @@
   <div class="flex flex-col gap-[var(--space-20)] pt-[var(--space-12)]">
     <!-- Ритм задаёт пустое место, а не линии. -->
     <section class="flex flex-col gap-[var(--space-6)]">
-      <span class="t-label">Vue · TypeScript · WebGL</span>
       <h1 class="t-display max-w-[16ch]">Интерфейсы без единого бордера</h1>
-      <p class="t-body max-w-[52ch] text-muted-foreground">
-        Собираю фронтенд, в котором иерархию держат тон и пустота. Пишу на Vue 3 и TypeScript, люблю
-        шейдеры и дизайн-системы, которые переживают своих авторов.
-      </p>
+
+      <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">
+        <p class="t-body text-muted-foreground">
+          Собираю фронтенд, в котором иерархию держат тон и пустота.
+        </p>
+        <!-- Стек — нормальной фразой, а не строкой через · в моно. -->
+        <p class="t-tech">
+          Пишу на Vue 3 и TypeScript, беру WebGL там, где нужен растровый эффект, и собираю
+          интерфейс по собственной дизайн-системе вместо готового UI-кита.
+        </p>
+      </div>
 
       <div class="flex flex-wrap items-center gap-[var(--space-3)]">
         <!-- Ровно один primary на экран. -->
@@ -30,8 +36,13 @@
       <header class="flex items-baseline gap-[var(--space-3)]">
         <h2 class="t-heading">Избранное</h2>
         <span class="t-hand text-[24px] text-clay">soon more!</span>
-        <Link :to="routeLocation.projects()" class="t-label ms-auto no-underline hover:text-fg">
+        <!-- Ссылка-действие у заголовка: Archivo 14px в цвете акцента. -->
+        <Link
+          :to="routeLocation.projects()"
+          class="t-action ms-auto inline-flex items-center gap-[4px] hover:underline"
+        >
           все проекты
+          <Icon name="arrow_outward" :size="16" />
         </Link>
       </header>
 
