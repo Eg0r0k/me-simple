@@ -185,14 +185,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,400;0,600;1,500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0&display=swap");
 
+/* Иконки — SVG, не шрифт. Размер идёт от font-size, потому что svg сидит на 1em. */
 .ms {
-  font-family: "Material Symbols Rounded";
-  font-weight: 400; font-style: normal; line-height: 1;
-  letter-spacing: normal; text-transform: none;
-  display: inline-block; white-space: nowrap; word-wrap: normal; direction: ltr;
-  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+  display: inline-block;
+  width: 1em; height: 1em;
+  flex-shrink: 0; line-height: 1;
+  user-select: none;
 }
 
 .press-scale { transition: transform var(--dur-press) var(--ease-standard); transform: scale(1); }
@@ -266,9 +265,14 @@
     Всегда в цвете палитры и **всегда без наклона**: `transform: none`, `rotate(0)`,
     `font-style: normal`. Наклонённая или курсивная «рука» читается как стикер-декор,
     а рукописность и так видна по гарнитуре. Никогда не заголовок, кнопка, лейбл, текст.
-11. **Иконки — только Material Symbols Rounded, filled** (`.ms`, имя иконки текстом внутри).
-    Никаких lucide/иных наборов, никаких рисованных SVG. Замена в shadcn-vue: все
-    `lucide-vue-next` импорты → `<span class="ms">имя_иконки</span>`.
+11. **Иконки — только Material Symbols Rounded, filled, и только как SVG.**
+    Набор берётся из Iconify (`@iconify-json/material-symbols`), собирается
+    `unplugin-icons` в инлайновые Vue-компоненты. Веб-шрифта нет: он тянул лишний
+    запрос и давал вспышку неотрисованных лигатур. Иконка по-прежнему адресуется
+    именем (`<Icon name="arrow_outward" />`), но имя резолвится через реестр
+    `components/ui/icon/icons.ts` — новую иконку сначала добавляют туда.
+    Класс `.ms` остаётся: он держит svg на `1em`, поэтому размер задаётся `font-size`.
+    Никаких lucide/иных наборов и никаких рисованных от руки SVG.
 12. **Мин. тап-таргет на мобильном — 44px.**
 13. **Изображения — только 21:9 / 16:9 / 4:3 / 1:1.** Подпись под кадром, в моно, не поверх.
 
@@ -329,9 +333,11 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 
 ### 5.3 Icon
 
-Не компонент shadcn, но нужен всем: `<span class="ms" style="font-size:{size}px; color:{color}">name</span>`.
+Не компонент shadcn, но нужен всем: `<Icon name="arrow_outward" size="sm" />`.
+Рендерит SVG из реестра с классом `.ms`, `font-size` и `color` в инлайн-стиле.
 Размеры xs 15 / sm 18 / md 20 / lg 24 / xl 32 или число. Цвет из палитры, по умолчанию
-`currentColor`. Внутри текста — `vertical-align: middle` на обёртке.
+`currentColor`. Внутри текста — `vertical-align: middle`. Незарегистрированное имя
+не рендерит ничего и пишет предупреждение в dev.
 
 ### 5.4 Badge → `ui/badge`
 
@@ -562,7 +568,7 @@ switch 36×22 трек `--radius-full` (`--fill` → `--primary`), ручка 18
 - [ ] Высота и радиус взяты из шкалы §4, вложенные радиусы концентричны.
 - [ ] Нажимаемые элементы имеют `press-scale`; hover под `@media (hover: hover)`.
 - [ ] `transition` перечисляет свойства, `transition-all` отсутствует.
-- [ ] Иконки — `.ms` (Material Symbols Rounded filled), lucide удалён.
+- [ ] Иконки — SVG Material Symbols Rounded filled через Iconify, имя есть в реестре; lucide удалён.
 - [ ] Мета-текст в Archivo 12px `--faint`, без капса и разрядки; Geist Mono только на
       машинном содержимом; стек не выведен строкой через `·` в моно.
 - [ ] Shantell Sans не попал в UI-текст и нигде не наклонён.

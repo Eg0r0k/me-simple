@@ -2,6 +2,7 @@
 import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
+import { icons } from './icons'
 
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
 
@@ -24,13 +25,22 @@ const SIZES: Record<Exclude<IconSize, number>, number> = {
 }
 
 const pixels = computed(() => (typeof props.size === 'number' ? props.size : SIZES[props.size]))
+
+const component = computed(() => {
+  const found = icons[props.name as keyof typeof icons]
+  if (!found && import.meta.env.DEV) {
+    console.warn(`[Icon] "${props.name}" is not registered in components/ui/icon/icons.ts`)
+  }
+  return found
+})
 </script>
 
 <template>
-  <span
+  <component
+    :is="component"
+    v-if="component"
     aria-hidden="true"
     :class="cn('ms align-middle', props.class)"
     :style="{ fontSize: `${pixels}px`, color: props.color }"
-    >{{ name }}</span
-  >
+  />
 </template>
