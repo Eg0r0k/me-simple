@@ -1,6 +1,7 @@
 {
   "brand": "me",
-  "appTitle": "me — portfolio",
+  "appTitle": "Egor Bocharov — frontend developer",
+  "sections": "Sections",
   "timezone": "GMT+3",
   "theme": {
     "toLight": "Switch to light theme",
@@ -10,6 +11,5 @@
     "label": "Language",
     "trigger": "Change language",
     "system": "System"
-  },
-  "sections": "Sections"
+  }
 }

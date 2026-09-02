@@ -81,11 +81,16 @@ const useHandIndex = computed(() => props.index !== undefined)
       <Icon :name="props.icon" size="md" />
     </span>
 
-    <span class="flex min-w-0 flex-1 items-baseline gap-[8px]">
-      <span class="truncate text-[15.5px] font-semibold tracking-[-0.012em] text-fg">{{
-        props.title
-      }}</span>
-      <span v-if="props.caption" class="t-small hidden truncate sm:block">{{ props.caption }}</span>
+    <span class="flex min-w-0 flex-1 flex-col gap-[4px]">
+      <span class="flex min-w-0 items-baseline gap-[8px]">
+        <span class="truncate text-[15.5px] font-semibold tracking-[-0.012em] text-fg">{{
+          props.title
+        }}</span>
+        <span v-if="props.caption" class="t-small hidden truncate sm:block">{{
+          props.caption
+        }}</span>
+      </span>
+      <slot />
     </span>
 
     <span class="flex shrink-0 items-center gap-[12px]">

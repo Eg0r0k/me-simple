@@ -1,0 +1,20 @@
+{
+  "title": "Experience",
+  "items": {
+    "own": {
+      "role": "Own products",
+      "company": "Now",
+      "summary": "A Tauri player, a browser audio library, a realtime game over WebSocket."
+    },
+    "codeMasters": {
+      "role": "Middle Frontend",
+      "company": "Code Masters",
+      "summary": "A CRM admin panel. A 25-component library on Vue 3 and Nuxt, LCP down from 2.5 to 1.7 seconds, a data layer on TanStack Query, SSR and localisation."
+    },
+    "novaCode": {
+      "role": "Frontend",
+      "company": "NovaCode System",
+      "summary": "A design system from scratch on Vue 3, a PWA with an offline mode, performance and optimisation work."
+    }
+  }
+}

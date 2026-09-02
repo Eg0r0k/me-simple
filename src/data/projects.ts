@@ -7,6 +7,7 @@ export interface Project {
   year: number
   tone: ProjectTone
   icon: string
+  url?: string
 }
 
 export const projects: Project[] = [
@@ -19,35 +20,29 @@ export const projects: Project[] = [
     icon: 'graphic_eq',
   },
   {
-    slug: 'shader-lab',
-    title: 'Shader Lab',
-    captionKey: 'projects.items.shaderLab',
+    slug: 'lyra-audio',
+    title: 'lyra-audio',
+    captionKey: 'projects.items.lyraAudio',
     year: 2025,
     tone: 'peri',
-    icon: 'deployed_code',
+    icon: 'equalizer',
+    url: 'https://npmjs.com/package/lyra-audio',
   },
   {
-    slug: 'portfolio',
-    title: 'Portfolio',
-    captionKey: 'projects.items.portfolio',
-    year: 2024,
-    tone: 'mint',
-    icon: 'draw',
-  },
-  {
-    slug: 'timetable',
-    title: 'Timetable',
-    captionKey: 'projects.items.timetable',
+    slug: 'typemore',
+    title: 'TypeMore',
+    captionKey: 'projects.items.typemore',
     year: 2024,
     tone: 'amber',
-    icon: 'calendar_month',
+    icon: 'keyboard',
+    url: 'https://typemore.elackov.com/',
   },
   {
-    slug: 'codegraph',
-    title: 'CodeGraph',
-    captionKey: 'projects.items.codegraph',
-    year: 2023,
-    tone: 'clay',
-    icon: 'account_tree',
+    slug: 'tuna',
+    title: 'TunA',
+    captionKey: 'projects.items.tuna',
+    year: 2024,
+    tone: 'mint',
+    icon: 'tune',
   },
 ]

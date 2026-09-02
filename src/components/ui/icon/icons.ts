@@ -5,6 +5,7 @@ import Add from '~icons/material-symbols/add-rounded'
 import ArrowForward from '~icons/material-symbols/arrow-forward-rounded'
 import ArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import CalendarMonth from '~icons/material-symbols/calendar-month-rounded'
+import Bolt from '~icons/material-symbols/bolt-rounded'
 import Category from '~icons/material-symbols/category-rounded'
 import Check from '~icons/material-symbols/check-rounded'
 import ChevronRight from '~icons/material-symbols/chevron-right-rounded'
@@ -21,8 +22,21 @@ import Mail from '~icons/material-symbols/mail-rounded'
 import Person from '~icons/material-symbols/person-rounded'
 import Terminal from '~icons/material-symbols/terminal-rounded'
 import Translate from '~icons/material-symbols/translate-rounded'
+import Dashboard from '~icons/material-symbols/dashboard-rounded'
+import Equalizer from '~icons/material-symbols/equalizer-rounded'
+import Keyboard from '~icons/material-symbols/keyboard-rounded'
+import Palette from '~icons/material-symbols/palette-rounded'
+import Send from '~icons/material-symbols/send-rounded'
+import Tune from '~icons/material-symbols/tune-rounded'
 
 export const icons = {
+  tune: Tune,
+  send: Send,
+  palette: Palette,
+  keyboard: Keyboard,
+  equalizer: Equalizer,
+  dashboard: Dashboard,
+  bolt: Bolt,
   account_tree: AccountTree,
   add: Add,
   arrow_forward: ArrowForward,

@@ -1,0 +1,20 @@
+{
+  "title": "Опыт",
+  "items": {
+    "own": {
+      "role": "Свои продукты",
+      "company": "Сейчас",
+      "summary": "Плеер на Tauri, библиотека для звука в браузере, реалтайм-игра на WebSocket."
+    },
+    "codeMasters": {
+      "role": "Middle Frontend",
+      "company": "Code Masters",
+      "summary": "Админ-панель CRM. Библиотека из 25 компонентов на Vue 3 и Nuxt, LCP с 2,5 до 1,7 секунды, слой данных на TanStack Query, SSR и локализация."
+    },
+    "novaCode": {
+      "role": "Frontend",
+      "company": "NovaCode System",
+      "summary": "Дизайн-система с нуля на Vue 3, PWA с офлайн-режимом, производительность и оптимизация проекта."
+    }
+  }
+}

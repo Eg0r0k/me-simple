@@ -1,6 +1,7 @@
 {
   "brand": "me",
-  "appTitle": "me — портфолио",
+  "appTitle": "Егор Бочаров — frontend-разработчик",
+  "sections": "Разделы",
   "timezone": "GMT+3",
   "theme": {
     "toLight": "Включить светлую тему",
@@ -10,6 +11,5 @@
     "label": "Язык",
     "trigger": "Сменить язык",
     "system": "Системный"
-  },
-  "sections": "Разделы"
+  }
 }

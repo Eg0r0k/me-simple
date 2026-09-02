@@ -1,23 +1,15 @@
 {
-  "title": "Interfaces without a single border",
-  "lead": "I build front-ends where tone and emptiness carry the hierarchy.",
-  "tech": "I write Vue 3 and TypeScript, reach for WebGL when an effect needs raster work, and build the interface on a design system of my own instead of an off-the-shelf UI kit.",
+  "status": "Open to offers",
+  "name": "Egor Bocharov",
+  "role": "Frontend developer",
+  "lead": "Four years with Vue 3 and TypeScript, building interfaces that do not stutter.",
+  "tech": "Based in Moscow, working remotely, open to offers.",
   "actions": {
     "work": "See the work",
     "write": "Say hello"
   },
-  "featured": {
-    "title": "Selected",
-    "note": "soon more!",
-    "all": "all projects"
-  },
-  "next": {
-    "title": "Next",
-    "caption": "A slot for whatever is in progress"
-  },
-  "status": "Open to projects",
-  "availability": "Free from October",
   "meta": {
-    "location": "Moscow"
+    "location": "Moscow",
+    "remote": "Remote"
   }
 }
