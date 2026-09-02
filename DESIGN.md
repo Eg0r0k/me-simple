@@ -378,8 +378,11 @@ Hover: `secondary` → `--fill-hover`, `surface` → `--btn-surface-hover`, `gho
 `border-radius: var(--radius-card)` (18), `padding: 10`.
 Внутри плита `height: 132`, `border-radius: var(--radius-3)`, фон `--{tone}-soft`,
 глиф 40px цветом `--{tone}`, центрирован.
+Карточка — колонка с `gap: 8` между плитой и текстовым блоком. Без этого зазора
+заголовок встаёт вплотную к плите: одного паддинга текстового блока не хватает.
 Текстовый блок под плитой: `padding: 2px 8px 10px`, `gap: 6`.
-Заголовок 15.5px semibold `letter-spacing: -0.01em`; год — Archivo 12px `--faint`, справа
+Заголовок 15.5px semibold `line-height: 1.3` `letter-spacing: -0.01em`; год — Archivo 12px
+`--faint`, справа
 (`margin-left: auto`); подпись одна строка `--text-small` / lh 1.5 / `--muted`.
 
 Компакт-вариант: `padding: 20`, `gap: 12`, вместо плиты плитка 36×36 радиус

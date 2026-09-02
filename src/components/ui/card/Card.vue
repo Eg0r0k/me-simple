@@ -61,9 +61,11 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
     :as-child="asChild"
     :class="
       cn(
-        'block rounded-card no-underline',
+        'rounded-card no-underline',
         isEmpty ? 'bg-sunk' : 'bg-surface',
-        props.variant === 'compact' ? 'flex items-center gap-[12px] p-[20px]' : 'p-[10px]',
+        props.variant === 'compact'
+          ? 'flex items-center gap-[12px] p-[20px]'
+          : 'flex flex-col gap-[8px] p-[10px]',
         props.class,
       )
     "
@@ -81,7 +83,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
           <span
             :class="
               cn(
-                'truncate text-[15.5px] font-semibold tracking-[-0.01em]',
+                'truncate text-[15.5px] font-semibold leading-[1.3] tracking-[-0.01em]',
                 isEmpty ? 'text-faint' : 'text-fg',
               )
             "
@@ -97,7 +99,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
       <span
         :class="
           cn(
-            'flex h-[132px] items-center justify-center rounded-3',
+            'flex h-[132px] shrink-0 items-center justify-center rounded-3',
             plateBg,
             plateFg,
             isEmpty && 'bg-background',
@@ -111,7 +113,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
           <span
             :class="
               cn(
-                'truncate text-[15.5px] font-semibold tracking-[-0.01em]',
+                'truncate text-[15.5px] font-semibold leading-[1.3] tracking-[-0.01em]',
                 isEmpty ? 'text-faint' : 'text-fg',
               )
             "
