@@ -14,5 +14,10 @@
   "next": {
     "title": "Next",
     "caption": "A slot for whatever is in progress"
+  },
+  "status": "Open to projects",
+  "availability": "Free from October",
+  "meta": {
+    "location": "Moscow"
   }
 }
