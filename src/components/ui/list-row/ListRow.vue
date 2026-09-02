@@ -6,24 +6,16 @@ import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
 import Icon from '@/components/ui/icon/Icon.vue'
 
-/**
- * §5.7 List row. Разделителей нет — hover-заливка и есть разделитель.
- * Заливка выходит за текст отрицательными маргинами, не сдвигая его.
- * Списки длиннее шести элементов используют строку, а не карточку.
- */
-
 type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 interface Props extends PrimitiveProps {
   tone?: Tone
   icon?: string
-  /** Рукописный индекс вместо плитки: «01», «02»… */
   index?: string | number
   title?: string
   caption?: string
   year?: string | number
   selected?: boolean
-  /** Глиф справа. Пустая строка убирает его. */
   trailingIcon?: string
   class?: HTMLAttributes['class']
 }

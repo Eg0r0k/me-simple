@@ -1,15 +1,11 @@
-/** Тон — то, чем проекты отличаются друг от друга (§5.6). Максимум 2–3 акцента на экран. */
 export type ProjectTone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 export interface Project {
   slug: string
-  /** Названия проектов не переводятся — это имена собственные. */
   title: string
-  /** Ключ подписи в неймспейсе projects.items. */
   captionKey: string
   year: number
   tone: ProjectTone
-  /** Material Symbols Rounded, filled. */
   icon: string
 }
 

@@ -17,7 +17,6 @@ const props = withDefaults(defineProps<Props>(), { as: 'button' })
 
 const isIconOnly = computed(() => Boolean(props.size?.startsWith('icon')))
 
-/** §5.2: у IconButton вариант по умолчанию — surface, а не primary. */
 const resolvedVariant = computed<ButtonVariants['variant']>(
   () => props.variant ?? (isIconOnly.value ? 'surface' : 'primary'),
 )

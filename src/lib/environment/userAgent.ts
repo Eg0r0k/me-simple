@@ -1,7 +1,3 @@
-// Портировано из Audiogram (src/lib/environment/userAgent.ts).
-// Исходно: https://github.com/morethanwords/tweb/blob/master/src/environment/userAgent.ts
-// Всё, что касалось Tauri (isTauri, IS_TAURI, IS_APP), намеренно не перенесено.
-
 const ctx = typeof window !== 'undefined' ? window : self
 
 export const USER_AGENT = navigator.userAgent
@@ -10,11 +6,8 @@ export const IS_APPLE = navigator.userAgent.search(/OS X|iPhone|iPad|iOS/i) !== 
 
 export const IS_ANDROID = navigator.userAgent.toLowerCase().indexOf('android') !== -1
 
-// Любой Chromium (Chrome, Edge, Opera, WebView2) несёт токен Chrome.
 export const IS_CHROMIUM = /Chrome/.test(navigator.userAgent)
 
-// https://stackoverflow.com/a/58065241 — без устаревшего navigator.platform:
-// iPadOS в десктопном режиме шлёт Macintosh UA, отличает его поддержка тача.
 export const IS_APPLE_MOBILE =
   (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
     (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1)) &&

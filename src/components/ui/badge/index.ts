@@ -3,11 +3,6 @@ import { cva } from 'class-variance-authority'
 
 export { default as Badge } from './Badge.vue'
 
-/**
- * §5.4 Badge — статичный лейбл. Не кликабельный и не фильтр-чип:
- * фильтр — это Button. Один-два бейджа в строке.
- */
-
 export const badgeVariants = cva(
   'inline-flex shrink-0 select-none items-center whitespace-nowrap font-sans font-medium',
   {
@@ -28,7 +23,6 @@ export const badgeVariants = cva(
         mint: 'bg-mint-soft text-mint-ink',
         clay: 'bg-clay-soft text-clay-ink',
       },
-      /** Есть ведущая иконка или дот — паддинг слева уменьшается. */
       leading: {
         true: '',
         false: '',

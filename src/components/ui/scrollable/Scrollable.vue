@@ -31,11 +31,6 @@ interface Props {
   onScrollOffset?: number
   bordered?: boolean
   hideThumb?: boolean
-  /**
-   * Keep the scroll container in normal flow instead of `position: absolute`.
-   * Lets a parent without an explicit height (e.g. an auto-sized window) grow
-   * from the content; once the parent gets a fixed height the content scrolls.
-   */
   flow?: boolean
 }
 
@@ -187,7 +182,6 @@ defineExpose({
   overscroll-behavior-y: contain;
 }
 
-/* flow mode: the container sizes from content until the parent constrains it */
 .scrollable-flow > .scrollable {
   position: relative;
   inset: auto;
@@ -215,7 +209,6 @@ defineExpose({
   display: none;
 }
 
-/* Thumb */
 .scrollable-thumb-container {
   position: sticky;
   top: 0;
@@ -239,7 +232,6 @@ defineExpose({
 
 .scrollable-thumb {
   position: absolute;
-  /* Тон, не линия: тумблер живёт на шкале fill → muted. */
   border-radius: var(--radius-full);
   background: var(--fill);
   pointer-events: auto;

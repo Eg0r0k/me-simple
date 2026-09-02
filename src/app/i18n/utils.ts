@@ -1,7 +1,5 @@
 import { LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, type SupportedLanguage } from './languages'
 
-/** Портировано из Audiogram (src/app/i18n/utils.ts). */
-
 export const DEFAULT_LOCALE: SupportedLanguage = 'en'
 
 export const isSupportedLocale = (locale: string): locale is SupportedLanguage => {

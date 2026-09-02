@@ -3,11 +3,6 @@ import type { HTMLAttributes } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { cn } from '@/lib/utils'
 
-/**
- * §6 Input — утопленное поле. Ни бордера, ни ring-offset:
- * фокус — внутренняя обводка тенью, ошибка — заливка danger-soft.
- */
-
 const props = defineProps<{
   defaultValue?: string | number
   modelValue?: string | number

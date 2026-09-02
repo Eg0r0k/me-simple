@@ -3,16 +3,6 @@ import { cva } from 'class-variance-authority'
 
 export { default as Button } from './Button.vue'
 
-/**
- * §5.1 Button / §5.2 IconButton.
- * Никаких бордеров, теней и пилюль. `size` задаёт высоту, паддинг, кегль,
- * радиус и размер иконки одновременно. С той стороны, где стоит иконка,
- * паддинг уменьшается на 3px.
- *
- * `size` объявлен до `variant`: у `link` собственные высота и паддинг,
- * и они должны побеждать размер.
- */
-
 const MOTION =
   '[transition:transform_var(--dur-press)_var(--ease-standard),background-color_var(--dur-hover)_ease,color_var(--dur-hover)_ease,filter_var(--dur-hover)_ease]'
 

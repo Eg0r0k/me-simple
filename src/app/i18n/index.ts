@@ -2,7 +2,6 @@ import { createI18n } from 'vue-i18n'
 import { messages } from './messages'
 import { DEFAULT_LOCALE, getInitialLocale } from './utils'
 
-/** Портировано из Audiogram (src/app/i18n/index.ts). */
 export const i18n = createI18n({
   legacy: false,
   messages,

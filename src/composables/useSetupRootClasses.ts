@@ -7,13 +7,6 @@ import {
   IS_SAFARI,
 } from '@/lib/environment/userAgent'
 
-/**
- * Портировано из Audiogram (src/composables/useSetupRootClasses.ts).
- * Ветка is-tauri не перенесена, классы скролла тоже: в этом проекте
- * своя реализация скроллбара.
- *
- * Класс `is-mobile` включает мобильную ветку `.press-scale` из §2.
- */
 export const useSetupRootClasses = () => {
   const add: string[] = []
 

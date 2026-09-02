@@ -6,12 +6,6 @@ import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
 import Icon from '@/components/ui/icon/Icon.vue'
 
-/**
- * §5.6 Card. Тинт — то, чем проекты отличаются друг от друга:
- * ни тумбнейлов, ни рядов тегов, ни двойной меты.
- * `plate` — сетка избранного, `compact` — плотный список, `empty` — пустой слот.
- */
-
 type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 type Variant = 'plate' | 'compact' | 'empty'
 
@@ -20,7 +14,6 @@ interface Props extends PrimitiveProps {
   tone?: Tone
   icon?: string
   title?: string
-  /** Мета: год. Моно 11px, справа. */
   year?: string | number
   caption?: string
   class?: HTMLAttributes['class']

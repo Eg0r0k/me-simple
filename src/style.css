@@ -6,16 +6,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-/* Тёмная тема — атрибут на корне, не класс. */
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
-
-/* ─────────────────────────────────────────────────────────────
-   §2 Токены. Источник истины — DESIGN.md. Значения в oklch.
-   ───────────────────────────────────────────────────────────── */
 
 :root,
 [data-theme='light'] {
-  /* neutrals */
   --bg: oklch(1 0 0);
   --surface: oklch(0.98 0 0);
   --sunk: oklch(0.945 0 0);
@@ -27,7 +21,6 @@
   --muted: oklch(0.505 0 0);
   --faint: oklch(0.625 0 0);
 
-  /* action */
   --primary: oklch(0.555 0.205 259);
   --on-primary: oklch(1 0 0);
   --btn-surface: oklch(0.235 0 0);
@@ -35,7 +28,6 @@
   --on-btn-surface: oklch(0.975 0 0);
   --on-accent: oklch(0.205 0 0);
 
-  /* accents: solid */
   --sky: oklch(0.775 0.095 232);
   --peri: oklch(0.74 0.115 292);
   --amber: oklch(0.835 0.15 88);
@@ -43,7 +35,6 @@
   --clay: oklch(0.765 0.085 38);
   --danger: oklch(0.665 0.155 22);
 
-  /* accents: soft fill */
   --sky-soft: oklch(0.945 0.03 232);
   --peri-soft: oklch(0.942 0.035 292);
   --amber-soft: oklch(0.955 0.055 88);
@@ -51,7 +42,6 @@
   --clay-soft: oklch(0.95 0.03 38);
   --danger-soft: oklch(0.945 0.04 22);
 
-  /* accents: ink (текст на soft) */
   --sky-ink: oklch(0.5 0.13 232);
   --peri-ink: oklch(0.47 0.16 292);
   --amber-ink: oklch(0.5 0.11 78);
@@ -106,7 +96,6 @@
 }
 
 :root {
-  /* radius — концентрика: внутренний = внешний − паддинг */
   --radius-xs: 6px;
   --radius-sm: 7px;
   --radius-1: 8px;
@@ -120,7 +109,6 @@
   --radius-full: 999px;
   --border: 0;
 
-  /* spacing — 4pt */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -133,7 +121,6 @@
   --row: 16px;
   --block: 80px;
 
-  /* type */
   --font-sans: Archivo, system-ui, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
   --font-hand: 'Shantell Sans', cursive;
@@ -163,7 +150,6 @@
   --weight-medium: 500;
   --weight-semibold: 600;
 
-  /* motion */
   --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
   --dur-press: 100ms;
   --dur-hover: 140ms;
@@ -171,10 +157,6 @@
   --dur-loading: 1.6s;
   --press-scale: 0.96;
 }
-
-/* ─────────────────────────────────────────────────────────────
-   Маппинг переменных shadcn-vue на систему. Бордеров нет.
-   ───────────────────────────────────────────────────────────── */
 
 @theme inline {
   --color-background: var(--bg);
@@ -197,7 +179,6 @@
   --color-input: var(--sunk);
   --color-ring: var(--primary);
 
-  /* тон */
   --color-surface: var(--surface);
   --color-sunk: var(--sunk);
   --color-fill: var(--fill);
@@ -210,7 +191,6 @@
   --color-on-primary: var(--on-primary);
   --color-on-btn-surface: var(--on-btn-surface);
 
-  /* акценты */
   --color-sky: var(--sky);
   --color-sky-soft: var(--sky-soft);
   --color-sky-ink: var(--sky-ink);
@@ -296,10 +276,6 @@
 }
 
 @layer components {
-  /* ─────────────────────────────────────────────────────────────
-     Иконки: Material Symbols Rounded, filled. Других наборов нет.
-     ───────────────────────────────────────────────────────────── */
-
   .ms {
     font-family: 'Material Symbols Rounded';
     font-weight: 400;
@@ -320,10 +296,6 @@
     -webkit-font-smoothing: antialiased;
     user-select: none;
   }
-
-  /* ─────────────────────────────────────────────────────────────
-     Единственная анимация — нажатие.
-     ───────────────────────────────────────────────────────────── */
 
   .press-scale {
     transition: transform var(--dur-press) var(--ease-standard);
@@ -349,10 +321,6 @@
       transform: none;
     }
   }
-
-  /* ─────────────────────────────────────────────────────────────
-     §7 Типографические роли.
-     ───────────────────────────────────────────────────────────── */
 
   .t-display {
     font-family: var(--font-sans);
@@ -406,8 +374,6 @@
     color: var(--muted);
   }
 
-  /* Мета: даты, годы, версии, номера, счётчики, подписи, лейблы полей.
-     Отличается от текста размером и цветом, а не гарнитурой. */
   .t-label {
     font-family: var(--font-sans);
     font-size: var(--text-label);
@@ -419,7 +385,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Стек и технологии — нормальной фразой, а не строкой через · в моно. */
   .t-tech {
     font-family: var(--font-sans);
     font-size: var(--text-tech);
@@ -428,7 +393,6 @@
     color: var(--muted);
   }
 
-  /* Ссылка-действие рядом с заголовком: «открыть на github ↗». */
   .t-action {
     font-family: var(--font-sans);
     font-size: var(--text-action);
@@ -438,7 +402,6 @@
     text-decoration: none;
   }
 
-  /* Geist Mono только для по-настоящему машинного: код, хеш, координаты, суммы. */
   .t-code {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
@@ -446,7 +409,6 @@
     text-transform: none;
   }
 
-  /* «Рука»: 1–2 раза на экран, только несодержательное. Без наклона. */
   .t-hand {
     font-family: var(--font-hand);
     font-size: var(--text-hand);
@@ -458,10 +420,6 @@
     rotate: 0deg;
   }
 }
-
-/* ─────────────────────────────────────────────────────────────
-   §5.9 Загрузка — волна, не спиннер.
-   ───────────────────────────────────────────────────────────── */
 
 @keyframes ds-sweep {
   0% {
@@ -481,11 +439,6 @@
     opacity: 0.55;
   }
 }
-
-/* ─────────────────────────────────────────────────────────────
-   Переключение темы кругом. Портировано из Audiogram.
-   Сам круг рисует Web Animations API в useTheme, здесь — слои.
-   ───────────────────────────────────────────────────────────── */
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -509,7 +462,6 @@
   z-index: -1;
 }
 
-/* Android и телефоны: вместо круга дешёвый кроссфейд. */
 @keyframes theme-crossfade-in {
   from {
     opacity: 0;

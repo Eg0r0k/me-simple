@@ -10,9 +10,7 @@ const props = withDefaults(
   defineProps<{
     size?: BadgeVariants['size']
     tone?: BadgeVariants['tone']
-    /** Имя Material Symbols. Отменяет `dot`. */
     icon?: string
-    /** Точка 6×6 в цвете текста. Игнорируется, если задана иконка. */
     dot?: boolean
     class?: HTMLAttributes['class']
   }>(),

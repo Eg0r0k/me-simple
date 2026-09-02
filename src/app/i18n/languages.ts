@@ -1,7 +1,3 @@
-/**
- * Аналог SUPPORTED_LANGUAGES из Audiogram (там он живёт в схеме настроек).
- * `system` означает «взять язык браузера».
- */
 export const SUPPORTED_LANGUAGES = ['system', 'en', 'ru'] as const
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number]
 
@@ -22,5 +18,4 @@ export const LANGUAGE_NATIVE_MAP: Record<string, string> = {
   ru: 'Русский',
 }
 
-/** Ключ в localStorage, в котором лежит выбор пользователя. */
 export const LANGUAGE_STORAGE_KEY = 'language'

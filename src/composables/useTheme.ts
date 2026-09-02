@@ -2,13 +2,6 @@ import { watch, computed, readonly } from 'vue'
 import { usePreferredDark, useStorage } from '@vueuse/core'
 import { IS_ANDROID } from '@/lib/environment/userAgent'
 
-/**
- * Портировано из Audiogram (src/modules/settings/composables/useTheme.ts).
- * Отличие: тема здесь переключается атрибутом `data-theme` на корне,
- * а не классом `dark` (§1 дизайн-системы).
- */
-
-// Оптимизация для Android и телефонов.
 const canAnimateThemeChange = (event?: MouseEvent): event is MouseEvent =>
   !!event &&
   typeof document.startViewTransition === 'function' &&

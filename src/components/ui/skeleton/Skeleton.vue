@@ -3,18 +3,11 @@ import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
 
-/**
- * §5.9 Skeleton. Форма повторяет геометрию того, что заменяет.
- * Спиннеров в системе нет: загрузка — световая волна 1.6s.
- * Сложенные строки сдвигать по фазе через `delay`.
- */
-
 type Shape = 'line' | 'title' | 'tile' | 'avatar' | 'plate'
 
 const props = withDefaults(
   defineProps<{
     shape?: Shape
-    /** Сдвиг фазы волны в секундах. Для сложенных строк — шаг 0.15. */
     delay?: number
     class?: HTMLAttributes['class']
   }>(),

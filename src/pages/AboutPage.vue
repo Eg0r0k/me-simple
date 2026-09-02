@@ -36,7 +36,6 @@ import { Frame } from '@/components/ui/frame'
 
 const { t } = useI18n()
 
-/* Названия технологий — имена собственные, не переводятся. */
 const skills: { label: string; tone: BadgeTone; icon: string }[] = [
   { label: 'Vue 3', tone: 'mint', icon: 'code' },
   { label: 'TypeScript', tone: 'sky', icon: 'terminal' },

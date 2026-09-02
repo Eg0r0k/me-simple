@@ -1,17 +1,14 @@
 <template>
   <div class="flex flex-col gap-[var(--space-20)] pt-[var(--space-12)]">
-    <!-- Ритм задаёт пустое место, а не линии. -->
     <section class="flex flex-col gap-[var(--space-6)]">
       <h1 class="t-display max-w-[16ch]">{{ t('home.title') }}</h1>
 
       <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">
         <p class="t-body text-muted-foreground">{{ t('home.lead') }}</p>
-        <!-- Стек — нормальной фразой, а не строкой через · в моно. -->
         <p class="t-tech">{{ t('home.tech') }}</p>
       </div>
 
       <div class="flex flex-wrap items-center gap-[var(--space-3)]">
-        <!-- Ровно один primary на экран. -->
         <Button as-child size="lg">
           <Link :to="routeLocation.projects()">
             {{ t('home.actions.work') }}
@@ -31,7 +28,6 @@
       <header class="flex items-baseline gap-[var(--space-3)]">
         <h2 class="t-heading">{{ t('home.featured.title') }}</h2>
         <span class="t-hand text-[24px] text-clay">{{ t('home.featured.note') }}</span>
-        <!-- Ссылка-действие у заголовка: Archivo 14px в цвете акцента. -->
         <Link
           :to="routeLocation.projects()"
           class="t-action ms-auto inline-flex items-center gap-[4px] hover:underline"
@@ -74,6 +70,5 @@ import { projects } from '@/data/projects'
 
 const { t } = useI18n()
 
-/* Сетка избранного — карточки; полный список живёт строками (§5.7). */
 const featured = projects.slice(0, 3)
 </script>

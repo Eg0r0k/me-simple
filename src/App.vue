@@ -1,5 +1,4 @@
 <template>
-  <!-- По умолчанию motion-v игнорирует системную настройку; §8 требует обратного. -->
   <MotionConfig :reduced-motion="'user'">
     <div class="min-h-screen bg-background">
       <header
@@ -9,7 +8,6 @@
           {{ t('common.brand') }}
         </Link>
 
-        <!-- §5.5 Tabs, variant line: ни контейнера, ни разделителей. -->
         <nav class="flex items-center gap-[var(--space-6)]" :aria-label="t('common.sections')">
           <Link
             v-for="item in nav"

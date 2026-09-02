@@ -4,11 +4,6 @@ import { computed } from 'vue'
 import { cn } from '@/lib/utils'
 import Icon from '@/components/ui/icon/Icon.vue'
 
-/**
- * §5.11 Frame — база для любых изображений и аватаров.
- * Соотношения только 21:9 / 16:9 / 4:3 / 1:1. Подпись под кадром, в моно.
- */
-
 type Ratio = 'wide' | 'screen' | 'crop' | 'square'
 type Radius = 'card' | 'alone' | 'bleed' | 'full'
 type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
@@ -19,12 +14,9 @@ const props = withDefaults(
     alt?: string
     ratio?: Ratio
     radius?: Radius
-    /** Тинт пустого кадра. Без тона пустой кадр серый. */
     tone?: Tone
-    /** Глиф пустого кадра. */
     icon?: string
     caption?: string
-    /** Рукописная ремарка, приколотая в правом нижнем углу кадра. */
     note?: string
     placeholder?: boolean
     class?: HTMLAttributes['class']

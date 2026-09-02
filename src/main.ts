@@ -14,7 +14,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
-/* Даёт директиву v-motion на любом элементе, без обёртки <motion.*>. */
 app.use(MotionPlugin)
 
 app.mount('#app')

@@ -3,11 +3,6 @@ import type { HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
 
-/**
- * §5.3 Icon — Material Symbols Rounded, filled. Других наборов в системе нет.
- * Имя иконки передаётся текстом: <Icon name="arrow_outward" />
- */
-
 type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number
 
 const props = withDefaults(

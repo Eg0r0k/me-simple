@@ -10,12 +10,6 @@ import {
 } from '@/app/i18n/languages'
 import { DEFAULT_LOCALE, isSupportedLocale, setHtmlLangAttribute } from '@/app/i18n/utils'
 
-/**
- * Языковая часть useGeneralSettings из Audiogram, вынесенная отдельно:
- * здесь нет модуля настроек, поэтому выбор хранится в localStorage напрямую.
- * `system` следит за языком браузера в реальном времени.
- */
-
 const language = useStorage<SupportedLanguage>(LANGUAGE_STORAGE_KEY, 'system')
 
 export const useLocale = () => {
