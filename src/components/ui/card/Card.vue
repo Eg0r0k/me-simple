@@ -65,7 +65,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
         isEmpty ? 'bg-sunk' : 'bg-surface',
         props.variant === 'compact'
           ? 'flex items-center gap-[12px] p-[20px]'
-          : 'flex flex-col gap-[8px] p-[10px]',
+          : 'flex flex-col gap-[12px] p-[10px]',
         props.class,
       )
     "

@@ -3,8 +3,10 @@ export type ProjectTone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 export interface Project {
   slug: string
+  /** Названия проектов не переводятся — это имена собственные. */
   title: string
-  caption: string
+  /** Ключ подписи в неймспейсе projects.items. */
+  captionKey: string
   year: number
   tone: ProjectTone
   /** Material Symbols Rounded, filled. */
@@ -15,7 +17,7 @@ export const projects: Project[] = [
   {
     slug: 'audiogram',
     title: 'Audiogram',
-    caption: 'Плеер с разбором спектра и офлайн-очередью',
+    captionKey: 'projects.items.audiogram',
     year: 2025,
     tone: 'sky',
     icon: 'graphic_eq',
@@ -23,7 +25,7 @@ export const projects: Project[] = [
   {
     slug: 'shader-lab',
     title: 'Shader Lab',
-    caption: 'Песочница для WebGL-шейдеров с горячей пересборкой',
+    captionKey: 'projects.items.shaderLab',
     year: 2025,
     tone: 'peri',
     icon: 'deployed_code',
@@ -31,7 +33,7 @@ export const projects: Project[] = [
   {
     slug: 'portfolio',
     title: 'Portfolio',
-    caption: 'Этот сайт: Vue 3, Vite, собственная дизайн-система',
+    captionKey: 'projects.items.portfolio',
     year: 2024,
     tone: 'mint',
     icon: 'draw',
@@ -39,7 +41,7 @@ export const projects: Project[] = [
   {
     slug: 'timetable',
     title: 'Timetable',
-    caption: 'Расписание для небольших команд без единого бордера',
+    captionKey: 'projects.items.timetable',
     year: 2024,
     tone: 'amber',
     icon: 'calendar_month',
@@ -47,7 +49,7 @@ export const projects: Project[] = [
   {
     slug: 'codegraph',
     title: 'CodeGraph',
-    caption: 'Граф символов проекта поверх tree-sitter',
+    captionKey: 'projects.items.codegraph',
     year: 2023,
     tone: 'clay',
     icon: 'account_tree',

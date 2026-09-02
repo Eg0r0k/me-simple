@@ -1,0 +1,10 @@
+{
+  "title": "About",
+  "meta": "Moscow · GMT+3",
+  "p1": "Front-end developer. I build fast interfaces with Vue 3 and TypeScript, and spend weekends on WebGL and raster effects.",
+  "p2": "I think emptiness and tone separate content better than lines do. This site follows a spec of my own in which there is not a single border.",
+  "frame": {
+    "caption": "portrait coming later",
+    "note": "soon!"
+  }
+}

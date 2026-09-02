@@ -334,11 +334,11 @@
     transform: scale(var(--press-scale));
   }
 
-  body.is-mobile .press-scale {
+  .is-mobile .press-scale {
     transform: var(--transform-extra, none) scale3d(1, 1, 1);
   }
 
-  body.is-mobile .press-scale:active {
+  .is-mobile .press-scale:active {
     transform: var(--transform-extra, none) scale3d(var(--press-scale), var(--press-scale), 1);
   }
 
@@ -479,5 +479,55 @@
   }
   50% {
     opacity: 0.55;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Переключение темы кругом. Портировано из Audiogram.
+   Сам круг рисует Web Animations API в useTheme, здесь — слои.
+   ───────────────────────────────────────────────────────────── */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.theme-transitioning::view-transition-new(root) {
+  z-index: 1;
+}
+
+.theme-transitioning::view-transition-old(root) {
+  z-index: -1;
+}
+
+.theme-transition-reverse::view-transition-old(root) {
+  z-index: 1;
+}
+
+.theme-transition-reverse::view-transition-new(root) {
+  z-index: -1;
+}
+
+/* Android и телефоны: вместо круга дешёвый кроссфейд. */
+@keyframes theme-crossfade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.theme-crossfade::view-transition-old(root) {
+  animation: none;
+}
+
+.theme-crossfade::view-transition-new(root) {
+  animation: theme-crossfade-in 220ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

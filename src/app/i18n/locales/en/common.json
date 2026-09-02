@@ -1,0 +1,15 @@
+{
+  "brand": "me",
+  "appTitle": "me — portfolio",
+  "timezone": "GMT+3",
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "language": {
+    "label": "Language",
+    "trigger": "Change language",
+    "system": "System"
+  },
+  "sections": "Sections"
+}

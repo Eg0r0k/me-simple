@@ -1,0 +1,12 @@
+{
+  "title": "Work",
+  "count": "{count} project | {count} projects",
+  "range": "2023—2025",
+  "items": {
+    "audiogram": "A player with spectrum analysis and an offline queue",
+    "shaderLab": "A WebGL shader sandbox with hot rebuilds",
+    "portfolio": "This site: Vue 3, Vite, a design system of my own",
+    "timetable": "Scheduling for small teams, without a single border",
+    "codegraph": "A symbol graph of a project on top of tree-sitter"
+  }
+}

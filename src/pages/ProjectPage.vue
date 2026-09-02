@@ -2,8 +2,10 @@
   <div class="flex flex-col gap-[var(--space-8)] pt-[var(--space-12)]">
     <header class="flex flex-col gap-[var(--space-3)]">
       <!-- Счётчик и годы — мета: Archivo 12px, --faint. -->
-      <span class="t-label">{{ counter }} · 2023—2025</span>
-      <h1 class="t-title">Работы</h1>
+      <span class="t-label">
+        {{ t('projects.count', projects.length) }} · {{ t('projects.range') }}
+      </span>
+      <h1 class="t-title">{{ t('projects.title') }}</h1>
     </header>
 
     <!-- Список длиннее шести элементов — строки, не карточки. Разделителей нет. -->
@@ -15,7 +17,7 @@
         :tone="project.tone"
         :icon="project.icon"
         :title="project.title"
-        :caption="project.caption"
+        :caption="t(project.captionKey)"
         :year="project.year"
       />
     </div>
@@ -23,15 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { ListRow } from '@/components/ui/list-row'
 import { projects } from '@/data/projects'
 
-const counter = computed(() => {
-  const n = projects.length
-  const last = n % 10
-  const teen = n % 100 >= 11 && n % 100 <= 14
-  const word = teen || last === 0 || last >= 5 ? 'проектов' : last === 1 ? 'проект' : 'проекта'
-  return `${n} ${word}`
-})
+const { t } = useI18n()
 </script>

@@ -1,0 +1,15 @@
+{
+  "brand": "me",
+  "appTitle": "me — портфолио",
+  "timezone": "GMT+3",
+  "theme": {
+    "toLight": "Включить светлую тему",
+    "toDark": "Включить тёмную тему"
+  },
+  "language": {
+    "label": "Язык",
+    "trigger": "Сменить язык",
+    "system": "Системный"
+  },
+  "sections": "Разделы"
+}
