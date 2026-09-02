@@ -1,59 +1,65 @@
 <template>
-  <div class="relative h-full">
-    <Scrollable class="absolute inset-0">
-      <div class="grid w-fit grid-cols-2 p-2">
-        <!-- <DitherRevealImage
-          class="max-w-100"
-          src="/oleg.jfif"
-          :px-size-start="128"
-          :px-size-end="1"
-          :pixelation-steps="[128, 64, 32, 16, 8, 4, 2, 1]"
-          :duration="1350"
-          :use-alpha="false"
-          :play-on-visible="true"
-        />
-        <DitherRevealImage
-          src="/a1f1867a-b848-40ab-a952-cec4f93eba2d.jfif"
-          class="max-w-60"
-          :px-size-start="128"
-          :px-size-end="1"
-          :pixelation-steps="[128, 64, 32, 16, 8, 4, 2, 1]"
-          :duration="1500"
-          :use-alpha="false"
-          :play-on-visible="true"
-        /> -->
-      </div>
-    </Scrollable>
+  <div class="flex flex-col gap-[var(--space-20)] pt-[var(--space-12)]">
+    <!-- Ритм задаёт пустое место, а не линии. -->
+    <section class="flex flex-col gap-[var(--space-6)]">
+      <span class="t-label">Vue · TypeScript · WebGL</span>
+      <h1 class="t-display max-w-[16ch]">Интерфейсы без единого бордера</h1>
+      <p class="t-body max-w-[52ch] text-muted-foreground">
+        Собираю фронтенд, в котором иерархию держат тон и пустота. Пишу на Vue 3 и TypeScript, люблю
+        шейдеры и дизайн-системы, которые переживают своих авторов.
+      </p>
 
-    <DraggableWindow
-      v-if="showNotes"
-      :initial-x="300"
-      :initial-y="80"
-      :z-index="30"
-      @close="showNotes = false"
-    >
-      <template #title>preview</template>
-      <div class="p-2">
-        <DitherRevealImage
-          src="/a1f1867a-b848-40ab-a952-cec4f93eba2d.jfif"
-          class="w-auto h-full"
-          :px-size-start="128"
-          :px-size-end="1"
-          :pixelation-steps="[128, 64, 32, 16, 8, 4, 2, 1]"
-          :duration="1500"
-          :use-alpha="false"
-          :play-on-visible="true"
-        />
+      <div class="flex flex-wrap items-center gap-[var(--space-3)]">
+        <!-- Ровно один primary на экран. -->
+        <Button as-child size="lg">
+          <Link :to="routeLocation.projects()">
+            Смотреть работы
+            <Icon name="arrow_forward" />
+          </Link>
+        </Button>
+        <Button as-child variant="ghost" size="lg">
+          <Link to="mailto:egokakill@gmail.com">
+            <Icon name="mail" />
+            Написать
+          </Link>
+        </Button>
       </div>
-    </DraggableWindow>
+    </section>
+
+    <section class="flex flex-col gap-[var(--space-6)]">
+      <header class="flex items-baseline gap-[var(--space-3)]">
+        <h2 class="t-heading">Избранное</h2>
+        <span class="t-hand text-[24px] text-clay">soon more!</span>
+        <Link :to="routeLocation.projects()" class="t-label ms-auto no-underline hover:text-fg">
+          все проекты
+        </Link>
+      </header>
+
+      <div class="grid gap-[var(--space-4)] sm:grid-cols-2">
+        <Card
+          v-for="project in featured"
+          :key="project.slug"
+          as="article"
+          :tone="project.tone"
+          :icon="project.icon"
+          :title="project.title"
+          :caption="project.caption"
+          :year="project.year"
+        />
+        <Card variant="empty" icon="add" title="Следующий" caption="Место под то, что в работе" />
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import DitherRevealImage from '@/components/DitherRevealImage.vue'
-import { Scrollable } from '@/components/ui/scrollable'
-import { DraggableWindow } from '@/components/ui/draggable-window'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Icon } from '@/components/ui/icon'
+import { Link } from '@/components/ui/link'
+import { routeLocation } from '@/router/route-locations'
+import { projects } from '@/data/projects'
 
-const showNotes = ref(true)
+/* Сетка избранного — карточки; полный список живёт строками (§5.7). */
+const featured = projects.slice(0, 3)
 </script>

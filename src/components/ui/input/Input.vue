@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue"
-import { useVModel } from "@vueuse/core"
-import { cn } from "@/lib/utils"
+import type { HTMLAttributes } from 'vue'
+import { useVModel } from '@vueuse/core'
+import { cn } from '@/lib/utils'
+
+/**
+ * §6 Input — утопленное поле. Ни бордера, ни ring-offset:
+ * фокус — внутренняя обводка тенью, ошибка — заливка danger-soft.
+ */
 
 const props = defineProps<{
   defaultValue?: string | number
   modelValue?: string | number
-  class?: HTMLAttributes["class"]
+  invalid?: boolean
+  class?: HTMLAttributes['class']
 }>()
 
 const emits = defineEmits<{
-  (e: "update:modelValue", payload: string | number): void
+  (e: 'update:modelValue', payload: string | number): void
 }>()
 
-const modelValue = useVModel(props, "modelValue", emits, {
+const modelValue = useVModel(props, 'modelValue', emits, {
   passive: true,
   defaultValue: props.defaultValue,
 })
@@ -23,11 +29,17 @@ const modelValue = useVModel(props, "modelValue", emits, {
   <input
     v-model="modelValue"
     data-slot="input"
-    :class="cn(
-      'file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-      'focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-3',
-      'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-      props.class,
-    )"
-  >
+    :aria-invalid="props.invalid || undefined"
+    :class="
+      cn(
+        'h-[40px] w-full min-w-0 rounded-2 bg-sunk px-[12px] text-[14px] text-fg outline-none',
+        'placeholder:text-faint selection:bg-primary selection:text-on-primary',
+        '[transition:background-color_var(--dur-hover)_ease,box-shadow_var(--dur-hover)_ease]',
+        'focus-visible:shadow-[inset_0_0_0_2px_var(--primary)] focus-visible:outline-none',
+        'disabled:cursor-not-allowed disabled:text-faint',
+        'aria-invalid:bg-danger-soft aria-invalid:text-danger-ink',
+        props.class,
+      )
+    "
+  />
 </template>

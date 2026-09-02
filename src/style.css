@@ -1,185 +1,451 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,400;0,600;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0&display=swap');
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+/* Тёмная тема — атрибут на корне, не класс. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ─────────────────────────────────────────────────────────────
+   §2 Токены. Источник истины — DESIGN.md. Значения в oklch.
+   ───────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme='light'] {
+  /* neutrals */
+  --bg: oklch(1 0 0);
+  --surface: oklch(0.98 0 0);
+  --sunk: oklch(0.945 0 0);
+  --fill: oklch(0.91 0 0);
+  --fill-hover: oklch(0.875 0 0);
+  --raised: oklch(1 0 0);
+  --raised-shadow: none;
+  --fg: oklch(0.205 0 0);
+  --muted: oklch(0.505 0 0);
+  --faint: oklch(0.625 0 0);
+
+  /* action */
+  --primary: oklch(0.555 0.205 259);
+  --on-primary: oklch(1 0 0);
+  --btn-surface: oklch(0.235 0 0);
+  --btn-surface-hover: oklch(0.295 0 0);
+  --on-btn-surface: oklch(0.975 0 0);
+  --on-accent: oklch(0.205 0 0);
+
+  /* accents: solid */
+  --sky: oklch(0.775 0.095 232);
+  --peri: oklch(0.74 0.115 292);
+  --amber: oklch(0.835 0.15 88);
+  --mint: oklch(0.83 0.095 168);
+  --clay: oklch(0.765 0.085 38);
+  --danger: oklch(0.665 0.155 22);
+
+  /* accents: soft fill */
+  --sky-soft: oklch(0.945 0.03 232);
+  --peri-soft: oklch(0.942 0.035 292);
+  --amber-soft: oklch(0.955 0.055 88);
+  --mint-soft: oklch(0.95 0.032 168);
+  --clay-soft: oklch(0.95 0.03 38);
+  --danger-soft: oklch(0.945 0.04 22);
+
+  /* accents: ink (текст на soft) */
+  --sky-ink: oklch(0.5 0.13 232);
+  --peri-ink: oklch(0.47 0.16 292);
+  --amber-ink: oklch(0.5 0.11 78);
+  --mint-ink: oklch(0.47 0.1 168);
+  --clay-ink: oklch(0.49 0.115 38);
+  --danger-ink: oklch(0.475 0.17 22);
+
+  --shadow-2: 0 8px 28px oklch(0.235 0.028 258 / 0.08);
+}
+
+[data-theme='dark'] {
+  --bg: oklch(0.145 0 0);
+  --surface: oklch(0.186 0 0);
+  --sunk: oklch(0.122 0 0);
+  --fill: oklch(0.268 0 0);
+  --fill-hover: oklch(0.315 0 0);
+  --raised: oklch(0.325 0 0);
+  --raised-shadow: 0 1px 2px oklch(0 0 0 / 0.25);
+  --fg: oklch(0.975 0 0);
+  --muted: oklch(0.715 0 0);
+  --faint: oklch(0.625 0 0);
+
+  --primary: oklch(0.595 0.2 259);
+  --on-primary: oklch(1 0 0);
+  --btn-surface: oklch(0.235 0 0);
+  --btn-surface-hover: oklch(0.295 0 0);
+  --on-btn-surface: oklch(0.975 0 0);
+  --on-accent: oklch(0.165 0 0);
+
+  --sky: oklch(0.8 0.095 232);
+  --peri: oklch(0.775 0.11 292);
+  --amber: oklch(0.855 0.145 88);
+  --mint: oklch(0.855 0.09 168);
+  --clay: oklch(0.79 0.085 38);
+  --danger: oklch(0.7 0.16 22);
+
+  --sky-soft: oklch(0.32 0.045 232);
+  --peri-soft: oklch(0.33 0.05 292);
+  --amber-soft: oklch(0.345 0.06 88);
+  --mint-soft: oklch(0.33 0.045 168);
+  --clay-soft: oklch(0.33 0.045 38);
+  --danger-soft: oklch(0.33 0.06 22);
+
+  --sky-ink: oklch(0.88 0.07 232);
+  --peri-ink: oklch(0.88 0.08 292);
+  --amber-ink: oklch(0.9 0.09 88);
+  --mint-ink: oklch(0.89 0.07 168);
+  --clay-ink: oklch(0.88 0.07 38);
+  --danger-ink: oklch(0.865 0.09 22);
+
+  --shadow-2: 0 10px 30px oklch(0 0 0 / 0.55);
+}
 
 :root {
-  --background: oklch(0.82 0 0);
-  --foreground: oklch(0.2376 0 0);
-  --card: oklch(0.9542 0 0);
-  --card-foreground: oklch(0.2376 0 0);
-  --popover: oklch(0.9542 0 0);
-  --popover-foreground: oklch(0.2376 0 0);
-  --primary: oklch(0.6707 0.2213 37.6393);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.3705 0 0);
-  --secondary-foreground: oklch(0.9619 0 0);
-  --muted: oklch(0.9079 0 0);
-  --muted-foreground: oklch(0.5103 0 0);
-  --accent: oklch(0.9589 0.0198 44.7807);
-  --accent-foreground: oklch(0.6757 0.1913 40.6737);
-  --destructive: oklch(0.5042 0.1991 28.4139);
-  --destructive-foreground: oklch(0.9848 0 0);
-  --border: oklch(0.2697 0 0);
-  --input: oklch(0.9389 0 0);
-  --ring: oklch(0.6757 0.1913 40.6737);
-  --chart-1: oklch(0.6757 0.1913 40.6737);
-  --chart-2: oklch(0.6364 0.083 232.2159);
-  --chart-3: oklch(0.5775 0.1992 354.9691);
-  --chart-4: oklch(0.8259 0.1545 80.0607);
-  --chart-5: oklch(0.6436 0.0996 168.409);
-  --sidebar: oklch(0.8845 0 0);
-  --sidebar-foreground: oklch(0.2376 0 0);
-  --sidebar-primary: oklch(0.6757 0.1913 40.6737);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.8452 0 0);
-  --sidebar-accent-foreground: oklch(0.2376 0 0);
-  --sidebar-border: oklch(0.8054 0 0);
-  --sidebar-ring: oklch(0.6757 0.1913 40.6737);
-  --font-sans: IBM Plex Mono, ui-monospace, monospace;
-  --font-serif: IBM Plex Mono, ui-monospace, monospace;
-  --font-mono: IBM Plex Mono, monospace;
-  --radius: 0rem;
-  --shadow-x: 0px;
-  --shadow-y: 1px;
-  --shadow-blur: 0px;
-  --shadow-spread: 1px;
-  --shadow-opacity: 0.1;
-  --shadow-color: hsl(0, 0%, 0%);
-  --shadow-2xs: 0px 1px 0px 1px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 1px 0px 1px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 1px 0px 1px hsl(0 0% 0% / 0.1), 0px 1px 2px 0px hsl(0 0% 0% / 0.1);
-  --shadow: 0px 1px 0px 1px hsl(0 0% 0% / 0.1), 0px 1px 2px 0px hsl(0 0% 0% / 0.1);
-  --shadow-md: 0px 1px 0px 1px hsl(0 0% 0% / 0.1), 0px 2px 4px 0px hsl(0 0% 0% / 0.1);
-  --shadow-lg: 0px 1px 0px 1px hsl(0 0% 0% / 0.1), 0px 4px 6px 0px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0px 1px 0px 1px hsl(0 0% 0% / 0.1), 0px 8px 10px 0px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0px 1px 0px 1px hsl(0 0% 0% / 0.25);
-  --tracking-normal: 0.02em;
-  --spacing: 0.25rem;
+  /* radius — концентрика: внутренний = внешний − паддинг */
+  --radius-xs: 6px;
+  --radius-sm: 7px;
+  --radius-1: 8px;
+  --radius-2: 10px;
+  --radius-3: 12px;
+  --radius-4: 14px;
+  --radius-5: 16px;
+  --radius-card: 18px;
+  --radius-panel: 20px;
+  --radius-dialog: 24px;
+  --radius-full: 999px;
+  --border: 0;
+
+  /* spacing — 4pt */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-20: 80px;
+  --space-35: 140px;
+  --row: 16px;
+  --block: 80px;
+
+  /* type */
+  --font-sans: Archivo, system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-hand: 'Shantell Sans', cursive;
+  --text-display: 58px;
+  --text-display-lh: 1.05;
+  --text-display-ls: -0.035em;
+  --text-title: 40px;
+  --text-title-lh: 1.08;
+  --text-title-ls: -0.028em;
+  --text-heading: 30px;
+  --text-heading-lh: 1.15;
+  --text-heading-ls: -0.024em;
+  --text-subheading: 20px;
+  --text-subheading-lh: 1.3;
+  --text-subheading-ls: -0.012em;
+  --text-body: 16px;
+  --text-body-lh: 1.6;
+  --text-small: 13.5px;
+  --text-small-lh: 1.55;
+  --text-label: 11px;
+  --text-label-ls: 0.08em;
+  --text-hand: 34px;
+  --hand-tilt: -6deg;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  /* motion */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+  --dur-press: 100ms;
+  --dur-hover: 140ms;
+  --dur-surface: 180ms;
+  --dur-loading: 1.6s;
+  --press-scale: 0.96;
 }
 
-.dark {
-  --background: oklch(0.18 0 0);
-  --foreground: oklch(0.9619 0 0);
-  --card: oklch(0.2697 0 0);
-  --card-foreground: oklch(0.9619 0 0);
-  --popover: oklch(0.2697 0 0);
-  --popover-foreground: oklch(0.9619 0 0);
-  --primary: oklch(0.6757 0.1913 40.6737);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.3705 0 0);
-  --secondary-foreground: oklch(0.9619 0 0);
-  --muted: oklch(0.3211 0 0);
-  --muted-foreground: oklch(0.7244 0 0);
-  --accent: oklch(0.3412 0.1002 40.4144);
-  --accent-foreground: oklch(0.6757 0.1913 40.6737);
-  --destructive: oklch(0.4776 0.1631 25.9396);
-  --destructive-foreground: oklch(0.9848 0 0);
-  --border: oklch(0.4184 0 0);
-  --input: oklch(0.3211 0 0);
-  --ring: oklch(0.6757 0.1913 40.6737);
-  --chart-1: oklch(0.6757 0.1913 40.6737);
-  --chart-2: oklch(0.689 0.0364 229.575);
-  --chart-3: oklch(0.6454 0.1668 351.6217);
-  --chart-4: oklch(0.8649 0.1273 82.9565);
-  --chart-5: oklch(0.7241 0.0997 169.4097);
-  --sidebar: oklch(0.193 0 0);
-  --sidebar-foreground: oklch(0.9619 0 0);
-  --sidebar-primary: oklch(0.6757 0.1913 40.6737);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.2697 0 0);
-  --sidebar-accent-foreground: oklch(0.9619 0 0);
-  --sidebar-border: oklch(0.3211 0 0);
-  --sidebar-ring: oklch(0.6757 0.1913 40.6737);
-  --font-sans: IBM Plex Mono, ui-monospace, monospace;
-  --font-serif: IBM Plex Mono, ui-monospace, monospace;
-  --font-mono: IBM Plex Mono, monospace;
-  --radius: 0rem;
-  --shadow-x: 0px;
-  --shadow-y: 2px;
-  --shadow-blur: 4px;
-  --shadow-spread: 0px;
-  --shadow-opacity: 0.4;
-  --shadow-color: hsl(0, 0%, 0%);
-  --shadow-2xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.2);
-  --shadow-xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.2);
-  --shadow-sm: 0px 2px 4px 0px hsl(0 0% 0% / 0.4), 0px 1px 2px -1px hsl(0 0% 0% / 0.4);
-  --shadow: 0px 2px 4px 0px hsl(0 0% 0% / 0.4), 0px 1px 2px -1px hsl(0 0% 0% / 0.4);
-  --shadow-md: 0px 2px 4px 0px hsl(0 0% 0% / 0.4), 0px 2px 4px -1px hsl(0 0% 0% / 0.4);
-  --shadow-lg: 0px 2px 4px 0px hsl(0 0% 0% / 0.4), 0px 4px 6px -1px hsl(0 0% 0% / 0.4);
-  --shadow-xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.4), 0px 8px 10px -1px hsl(0 0% 0% / 0.4);
-  --shadow-2xl: 0px 2px 4px 0px hsl(0 0% 0% / 1);
-}
+/* ─────────────────────────────────────────────────────────────
+   Маппинг переменных shadcn-vue на систему. Бордеров нет.
+   ───────────────────────────────────────────────────────────── */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--fg);
+  --color-popover: var(--bg);
+  --color-popover-foreground: var(--fg);
   --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-primary-foreground: var(--on-primary);
+  --color-secondary: var(--fill);
+  --color-secondary-foreground: var(--fg);
+  --color-muted: var(--sunk);
+  --color-muted-foreground: var(--muted);
+  --color-accent: var(--fill);
+  --color-accent-foreground: var(--fg);
+  --color-destructive: var(--danger-soft);
+  --color-destructive-foreground: var(--danger-ink);
+  --color-border: transparent;
+  --color-input: var(--sunk);
+  --color-ring: var(--primary);
+
+  /* тон */
+  --color-surface: var(--surface);
+  --color-sunk: var(--sunk);
+  --color-fill: var(--fill);
+  --color-fill-hover: var(--fill-hover);
+  --color-raised: var(--raised);
+  --color-fg: var(--fg);
+  --color-faint: var(--faint);
+  --color-btn-surface: var(--btn-surface);
+  --color-btn-surface-hover: var(--btn-surface-hover);
+  --color-on-primary: var(--on-primary);
+  --color-on-btn-surface: var(--on-btn-surface);
+
+  /* акценты */
+  --color-sky: var(--sky);
+  --color-sky-soft: var(--sky-soft);
+  --color-sky-ink: var(--sky-ink);
+  --color-peri: var(--peri);
+  --color-peri-soft: var(--peri-soft);
+  --color-peri-ink: var(--peri-ink);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-amber-ink: var(--amber-ink);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-mint-ink: var(--mint-ink);
+  --color-clay: var(--clay);
+  --color-clay-soft: var(--clay-soft);
+  --color-clay-ink: var(--clay-ink);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-ink: var(--danger-ink);
 
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-serif: var(--font-serif);
+  --font-hand: var(--font-hand);
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-1: var(--radius-1);
+  --radius-2: var(--radius-2);
+  --radius-3: var(--radius-3);
+  --radius-4: var(--radius-4);
+  --radius-5: var(--radius-5);
+  --radius-card: var(--radius-card);
+  --radius-panel: var(--radius-panel);
+  --radius-dialog: var(--radius-dialog);
+  --radius-full: var(--radius-full);
 
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
+  --shadow-2: var(--shadow-2);
+  --shadow-raised: var(--raised-shadow);
 
-  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
-  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
-  --tracking-normal: var(--tracking-normal);
-  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
-  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
-  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
-  --font-heading: var(--font-sans);
+  --ease-standard: var(--ease-standard);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border: 0;
   }
+
+  html {
+    color-scheme: light;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+  }
+
   body {
-    @apply bg-background text-foreground;
-    letter-spacing: var(--tracking-normal);
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body-lh);
+    font-weight: var(--weight-regular);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    transition:
+      background var(--dur-surface) ease,
+      color var(--dur-surface) ease;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* ─────────────────────────────────────────────────────────────
+     Иконки: Material Symbols Rounded, filled. Других наборов нет.
+     ───────────────────────────────────────────────────────────── */
+
+  .ms {
+    font-family: 'Material Symbols Rounded';
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-variation-settings:
+      'FILL' 1,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     Единственная анимация — нажатие.
+     ───────────────────────────────────────────────────────────── */
+
+  .press-scale {
+    transition: transform var(--dur-press) var(--ease-standard);
+    transform: scale(1);
+  }
+
+  .press-scale:active {
+    transform: scale(var(--press-scale));
+  }
+
+  body.is-mobile .press-scale {
+    transform: var(--transform-extra, none) scale3d(1, 1, 1);
+  }
+
+  body.is-mobile .press-scale:active {
+    transform: var(--transform-extra, none) scale3d(var(--press-scale), var(--press-scale), 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .press-scale,
+    .press-scale:active {
+      transition: none;
+      transform: none;
+    }
+  }
+
+  /* ─────────────────────────────────────────────────────────────
+     §7 Типографические роли.
+     ───────────────────────────────────────────────────────────── */
+
+  .t-display {
+    font-family: var(--font-sans);
+    font-size: clamp(32px, 7.5vw, var(--text-display));
+    line-height: var(--text-display-lh);
+    letter-spacing: var(--text-display-ls);
+    font-weight: var(--weight-semibold);
+    color: var(--fg);
+  }
+
+  .t-title {
+    font-family: var(--font-sans);
+    font-size: clamp(28px, 5.5vw, var(--text-title));
+    line-height: var(--text-title-lh);
+    letter-spacing: var(--text-title-ls);
+    font-weight: var(--weight-semibold);
+    color: var(--fg);
+  }
+
+  .t-heading {
+    font-family: var(--font-sans);
+    font-size: clamp(24px, 4vw, var(--text-heading));
+    line-height: var(--text-heading-lh);
+    letter-spacing: var(--text-heading-ls);
+    font-weight: var(--weight-semibold);
+    color: var(--fg);
+  }
+
+  .t-subheading {
+    font-family: var(--font-sans);
+    font-size: var(--text-subheading);
+    line-height: var(--text-subheading-lh);
+    letter-spacing: var(--text-subheading-ls);
+    font-weight: var(--weight-semibold);
+    color: var(--fg);
+  }
+
+  .t-body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body-lh);
+    font-weight: var(--weight-regular);
+    color: var(--fg);
+  }
+
+  .t-small {
+    font-family: var(--font-sans);
+    font-size: var(--text-small);
+    line-height: var(--text-small-lh);
+    font-weight: var(--weight-regular);
+    color: var(--muted);
+  }
+
+  /* Мета: даты, годы, версии, счётчики. Никогда не Archivo. */
+  .t-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--text-label-ls);
+    text-transform: uppercase;
+    line-height: 1;
+    font-weight: var(--weight-regular);
+    color: var(--faint);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* «Рука»: 1–2 раза на экран, только несодержательное. */
+  .t-hand {
+    font-family: var(--font-hand);
+    font-size: var(--text-hand);
+    font-weight: var(--weight-semibold);
+    line-height: 1;
+    display: inline-block;
+    transform: rotate(var(--hand-tilt));
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   §5.9 Загрузка — волна, не спиннер.
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes ds-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes ds-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
   }
 }

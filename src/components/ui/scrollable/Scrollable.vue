@@ -3,7 +3,9 @@
     <div
       v-if="showThumbVisible"
       class="scrollable-thumb-container"
-      :class="direction === 'horizontal' ? 'scrollable-thumb-container-x' : 'scrollable-thumb-container-y'"
+      :class="
+        direction === 'horizontal' ? 'scrollable-thumb-container-x' : 'scrollable-thumb-container-y'
+      "
     >
       <div
         ref="thumbRef"
@@ -14,48 +16,44 @@
       />
     </div>
 
-    <div
-      ref="containerRef"
-      :class="containerClasses"
-      @scroll="handleScrollEmit"
-    >
+    <div ref="containerRef" :class="containerClasses" @scroll="handleScrollEmit">
       <slot />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, provide, useTemplateRef } from "vue";
-import useScrollable from "./useScrollable";
+import { computed, provide, useTemplateRef } from 'vue'
+import useScrollable from './useScrollable'
 
 interface Props {
-  direction?: "vertical" | "horizontal";
-  onScrollOffset?: number;
-  bordered?: boolean;
-  hideThumb?: boolean;
+  direction?: 'vertical' | 'horizontal'
+  onScrollOffset?: number
+  bordered?: boolean
+  hideThumb?: boolean
   /**
    * Keep the scroll container in normal flow instead of `position: absolute`.
    * Lets a parent without an explicit height (e.g. an auto-sized window) grow
    * from the content; once the parent gets a fixed height the content scrolls.
    */
-  flow?: boolean;
+  flow?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  direction: "vertical",
+  direction: 'vertical',
   onScrollOffset: 300,
   bordered: false,
   hideThumb: false,
   flow: false,
-});
+})
 
 const emit = defineEmits<{
-  scroll: [event: Event];
-  scrolledTop: [];
-  scrolledBottom: [];
-}>();
+  scroll: [event: Event]
+  scrolledTop: []
+  scrolledBottom: []
+}>()
 
-const containerRef = useTemplateRef("containerRef");
+const containerRef = useTemplateRef('containerRef')
 
 const {
   isDragging,
@@ -73,48 +71,57 @@ const {
 } = useScrollable(containerRef, {
   direction: props.direction,
   onScrollOffset: props.onScrollOffset,
-  onScrolledTop: () => emit("scrolledTop"),
-  onScrolledBottom: () => emit("scrolledBottom"),
-});
+  onScrolledTop: () => emit('scrolledTop'),
+  onScrolledBottom: () => emit('scrolledBottom'),
+})
 
 function handleScrollEmit(e: Event) {
-  emit("scroll", e);
-  updateThumb();
+  emit('scroll', e)
+  updateThumb()
 }
 
 const wrapperClasses = computed(() => [
-  "scrollable-wrapper",
-  props.direction === "vertical" ? "scrollable-direction-y" : "scrollable-direction-x",
+  'scrollable-wrapper',
+  props.direction === 'vertical' ? 'scrollable-direction-y' : 'scrollable-direction-x',
   {
-    "scrollable-flow": props.flow,
-    "scrollable-y-bordered": props.bordered && props.direction === "vertical",
-    "scrolled-start": props.bordered && isScrolledToStart.value,
-    "scrolled-end": props.bordered && isScrolledToEnd.value,
+    'scrollable-flow': props.flow,
+    'scrollable-y-bordered': props.bordered && props.direction === 'vertical',
+    'scrolled-start': props.bordered && isScrolledToStart.value,
+    'scrolled-end': props.bordered && isScrolledToEnd.value,
   },
-]);
+])
 
 const containerClasses = computed(() => [
-  "scrollable",
-  props.direction === "vertical" ? "scrollable-y" : "scrollable-x",
-  { "no-scrollbar": true },
-]);
+  'scrollable',
+  props.direction === 'vertical' ? 'scrollable-y' : 'scrollable-x',
+  { 'no-scrollbar': true },
+])
 
-const showThumbVisible = computed(() => !props.hideThumb && thumbSize.value > 0);
+const showThumbVisible = computed(() => !props.hideThumb && thumbSize.value > 0)
 
 const thumbStyle = computed(() => {
-  if (props.direction === "vertical") {
+  if (props.direction === 'vertical') {
     return {
       height: `${thumbSize.value}px`,
       transform: `translateY(${thumbPosition.value}px)`,
-    };
+    }
   }
   return {
     width: `${thumbSize.value}px`,
     transform: `translateX(${thumbPosition.value}px)`,
-  };
-});
+  }
+})
 
-provide("scrollable", { scrollTo, scrollToEnd, scrollToStart, scrollPosition, isScrolledToEnd, isScrolledToStart, containerRef, USE_OWN_SCROLL });
+provide('scrollable', {
+  scrollTo,
+  scrollToEnd,
+  scrollToStart,
+  scrollPosition,
+  isScrolledToEnd,
+  isScrolledToStart,
+  containerRef,
+  USE_OWN_SCROLL,
+})
 
 defineExpose({
   scrollTo,
@@ -125,7 +132,7 @@ defineExpose({
   isScrolledToStart,
   container: containerRef,
   USE_OWN_SCROLL,
-});
+})
 </script>
 
 <style>
@@ -232,9 +239,9 @@ defineExpose({
 
 .scrollable-thumb {
   position: absolute;
-  /* Square, no radius; foreground mixed like the project's borders, a bit denser to stay findable. */
-  border-radius: 0;
-  background: color-mix(in oklch, var(--color-foreground) 45%, transparent);
+  /* Тон, не линия: тумблер живёт на шкале fill → muted. */
+  border-radius: var(--radius-full);
+  background: var(--fill);
   pointer-events: auto;
   cursor: default;
   opacity: 0;
@@ -261,10 +268,10 @@ defineExpose({
 }
 
 .scrollable-thumb:hover {
-  background: color-mix(in oklch, var(--color-foreground) 70%, transparent);
+  background: var(--fill-hover);
 }
 
 .scrollable-thumb.is-focused {
-  background: var(--color-foreground);
+  background: var(--muted);
 }
 </style>

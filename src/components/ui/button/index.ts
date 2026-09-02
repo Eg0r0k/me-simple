@@ -1,40 +1,56 @@
-import type { VariantProps } from "class-variance-authority"
-import { cva } from "class-variance-authority"
+import type { VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 
-export { default as Button } from "./Button.vue"
+export { default as Button } from './Button.vue'
+
+/**
+ * §5.1 Button / §5.2 IconButton.
+ * Никаких бордеров, теней и пилюль. `size` задаёт высоту, паддинг, кегль,
+ * радиус и размер иконки одновременно. С той стороны, где стоит иконка,
+ * паддинг уменьшается на 3px.
+ *
+ * `size` объявлен до `variant`: у `link` собственные высота и паддинг,
+ * и они должны побеждать размер.
+ */
+
+const MOTION =
+  '[transition:transform_var(--dur-press)_var(--ease-standard),background-color_var(--dur-hover)_ease,color_var(--dur-hover)_ease,filter_var(--dur-hover)_ease]'
 
 export const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+  [
+    'press-scale inline-flex shrink-0 select-none items-center justify-center gap-[7px] whitespace-nowrap',
+    'font-sans font-medium',
+    'disabled:cursor-not-allowed disabled:bg-sunk disabled:text-faint disabled:hover:bg-sunk disabled:hover:filter-none',
+    MOTION,
+  ].join(' '),
   {
     variants: {
-      variant: {
-        default:
-          "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
       size: {
-        "default": "h-9 px-4 py-2 has-[>svg]:px-3",
-        "xs": "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
-        "sm": "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        "lg": "h-10 rounded-md px-6 has-[>svg]:px-4",
-        "icon": "size-9",
-        "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-8",
-        "icon-lg": "size-10",
+        xs: 'h-[26px] px-[10px] rounded-1 text-[12.5px] [&_.ms]:text-[15px] has-[>.ms:first-child]:ps-[7px] has-[>.ms:last-child]:pe-[7px]',
+        sm: 'h-[32px] px-[12px] rounded-2 text-[13px] [&_.ms]:text-[16px] has-[>.ms:first-child]:ps-[9px] has-[>.ms:last-child]:pe-[9px]',
+        md: 'h-[38px] px-[15px] rounded-3 text-[14px] [&_.ms]:text-[18px] has-[>.ms:first-child]:ps-[12px] has-[>.ms:last-child]:pe-[12px]',
+        lg: 'h-[44px] px-[18px] rounded-4 text-[15px] [&_.ms]:text-[20px] has-[>.ms:first-child]:ps-[15px] has-[>.ms:last-child]:pe-[15px]',
+        xl: 'h-[52px] px-[22px] rounded-5 text-[16px] [&_.ms]:text-[22px] has-[>.ms:first-child]:ps-[19px] has-[>.ms:last-child]:pe-[19px]',
+        'icon-xs': 'size-[26px] p-0 rounded-1 [&_.ms]:text-[15px]',
+        'icon-sm': 'size-[32px] p-0 rounded-2 [&_.ms]:text-[16px]',
+        icon: 'size-[38px] p-0 rounded-3 [&_.ms]:text-[18px]',
+        'icon-lg': 'size-[44px] p-0 rounded-4 [&_.ms]:text-[20px]',
+        'icon-xl': 'size-[52px] p-0 rounded-5 [&_.ms]:text-[22px]',
+      },
+      variant: {
+        primary: 'bg-primary text-on-primary hover:brightness-[1.08]',
+        secondary: 'bg-fill text-fg hover:bg-fill-hover',
+        surface: 'bg-btn-surface text-on-btn-surface hover:bg-btn-surface-hover',
+        ghost: 'bg-transparent text-muted-foreground hover:bg-fill hover:text-fg',
+        destructive: 'bg-danger-soft text-danger-ink hover:brightness-[0.97]',
+        link: 'h-[26px] rounded-none bg-transparent p-0 text-fg underline decoration-peri decoration-2 underline-offset-4 hover:decoration-[3px]',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      size: 'md',
+      variant: 'primary',
     },
   },
 )
+
 export type ButtonVariants = VariantProps<typeof buttonVariants>

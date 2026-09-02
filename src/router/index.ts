@@ -3,9 +3,7 @@ import { pageRoutes } from './routes/pages'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    ...pageRoutes,
-  ],
+  routes: [...pageRoutes],
 })
 
 export default router

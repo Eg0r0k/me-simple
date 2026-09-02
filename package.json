@@ -19,7 +19,6 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@tabler/icons-vue": "^3.44.0",
     "@tailwindcss/vite": "^4.3.0",
     "@vueuse/core": "^14.3.0",
     "class-variance-authority": "^0.7.1",
@@ -28,14 +27,12 @@
     "reka-ui": "^2.10.1",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
-    "three": "^0.184.0",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.2",
-    "@types/three": "^0.184.1",
     "@vitejs/plugin-vue": "^6.0.6",
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.11",

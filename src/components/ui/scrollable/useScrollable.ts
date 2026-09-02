@@ -1,318 +1,311 @@
-import { ref, computed, onMounted, onUnmounted, type Ref, nextTick } from "vue";
+import { ref, computed, onMounted, onUnmounted, type Ref, nextTick } from 'vue'
 
 export interface ScrollableOptions {
-  direction?: "vertical" | "horizontal";
-  onScrollOffset?: number;
-  onScrolledTop?: () => void;
-  onScrolledBottom?: () => void;
-  onAdditionalScroll?: () => void;
+  direction?: 'vertical' | 'horizontal'
+  onScrollOffset?: number
+  onScrolledTop?: () => void
+  onScrolledBottom?: () => void
+  onAdditionalScroll?: () => void
 }
 
 export interface ScrollToOptions {
-  element?: HTMLElement;
-  position?: number;
-  behavior?: ScrollBehavior;
+  element?: HTMLElement
+  position?: number
+  behavior?: ScrollBehavior
 }
 
-const USE_OWN_SCROLL = true;
-const SCROLL_THROTTLE = 24;
+const USE_OWN_SCROLL = true
 
-const throttleMeasurement = (callback: () => void) => requestAnimationFrame(callback);
-const cancelMeasurement = (id: number) => cancelAnimationFrame(id);
+const throttleMeasurement = (callback: () => void) => requestAnimationFrame(callback)
+const cancelMeasurement = (id: number) => cancelAnimationFrame(id)
 
 export default function useScrollable(
   containerRef: Ref<HTMLElement | null>,
   options: ScrollableOptions = {},
 ) {
   const {
-    direction = "vertical",
+    direction = 'vertical',
     onScrollOffset = 300,
     onScrolledTop,
     onScrolledBottom,
     onAdditionalScroll,
-  } = options;
+  } = options
 
   const props = computed(() => {
-    if (direction === "vertical") {
+    if (direction === 'vertical') {
       return {
-        scrollPosition: "scrollTop" as const,
-        scrollSize: "scrollHeight" as const,
-        clientSize: "clientHeight" as const,
-        offsetSize: "offsetHeight" as const,
-        clientAxis: "clientY" as const,
-      };
+        scrollPosition: 'scrollTop' as const,
+        scrollSize: 'scrollHeight' as const,
+        clientSize: 'clientHeight' as const,
+        offsetSize: 'offsetHeight' as const,
+        clientAxis: 'clientY' as const,
+      }
     }
     return {
-      scrollPosition: "scrollLeft" as const,
-      scrollSize: "scrollWidth" as const,
-      clientSize: "clientWidth" as const,
-      offsetSize: "offsetWidth" as const,
-      clientAxis: "clientX" as const,
-    };
-  });
+      scrollPosition: 'scrollLeft' as const,
+      scrollSize: 'scrollWidth' as const,
+      clientSize: 'clientWidth' as const,
+      offsetSize: 'offsetWidth' as const,
+      clientAxis: 'clientX' as const,
+    }
+  })
 
-  const lastScrollPosition = ref(0);
-  const lastScrollDirection = ref(0);
-  const isHeavyAnimationInProgress = ref(false);
-  const needCheckAfterAnimation = ref(false);
-  const loadedAll = ref({ top: true, bottom: false });
+  const lastScrollPosition = ref(0)
+  const lastScrollDirection = ref(0)
+  const isHeavyAnimationInProgress = ref(false)
+  const needCheckAfterAnimation = ref(false)
+  const loadedAll = ref({ top: true, bottom: false })
 
-  const thumbRef = ref<HTMLElement | null>(null);
-  const thumbSize = ref(0);
-  const thumbPosition = ref(0);
-  const isDragging = ref(false);
+  const thumbRef = ref<HTMLElement | null>(null)
+  const thumbSize = ref(0)
+  const thumbPosition = ref(0)
+  const isDragging = ref(false)
 
-  let onScrollMeasure: number | null = null;
-  let resizeObserver: ResizeObserver | null = null;
+  let onScrollMeasure: number | null = null
+  let resizeObserver: ResizeObserver | null = null
 
-  let startMousePosition = 0;
-  let startScrollPosition = 0;
+  let startMousePosition = 0
+  let startScrollPosition = 0
 
-  const scrollPositionRef = ref(0);
+  const scrollPositionRef = ref(0)
 
   const scrollPosition = computed({
     get: () => scrollPositionRef.value,
     set: (value: number) => {
-      scrollPositionRef.value = value;
+      scrollPositionRef.value = value
       if (containerRef.value) {
-        containerRef.value[props.value.scrollPosition] = value;
+        containerRef.value[props.value.scrollPosition] = value
       }
     },
-  });
+  })
 
-  const scrollSize = computed(
-    () => containerRef.value?.[props.value.scrollSize] ?? 0,
-  );
-  const clientSize = computed(
-    () => containerRef.value?.[props.value.clientSize] ?? 0,
-  );
-  const offsetSize = computed(
-    () => containerRef.value?.[props.value.offsetSize] ?? 0,
-  );
+  const scrollSize = computed(() => containerRef.value?.[props.value.scrollSize] ?? 0)
+  const clientSize = computed(() => containerRef.value?.[props.value.clientSize] ?? 0)
+  const offsetSize = computed(() => containerRef.value?.[props.value.offsetSize] ?? 0)
 
   const isScrolledToEnd = computed(() => {
-    const distance = scrollSize.value - Math.round(scrollPosition.value + offsetSize.value);
-    return distance <= 1;
-  });
+    const distance = scrollSize.value - Math.round(scrollPosition.value + offsetSize.value)
+    return distance <= 1
+  })
 
-  const isScrolledToStart = computed(() => scrollPosition.value <= 1);
+  const isScrolledToStart = computed(() => scrollPosition.value <= 1)
 
   function updateThumb(position: number = scrollPosition.value) {
-    if (!containerRef.value) return;
-    if (isDragging.value) return;
+    if (!containerRef.value) return
+    if (isDragging.value) return
 
     requestAnimationFrame(() => {
-      const container = containerRef.value;
-      if (!container) return;
+      const container = containerRef.value
+      if (!container) return
 
-      const scrollSizeVal = container[props.value.scrollSize];
-      const clientSizeVal = container[props.value.clientSize];
+      const scrollSizeVal = container[props.value.scrollSize]
+      const clientSizeVal = container[props.value.clientSize]
 
       if (clientSizeVal >= scrollSizeVal) {
-        thumbSize.value = 0;
-        return;
+        thumbSize.value = 0
+        return
       }
 
-      const newThumbSize = Math.max(20, clientSizeVal ** 2 / scrollSizeVal);
-      const maxScroll = scrollSizeVal - clientSizeVal;
-      const maxThumbPos = clientSizeVal - newThumbSize;
+      const newThumbSize = Math.max(20, clientSizeVal ** 2 / scrollSizeVal)
+      const maxScroll = scrollSizeVal - clientSizeVal
+      const maxThumbPos = clientSizeVal - newThumbSize
 
-      thumbSize.value = newThumbSize;
-      thumbPosition.value = maxScroll > 0 ? (position / maxScroll) * maxThumbPos : 0;
-    });
+      thumbSize.value = newThumbSize
+      thumbPosition.value = maxScroll > 0 ? (position / maxScroll) * maxThumbPos : 0
+    })
   }
 
   function checkForTriggers() {
-    if (!onScrolledTop && !onScrolledBottom) return;
-    if (isHeavyAnimationInProgress.value || !scrollSize.value) return;
+    if (!onScrolledTop && !onScrolledBottom) return
+    if (isHeavyAnimationInProgress.value || !scrollSize.value) return
 
-    const maxScrollPosition = scrollSize.value - clientSize.value;
+    const maxScrollPosition = scrollSize.value - clientSize.value
 
     if (onScrolledTop && scrollPosition.value <= onScrollOffset && lastScrollDirection.value <= 0) {
-      onScrolledTop();
+      onScrolledTop()
     }
 
     if (
-      onScrolledBottom
-      && maxScrollPosition - scrollPosition.value <= onScrollOffset
-      && lastScrollDirection.value >= 0
+      onScrolledBottom &&
+      maxScrollPosition - scrollPosition.value <= onScrollOffset &&
+      lastScrollDirection.value >= 0
     ) {
-      onScrolledBottom();
+      onScrolledBottom()
     }
   }
 
   function handleScroll() {
     if (isHeavyAnimationInProgress.value) {
-      cancelMeasure();
-      needCheckAfterAnimation.value = true;
-      return;
+      cancelMeasure()
+      needCheckAfterAnimation.value = true
+      return
     }
-    if (isDragging.value) return;
-    if (onScrollMeasure) return;
+    if (isDragging.value) return
+    if (onScrollMeasure) return
 
     onScrollMeasure = throttleMeasurement(() => {
-      onScrollMeasure = null;
-      if (isDragging.value) return;
+      onScrollMeasure = null
+      if (isDragging.value) return
 
-      const currentPosition = containerRef.value?.[props.value.scrollPosition] ?? 0;
-      scrollPositionRef.value = currentPosition;
+      const currentPosition = containerRef.value?.[props.value.scrollPosition] ?? 0
+      scrollPositionRef.value = currentPosition
 
       if (lastScrollPosition.value === currentPosition) {
-        lastScrollDirection.value = 0;
+        lastScrollDirection.value = 0
       } else if (lastScrollPosition.value < currentPosition) {
-        lastScrollDirection.value = 1;
+        lastScrollDirection.value = 1
       } else {
-        lastScrollDirection.value = -1;
+        lastScrollDirection.value = -1
       }
-      lastScrollPosition.value = currentPosition;
+      lastScrollPosition.value = currentPosition
 
-      updateThumb(currentPosition);
-      onAdditionalScroll?.();
-      checkForTriggers();
-    });
+      updateThumb(currentPosition)
+      onAdditionalScroll?.()
+      checkForTriggers()
+    })
   }
 
   function cancelMeasure() {
     if (onScrollMeasure) {
-      cancelMeasurement(onScrollMeasure);
-      onScrollMeasure = null;
+      cancelMeasurement(onScrollMeasure)
+      onScrollMeasure = null
     }
   }
 
   const setScrollLocked = (locked: boolean) => {
-    if (!containerRef.value) return;
-    containerRef.value.style.overflow = locked ? "hidden" : "";
-  };
+    if (!containerRef.value) return
+    containerRef.value.style.overflow = locked ? 'hidden' : ''
+  }
 
   function handleThumbMouseDown(e: MouseEvent) {
-    if (!containerRef.value) return;
+    if (!containerRef.value) return
 
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault()
+    e.stopPropagation()
 
-    isDragging.value = true;
+    isDragging.value = true
 
-    startMousePosition = e[props.value.clientAxis];
-    startScrollPosition = containerRef.value[props.value.scrollPosition];
+    startMousePosition = e[props.value.clientAxis]
+    startScrollPosition = containerRef.value[props.value.scrollPosition]
 
-    window.addEventListener("mousemove", handleThumbMouseMove);
-    window.addEventListener("mouseup", handleThumbMouseUp, { once: true });
+    window.addEventListener('mousemove', handleThumbMouseMove)
+    window.addEventListener('mouseup', handleThumbMouseUp, { once: true })
   }
 
   function handleThumbMouseMove(e: MouseEvent) {
-    e.preventDefault();
+    e.preventDefault()
 
-    const container = containerRef.value;
-    if (!container) return;
+    const container = containerRef.value
+    if (!container) return
 
-    const contentSize = container[props.value.scrollSize];
-    const viewportSize = container[props.value.clientSize];
-    const currentThumbSize = thumbSize.value;
+    const contentSize = container[props.value.scrollSize]
+    const viewportSize = container[props.value.clientSize]
+    const currentThumbSize = thumbSize.value
 
-    if (viewportSize >= contentSize) return;
+    if (viewportSize >= contentSize) return
 
-    const maxScroll = contentSize - viewportSize;
-    const maxThumbOffset = viewportSize - currentThumbSize;
+    const maxScroll = contentSize - viewportSize
+    const maxThumbOffset = viewportSize - currentThumbSize
 
-    if (maxThumbOffset <= 0) return;
+    if (maxThumbOffset <= 0) return
 
-    const delta = e[props.value.clientAxis] - startMousePosition;
-    const scrollAmount = (delta / maxThumbOffset) * maxScroll;
+    const delta = e[props.value.clientAxis] - startMousePosition
+    const scrollAmount = (delta / maxThumbOffset) * maxScroll
 
-    const newScrollPos = Math.max(0, Math.min(maxScroll, startScrollPosition + scrollAmount));
+    const newScrollPos = Math.max(0, Math.min(maxScroll, startScrollPosition + scrollAmount))
 
-    container[props.value.scrollPosition] = newScrollPos;
-    thumbPosition.value = (newScrollPos / maxScroll) * maxThumbOffset;
+    container[props.value.scrollPosition] = newScrollPos
+    thumbPosition.value = (newScrollPos / maxScroll) * maxThumbOffset
   }
 
   function handleThumbMouseUp() {
-    isDragging.value = false;
-    window.removeEventListener("mousemove", handleThumbMouseMove);
+    isDragging.value = false
+    window.removeEventListener('mousemove', handleThumbMouseMove)
   }
 
   async function scrollTo(opts: ScrollToOptions): Promise<void> {
-    const container = containerRef.value;
-    if (!container) return;
+    const container = containerRef.value
+    if (!container) return
 
-    let targetPosition: number;
+    let targetPosition: number
 
     if (opts.element) {
-      const rect = opts.element.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
+      const rect = opts.element.getBoundingClientRect()
+      const containerRect = container.getBoundingClientRect()
 
-      if (direction === "vertical") {
-        targetPosition = container.scrollTop + rect.top - containerRect.top;
+      if (direction === 'vertical') {
+        targetPosition = container.scrollTop + rect.top - containerRect.top
       } else {
-        targetPosition = container.scrollLeft + rect.left - containerRect.left;
+        targetPosition = container.scrollLeft + rect.left - containerRect.left
       }
     } else {
-      targetPosition = opts.position ?? 0;
+      targetPosition = opts.position ?? 0
     }
 
     container.scrollTo({
-      [direction === "vertical" ? "top" : "left"]: targetPosition,
-      behavior: opts.behavior ?? "smooth",
-    });
+      [direction === 'vertical' ? 'top' : 'left']: targetPosition,
+      behavior: opts.behavior ?? 'smooth',
+    })
   }
 
-  function scrollToEnd(behavior: ScrollBehavior = "smooth") {
-    scrollTo({ position: scrollSize.value, behavior });
+  function scrollToEnd(behavior: ScrollBehavior = 'smooth') {
+    scrollTo({ position: scrollSize.value, behavior })
   }
 
-  function scrollToStart(behavior: ScrollBehavior = "smooth") {
-    scrollTo({ position: 0, behavior });
+  function scrollToStart(behavior: ScrollBehavior = 'smooth') {
+    scrollTo({ position: 0, behavior })
   }
 
   function setScrollPositionSilently(value: number) {
-    lastScrollPosition.value = value;
-    const container = containerRef.value;
-    if (!container) return;
+    lastScrollPosition.value = value
+    const container = containerRef.value
+    if (!container) return
 
-    container.removeEventListener("scroll", handleScroll);
-    scrollPosition.value = value;
+    container.removeEventListener('scroll', handleScroll)
+    scrollPosition.value = value
 
     requestAnimationFrame(() => {
-      container.addEventListener("scroll", handleScroll, { passive: true });
-    });
+      container.addEventListener('scroll', handleScroll, { passive: true })
+    })
   }
 
   function onSizeChange() {
-    handleScroll();
+    handleScroll()
   }
 
   onMounted(() => {
-    const container = containerRef.value;
-    if (!container) return;
+    const container = containerRef.value
+    if (!container) return
 
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
+    container.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleScroll, { passive: true })
 
     resizeObserver = new ResizeObserver(() => {
-      handleScroll();
-    });
-    resizeObserver.observe(container);
+      handleScroll()
+    })
+    resizeObserver.observe(container)
 
-    updateThumb();
-  });
+    updateThumb()
+  })
 
   nextTick(() => {
-    onSizeChange();
-  });
+    onSizeChange()
+  })
 
   onUnmounted(() => {
-    const container = containerRef.value;
-    if (!container) return;
+    const container = containerRef.value
+    if (!container) return
 
-    container.removeEventListener("scroll", handleScroll);
-    window.removeEventListener("resize", handleScroll);
+    container.removeEventListener('scroll', handleScroll)
+    window.removeEventListener('resize', handleScroll)
 
     if (resizeObserver) {
-      resizeObserver.disconnect();
+      resizeObserver.disconnect()
     }
 
-    window.removeEventListener("mousemove", handleThumbMouseMove);
-    cancelMeasure();
-  });
+    window.removeEventListener('mousemove', handleThumbMouseMove)
+    cancelMeasure()
+  })
 
   return {
     containerRef,
@@ -338,5 +331,5 @@ export default function useScrollable(
     updateThumb,
     checkForTriggers,
     onSizeChange,
-  };
+  }
 }
