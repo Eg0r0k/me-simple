@@ -18,6 +18,8 @@ function makeImageProject(src: Partial<Record<'ru' | 'en', string>>): Project {
   }
 }
 
+const withImage = makeImageProject({ ru: '/ru.webp', en: '/en.webp' })
+
 function makeCommandProject(command: string): Project {
   return {
     slug: 'stub-command',
@@ -64,5 +66,20 @@ describe('ProjectShot', () => {
     const tone = wrapper.get('[class*="bg-peri-soft"]')
     expect(tone.classes()).toContain('bg-peri-soft')
     expect(tone.classes()).toContain('text-peri-ink')
+  })
+
+  it('картинка прозрачна до загрузки и проявляется после', async () => {
+    const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
+    const img = wrapper.get('img')
+    expect(img.classes()).toContain('opacity-0')
+    await img.trigger('load')
+    expect(img.classes()).toContain('opacity-100')
+  })
+
+  it('смена кадра снова прячет картинку до загрузки', async () => {
+    const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
+    await wrapper.get('img').trigger('load')
+    await wrapper.setProps({ locale: 'en' })
+    expect(wrapper.get('img').classes()).toContain('opacity-0')
   })
 })

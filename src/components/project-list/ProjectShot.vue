@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
 import type { PreviewLocale, Project, ProjectTone } from '@/data/projects'
 import { resolvePreviewSrc } from './preview'
 
@@ -9,6 +9,20 @@ const props = defineProps<{
 }>()
 
 const src = computed(() => resolvePreviewSrc(props.project.preview, props.locale))
+
+const img = useTemplateRef<HTMLImageElement>('img')
+const loaded = ref(false)
+
+// Картинка из кэша уже готова к моменту монтирования: событие load не придёт.
+onMounted(() => {
+  const el = img.value
+  if (el && el.complete && el.naturalWidth > 0) loaded.value = true
+})
+
+// Новый кадр (смена языка) грузится заново и снова проявляется.
+watch(src, () => {
+  loaded.value = false
+})
 
 const TONE_BG: Record<ProjectTone, string> = {
   sky: 'bg-sky-soft',
@@ -32,12 +46,17 @@ const TONE_INK: Record<ProjectTone, string> = {
     <!-- alt пустой: название проекта стоит рядом текстом. -->
     <img
       v-if="src"
+      ref="img"
       :src="src"
       alt=""
       decoding="async"
-      draggable="false"
       fetchpriority="low"
-      class="absolute inset-0 size-full object-cover object-left-top select-none"
+      draggable="false"
+      :class="[
+        'absolute inset-0 size-full object-cover object-left-top select-none [transition:opacity_300ms_ease]',
+        loaded ? 'opacity-100' : 'opacity-0',
+      ]"
+      @load="loaded = true"
     />
     <div
       v-else-if="project.preview.kind === 'command'"
