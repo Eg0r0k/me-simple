@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DropdownMenuRadioItemEmits, DropdownMenuRadioItemProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
-import { Icon } from '@/components/ui/icon'
+import IconDot from '~icons/material-symbols/fiber-manual-record-rounded'
 import { reactiveOmit } from '@vueuse/core'
 import { DropdownMenuItemIndicator, DropdownMenuRadioItem, useForwardPropsEmits } from 'reka-ui'
 import { cn } from '@/lib/utils'
@@ -29,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
       <DropdownMenuItemIndicator>
         <slot name="indicator-icon">
-          <Icon name="fiber_manual_record" :size="10" class="text-primary" />
+          <IconDot class="size-[10px] text-primary" aria-hidden="true" />
         </slot>
       </DropdownMenuItemIndicator>
     </span>

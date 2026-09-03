@@ -1,48 +1,34 @@
 <script setup lang="ts">
 import type { PrimitiveProps } from 'reka-ui'
-import type { HTMLAttributes } from 'vue'
+import type { Component, HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
-import Icon from '@/components/ui/icon/Icon.vue'
+import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 
 type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 interface Props extends PrimitiveProps {
   tone?: Tone
-  icon?: string
+  icon?: Component
   index?: string | number
   title?: string
   caption?: string
   year?: string | number
   selected?: boolean
-  trailingIcon?: string
+  trailingIcon?: Component | null
   class?: HTMLAttributes['class']
 }
 
 const props = withDefaults(defineProps<Props>(), {
   as: 'div',
   tone: 'sky',
-  icon: 'category',
   selected: false,
-  trailingIcon: 'arrow_outward',
 })
 
-const TONE_BG: Record<Tone, string> = {
-  sky: 'bg-sky-soft',
-  peri: 'bg-peri-soft',
-  amber: 'bg-amber-soft',
-  mint: 'bg-mint-soft',
-  clay: 'bg-clay-soft',
-}
-
-const TONE_FG: Record<Tone, string> = {
-  sky: 'text-sky',
-  peri: 'text-peri',
-  amber: 'text-amber',
-  mint: 'text-mint',
-  clay: 'text-clay',
-}
+const trailingIcon = computed(() =>
+  props.trailingIcon === undefined ? IconArrowOutward : props.trailingIcon,
+)
 
 const useHandIndex = computed(() => props.index !== undefined)
 </script>
@@ -64,25 +50,13 @@ const useHandIndex = computed(() => props.index !== undefined)
   >
     <span
       v-if="useHandIndex"
-      class="t-hand w-[24px] shrink-0 text-[20px] text-clay"
+      class="t-hand items-center justify-center shrink-0 text-[20px]"
       aria-hidden="true"
       >{{ props.index }}</span
     >
-    <span
-      v-else
-      :class="
-        cn(
-          'flex size-[38px] shrink-0 items-center justify-center rounded-3',
-          TONE_BG[props.tone],
-          TONE_FG[props.tone],
-        )
-      "
-    >
-      <Icon :name="props.icon" size="md" />
-    </span>
 
-    <span class="flex min-w-0 flex-1 flex-col gap-[4px]">
-      <span class="flex min-w-0 items-baseline gap-[8px]">
+    <span class="flex min-w-0 flex-1 flex-col gap-1">
+      <span class="flex min-w-0 items-baseline gap-2">
         <span class="truncate text-[15.5px] font-semibold tracking-[-0.012em] text-fg">{{
           props.title
         }}</span>
@@ -95,7 +69,12 @@ const useHandIndex = computed(() => props.index !== undefined)
 
     <span class="flex shrink-0 items-center gap-[12px]">
       <span v-if="props.year" class="t-label">{{ props.year }}</span>
-      <Icon v-if="props.trailingIcon" :name="props.trailingIcon" size="sm" class="text-faint" />
+      <component
+        :is="trailingIcon"
+        v-if="trailingIcon"
+        class="size-5 shrink-0 text-faint"
+        aria-hidden="true"
+      />
     </span>
   </Primitive>
 </template>

@@ -4,12 +4,12 @@ import { cva } from 'class-variance-authority'
 export { default as Badge } from './Badge.vue'
 
 export const badgeVariants = cva(
-  'inline-flex shrink-0 select-none items-center whitespace-nowrap font-sans font-medium',
+  'inline-flex shrink-0 select-none items-center whitespace-nowrap font-sans font-medium [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     variants: {
       size: {
-        sm: 'h-[20px] rounded-xs px-[7px] text-[11.5px] gap-[4px] [&_.ms]:text-[13px]',
-        md: 'h-[24px] rounded-sm px-[8px] text-[12.5px] gap-[5px] [&_.ms]:text-[15px]',
+        sm: "h-[20px] rounded-xs px-[7px] text-[11.5px] gap-[4px] [&_svg:not([class*='size-'])]:size-[13px]",
+        md: "h-[24px] rounded-sm px-[8px] text-[12.5px] gap-[5px] [&_svg:not([class*='size-'])]:size-[15px]",
       },
       tone: {
         primary: 'bg-primary text-on-primary',

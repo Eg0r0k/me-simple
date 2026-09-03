@@ -8,13 +8,9 @@ export const pageRoutes: RouteRecordRaw[] = [
     component: () => import('@/pages/HomePage.vue'),
   },
   {
-    path: '/projects',
-    name: ROUTE_NAMES.PROJECTS,
-    component: () => import('@/pages/ProjectPage.vue'),
-  },
-  {
-    path: '/about',
-    name: ROUTE_NAMES.ABOUT,
-    component: () => import('@/pages/AboutPage.vue'),
+    // Страница одна: любой старый адрес возвращает на неё, а не в пустой экран.
+    // Редирект по пути, а не по имени, — иначе роутер ругается на лишний `pathMatch`.
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
   },
 ]

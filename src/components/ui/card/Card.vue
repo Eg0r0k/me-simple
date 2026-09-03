@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { PrimitiveProps } from 'reka-ui'
-import type { HTMLAttributes } from 'vue'
+import type { Component, HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
-import Icon from '@/components/ui/icon/Icon.vue'
+import IconCategory from '~icons/material-symbols/category-rounded'
 
 type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 type Variant = 'plate' | 'compact' | 'empty'
@@ -12,7 +12,7 @@ type Variant = 'plate' | 'compact' | 'empty'
 interface Props extends PrimitiveProps {
   variant?: Variant
   tone?: Tone
-  icon?: string
+  icon?: Component
   title?: string
   year?: string | number
   caption?: string
@@ -23,8 +23,9 @@ const props = withDefaults(defineProps<Props>(), {
   as: 'div',
   variant: 'plate',
   tone: 'sky',
-  icon: 'category',
 })
+
+const icon = computed(() => props.icon ?? IconCategory)
 
 const TONE_BG: Record<Tone, string> = {
   sky: 'bg-sky-soft',
@@ -69,7 +70,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
           cn('flex size-[36px] shrink-0 items-center justify-center rounded-3', plateBg, plateFg)
         "
       >
-        <Icon :name="props.icon" size="md" />
+        <component :is="icon" class="size-[20px] shrink-0" aria-hidden="true" />
       </span>
       <span class="flex min-w-0 flex-col gap-[2px]">
         <span class="flex items-center gap-[8px]">
@@ -99,7 +100,7 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
           )
         "
       >
-        <Icon :name="props.icon" :size="40" />
+        <component :is="icon" class="size-[40px] shrink-0" aria-hidden="true" />
       </span>
       <span class="flex flex-col gap-[6px] px-[8px] pb-[10px] pt-[2px]">
         <span class="flex items-center gap-[8px]">

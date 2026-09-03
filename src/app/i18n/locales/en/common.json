@@ -1,11 +1,14 @@
 {
   "brand": "me",
   "appTitle": "Egor Bocharov — frontend developer",
-  "sections": "Sections",
   "timezone": "GMT+3",
   "theme": {
     "toLight": "Switch to light theme",
     "toDark": "Switch to dark theme"
+  },
+  "sound": {
+    "toOn": "Turn sound on",
+    "toOff": "Turn sound off"
   },
   "language": {
     "label": "Language",

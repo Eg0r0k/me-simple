@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+import type { Component, HTMLAttributes } from 'vue'
 import type { BadgeVariants } from '.'
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
 import { badgeVariants } from '.'
-import Icon from '@/components/ui/icon/Icon.vue'
 
 const props = withDefaults(
   defineProps<{
     size?: BadgeVariants['size']
     tone?: BadgeVariants['tone']
-    icon?: string
+    icon?: Component
     dot?: boolean
     class?: HTMLAttributes['class']
   }>(),
@@ -28,7 +27,7 @@ const leading = computed(() => Boolean(props.icon) || showDot.value)
       cn(badgeVariants({ size: props.size, tone: props.tone, leading: leading }), props.class)
     "
   >
-    <Icon v-if="props.icon" :name="props.icon" :size="props.size === 'sm' ? 13 : 15" />
+    <component :is="props.icon" v-if="props.icon" aria-hidden="true" />
     <span v-else-if="showDot" class="size-[6px] shrink-0 rounded-full bg-current" />
     <slot />
   </span>

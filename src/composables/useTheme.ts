@@ -1,6 +1,7 @@
 import { watch, computed, readonly } from 'vue'
 import { usePreferredDark, useStorage } from '@vueuse/core'
 import { IS_ANDROID } from '@/lib/environment/userAgent'
+import { buildThemeClipPath } from '@/lib/theme/clipPath'
 
 const canAnimateThemeChange = (event?: MouseEvent): event is MouseEvent =>
   !!event &&
@@ -55,12 +56,11 @@ export const useTheme = () => {
       return
     }
 
-    const x = event.clientX
-    const y = event.clientY
-
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y),
+    const { start: clipPathStart, end: clipPathEnd } = buildThemeClipPath(
+      event.clientX,
+      event.clientY,
+      window.innerWidth,
+      window.innerHeight,
     )
 
     const isLightToDark = resolvedTheme.value === 'light'
@@ -74,9 +74,6 @@ export const useTheme = () => {
 
     try {
       await transition.ready
-
-      const clipPathStart = `circle(0px at ${x}px ${y}px)`
-      const clipPathEnd = `circle(${endRadius}px at ${x}px ${y}px)`
 
       const animation = document.documentElement.animate(
         {

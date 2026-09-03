@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DropdownMenuSubTriggerProps } from 'reka-ui'
 import type { HTMLAttributes } from 'vue'
-import { Icon } from '@/components/ui/icon'
+import IconChevronRight from '~icons/material-symbols/chevron-right-rounded'
 import { reactiveOmit } from '@vueuse/core'
 import { DropdownMenuSubTrigger, useForwardProps } from 'reka-ui'
 import { cn } from '@/lib/utils'
@@ -27,6 +27,6 @@ const forwardedProps = useForwardProps(delegatedProps)
     "
   >
     <slot />
-    <Icon name="chevron_right" :size="18" class="ms-auto text-faint" />
+    <IconChevronRight class="ms-auto size-[18px] text-faint" aria-hidden="true" />
   </DropdownMenuSubTrigger>
 </template>

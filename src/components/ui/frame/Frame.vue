@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
+import type { Component, HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { cn } from '@/lib/utils'
-import Icon from '@/components/ui/icon/Icon.vue'
+import IconImage from '~icons/material-symbols/image-rounded'
 
 type Ratio = 'wide' | 'screen' | 'crop' | 'square'
 type Radius = 'card' | 'alone' | 'bleed' | 'full'
@@ -15,14 +15,16 @@ const props = withDefaults(
     ratio?: Ratio
     radius?: Radius
     tone?: Tone
-    icon?: string
+    icon?: Component
     caption?: string
     note?: string
     placeholder?: boolean
     class?: HTMLAttributes['class']
   }>(),
-  { ratio: 'screen', radius: 'alone', icon: 'image', placeholder: false },
+  { ratio: 'screen', radius: 'alone', placeholder: false },
 )
+
+const icon = computed(() => props.icon ?? IconImage)
 
 const RATIOS: Record<Ratio, string> = {
   wide: 'aspect-[21/9]',
@@ -79,7 +81,12 @@ const emptyFg = computed(() => (props.tone ? TONE_FG[props.tone] : 'text-faint')
         class="size-full object-cover"
       />
       <span v-else-if="props.placeholder" class="t-label">drop a shot here</span>
-      <Icon v-else :name="props.icon" :size="26" :class="emptyFg" />
+      <component
+        :is="icon"
+        v-else
+        :class="cn('size-[26px] shrink-0', emptyFg)"
+        aria-hidden="true"
+      />
 
       <span
         v-if="props.note"

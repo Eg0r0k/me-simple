@@ -117,6 +117,7 @@
   --space-12: 48px;
   --space-20: 80px;
   --space-35: 140px;
+  --column: 680px;
   --row: 16px;
   --block: 80px;
 
@@ -272,18 +273,13 @@
     outline: 2px solid var(--primary);
     outline-offset: 2px;
   }
+  ::selection {
+    background: var(--primary);
+    color: var(--on-primary);
+  }
 }
 
 @layer components {
-  .ms {
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    flex-shrink: 0;
-    line-height: 1;
-    user-select: none;
-  }
-
   .press-scale {
     transition: transform var(--dur-press) var(--ease-standard);
     transform: scale(1);
