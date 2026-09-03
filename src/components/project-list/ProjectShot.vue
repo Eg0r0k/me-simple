@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, useTemplateRef, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { PreviewLocale, Project, ProjectTone } from '@/data/projects'
 import { resolvePreviewSrc } from './preview'
 
@@ -10,17 +10,45 @@ const props = defineProps<{
 
 const src = computed(() => resolvePreviewSrc(props.project.preview, props.locale))
 
-const img = useTemplateRef<HTMLImageElement>('img')
-const loaded = ref(false)
+interface Layer {
+  src: string
+  loaded: boolean
+}
 
-onMounted(() => {
-  const el = img.value
-  if (el && el.complete && el.naturalWidth > 0) loaded.value = true
-})
+// Должно совпадать с токеном --dur-reveal (300ms); менять оба вместе.
+const REVEAL_MS = 300
+const layers = ref<Layer[]>([])
+let sweep: ReturnType<typeof setTimeout> | undefined
 
-watch(src, () => {
-  loaded.value = false
-})
+// Новый кадр ложится сверху; старый остаётся, пока новый не загрузился.
+watch(
+  src,
+  (next) => {
+    if (!next) {
+      layers.value = []
+      return
+    }
+    if (layers.value.at(-1)?.src === next) return
+    layers.value.push({ src: next, loaded: false })
+  },
+  { immediate: true },
+)
+
+function markLoaded(layer: Layer) {
+  layer.loaded = true
+  clearTimeout(sweep)
+  sweep = setTimeout(() => {
+    const index = layers.value.indexOf(layer)
+    if (index > 0) layers.value.splice(0, index)
+  }, REVEAL_MS)
+}
+
+// Кадр из кэша может быть готов до того, как навесится обработчик load.
+function checkComplete(el: unknown, layer: Layer) {
+  if (el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0 && !layer.loaded) {
+    markLoaded(layer)
+  }
+}
 
 const TONE_BG: Record<ProjectTone, string> = {
   sky: 'bg-sky-soft',
@@ -41,20 +69,23 @@ const TONE_INK: Record<ProjectTone, string> = {
 
 <template>
   <div class="relative aspect-video overflow-hidden bg-sunk">
-    <img
-      v-if="src"
-      ref="img"
-      :src="src"
-      alt=""
-      decoding="async"
-      fetchpriority="low"
-      draggable="false"
-      :class="[
-        'absolute inset-0 size-full object-cover object-left-top select-none [transition:opacity_var(--dur-reveal)_var(--ease-standard)] motion-reduce:transition-none',
-        loaded ? 'opacity-100' : 'opacity-0',
-      ]"
-      @load="loaded = true"
-    />
+    <template v-if="src">
+      <img
+        v-for="layer in layers"
+        :key="layer.src"
+        :ref="(el) => checkComplete(el, layer)"
+        :src="layer.src"
+        alt=""
+        decoding="async"
+        fetchpriority="low"
+        draggable="false"
+        :class="[
+          'absolute inset-0 size-full object-cover object-left-top select-none [transition:opacity_var(--dur-reveal)_var(--ease-standard)] motion-reduce:transition-none',
+          layer.loaded ? 'opacity-100' : 'opacity-0',
+        ]"
+        @load="markLoaded(layer)"
+      />
+    </template>
     <div
       v-else-if="project.preview.kind === 'command'"
       :class="[

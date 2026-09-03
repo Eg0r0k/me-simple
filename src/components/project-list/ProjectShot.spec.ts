@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { defineComponent } from 'vue'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import type { Project } from '@/data/projects'
 import ProjectShot from './ProjectShot.vue'
@@ -19,6 +19,7 @@ function makeImageProject(src: Partial<Record<'ru' | 'en', string>>): Project {
 }
 
 const withImage = makeImageProject({ ru: '/ru.webp', en: '/en.webp' })
+const onlyEn = makeImageProject({ en: '/en.webp' })
 
 function makeCommandProject(command: string): Project {
   return {
@@ -76,10 +77,39 @@ describe('ProjectShot', () => {
     expect(img.classes()).toContain('opacity-100')
   })
 
-  it('смена кадра снова прячет картинку до загрузки', async () => {
+  it('при смене кадра старый остаётся, пока новый не загрузился', async () => {
     const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
     await wrapper.get('img').trigger('load')
     await wrapper.setProps({ locale: 'en' })
-    expect(wrapper.get('img').classes()).toContain('opacity-0')
+    const imgs = wrapper.findAll('img')
+    expect(imgs).toHaveLength(2)
+    expect(imgs[0]!.attributes('src')).toContain('ru')
+    expect(imgs[0]!.classes()).toContain('opacity-100')
+    expect(imgs[1]!.attributes('src')).toContain('en')
+    expect(imgs[1]!.classes()).toContain('opacity-0')
+  })
+
+  describe('после загрузки нового кадра', () => {
+    beforeEach(() => vi.useFakeTimers())
+    afterEach(() => vi.useRealTimers())
+
+    it('новый проявляется, старый удаляется через --dur-reveal', async () => {
+      const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
+      await wrapper.get('img').trigger('load')
+      await wrapper.setProps({ locale: 'en' })
+      await wrapper.findAll('img')[1]!.trigger('load')
+      expect(wrapper.findAll('img')[1]!.classes()).toContain('opacity-100')
+      vi.advanceTimersByTime(300)
+      await nextTick()
+      const imgs = wrapper.findAll('img')
+      expect(imgs).toHaveLength(1)
+      expect(imgs[0]!.attributes('src')).toContain('en')
+    })
+  })
+
+  it('тот же кадр на другом языке не создаёт второй слой', async () => {
+    const wrapper = mount(ProjectShot, { props: { project: onlyEn, locale: 'ru' } })
+    await wrapper.setProps({ locale: 'en' })
+    expect(wrapper.findAll('img')).toHaveLength(1)
   })
 })
