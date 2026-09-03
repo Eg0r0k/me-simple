@@ -3,7 +3,7 @@ import { I18nT, useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { ListRow } from '@/components/ui/list-row'
-import { Marker } from '@/components/ui/marker'
+import { PenStroke } from '@/components/ui/pen-stroke'
 import { ProjectList } from '@/components/project-list'
 import IconMail from '~icons/material-symbols/mail-rounded'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
@@ -123,7 +123,7 @@ const socials = links.filter((link) => link.id !== 'email')
         </h2>
         <I18nT keypath="contact.lead" tag="p" scope="global" class="t-body text-muted-foreground">
           <template #day>
-            <Marker>{{ t('contact.day') }}</Marker>
+            <PenStroke>{{ t('contact.day') }}</PenStroke>
           </template>
         </I18nT>
       </div>

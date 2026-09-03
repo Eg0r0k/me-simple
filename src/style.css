@@ -306,37 +306,43 @@
     }
   }
 
-  /* Маркер «от руки»: подложка чуть шире слова, неровные углы, без поворота. */
-  .marker {
+  /* Обводка ручкой: svg чуть больше слова, штрих рисуется по stroke-dashoffset. */
+  .pen-stroke {
     position: relative;
-    isolation: isolate;
-    color: inherit;
-    background: transparent;
-    padding: 0 0.12em;
-    margin: 0 -0.12em;
+    display: inline-block;
     white-space: nowrap;
   }
 
-  .marker::before {
-    content: '';
+  .pen-stroke-ink {
     position: absolute;
-    z-index: -1;
-    inset: 0.08em -0.1em 0.02em -0.15em;
-    background: var(--amber-soft);
-    border-radius: 0.55em 0.35em 0.5em 0.4em / 0.4em 0.55em 0.35em 0.6em;
-    transform: scaleX(0);
-    transform-origin: left center;
+    left: -0.4em;
+    top: -0.35em;
+    width: calc(100% + 0.8em);
+    height: calc(100% + 0.7em);
+    overflow: visible;
+    pointer-events: none;
   }
 
-  .marker-drawn::before {
-    transform: scaleX(1);
-    transition: transform 0.5s var(--ease-standard) 0.25s;
+  .pen-stroke-ink path {
+    fill: none;
+    stroke: var(--primary);
+    stroke-width: 1.75;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .pen-stroke-drawn .pen-stroke-ink path {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.6s var(--ease-standard) 0.25s;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .marker::before,
-    .marker-drawn::before {
-      transform: scaleX(1);
+    .pen-stroke-ink path,
+    .pen-stroke-drawn .pen-stroke-ink path {
+      stroke-dashoffset: 0;
       transition: none;
     }
   }
