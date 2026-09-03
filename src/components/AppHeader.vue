@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
@@ -19,12 +19,29 @@ import type { SupportedLanguage } from '@/app/i18n/languages'
 import { useTheme } from '@/composables/useTheme'
 import { useLocale } from '@/composables/useLocale'
 import { useSound } from '@/composables/useSound'
+import { useAnger } from '@/composables/useAnger'
 import { routeLocation } from '@/router/route-locations'
 
 const { t } = useI18n()
 const { isDark, toggleTheme } = useTheme()
 const { language, languages, setLanguage } = useLocale()
 const { cue } = useSound()
+
+const { level: anger, shakeKey, poke } = useAnger()
+const shaking = ref(false)
+
+// Повторный клик во время тряски: снять класс и вернуть на следующем кадре, чтобы анимация началась заново.
+watch(shakeKey, () => {
+  shaking.value = false
+  requestAnimationFrame(() => {
+    shaking.value = true
+  })
+})
+
+const onBrandClick = () => {
+  cue('tick')
+  poke()
+}
 
 // На телефоне тап-таргет 44px, с sm и шире — обычный icon-sm 32px.
 const HEADER_ACTION =
@@ -65,7 +82,11 @@ onUnmounted(() => clearInterval(timer))
   >
     <RouterLink
       :to="routeLocation.home()"
-      class="press-scale t-subheading shrink-0 rounded-2 no-underline"
+      class="brand-anger press-scale t-subheading shrink-0 rounded-2 no-underline"
+      :class="{ 'is-shaking': shaking }"
+      :style="{ '--anger': anger }"
+      @click="onBrandClick"
+      @animationend="shaking = false"
     >
       {{ t('common.brand') }}
     </RouterLink>

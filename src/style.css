@@ -306,6 +306,39 @@
     }
   }
 
+  /* Злая «me»: цвет и амплитуда тряски растут с --anger от 0 до 1. */
+  .brand-anger {
+    color: color-mix(in oklch, var(--fg), var(--danger) calc(var(--anger, 0) * 100%));
+    transition:
+      color var(--dur-hover) ease,
+      transform var(--dur-press) var(--ease-standard);
+  }
+
+  .brand-anger.is-shaking {
+    animation: brand-shake 0.35s var(--ease-standard);
+  }
+
+  @keyframes brand-shake {
+    0%,
+    100% {
+      transform: translateX(0) rotate(0);
+    }
+    20%,
+    60% {
+      transform: translateX(calc(-2px - 6px * var(--anger, 0))) rotate(calc(-1deg - 3deg * var(--anger, 0)));
+    }
+    40%,
+    80% {
+      transform: translateX(calc(2px + 6px * var(--anger, 0))) rotate(calc(1deg + 3deg * var(--anger, 0)));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand-anger.is-shaking {
+      animation: none;
+    }
+  }
+
   /* Обводка ручкой: svg чуть больше слова, штрих рисуется по stroke-dashoffset. */
   .pen-stroke {
     position: relative;
