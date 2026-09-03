@@ -1,6 +1,7 @@
 {
   "brand": "me",
   "appTitle": "Egor Bocharov — frontend developer",
+  "content": "Page content",
   "timezone": "GMT+3",
   "theme": {
     "toLight": "Switch to light theme",

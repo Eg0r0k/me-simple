@@ -16,7 +16,14 @@
       />
     </div>
 
-    <div ref="containerRef" :class="containerClasses" @scroll="handleScrollEmit">
+    <div
+      ref="containerRef"
+      :class="containerClasses"
+      :tabindex="focusable ? 0 : undefined"
+      :role="focusable ? 'region' : undefined"
+      :aria-label="focusable ? label : undefined"
+      @scroll="handleScrollEmit"
+    >
       <slot />
     </div>
   </div>
@@ -32,6 +39,8 @@ interface Props {
   bordered?: boolean
   hideThumb?: boolean
   flow?: boolean
+  focusable?: boolean
+  label?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -40,6 +49,8 @@ const props = withDefaults(defineProps<Props>(), {
   bordered: false,
   hideThumb: false,
   flow: false,
+  focusable: false,
+  label: undefined,
 })
 
 const emit = defineEmits<{

@@ -1,6 +1,7 @@
 {
   "brand": "me",
   "appTitle": "Егор Бочаров — frontend-разработчик",
+  "content": "Содержимое страницы",
   "timezone": "GMT+3",
   "theme": {
     "toLight": "Включить светлую тему",
