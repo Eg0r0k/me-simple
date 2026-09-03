@@ -20,6 +20,16 @@ export function createScrollMemory() {
   }
 }
 
+// Ставить позицию можно только когда новая страница уже разложена браузером:
+// nextTick приходит раньше, до layout, и значение обрезается по высоте старой страницы.
+function afterPaint(callback: () => void) {
+  if (typeof requestAnimationFrame === 'undefined') {
+    void nextTick(callback)
+    return
+  }
+  requestAnimationFrame(() => requestAnimationFrame(callback))
+}
+
 // Окно не прокручивается, прокручивается контейнер Scrollable, поэтому
 // scrollBehavior роутера бесполезен: позицию ведём сами через хост контейнера.
 export function useScrollMemory(router: Router, host: () => ScrollHost | null) {
@@ -33,8 +43,7 @@ export function useScrollMemory(router: Router, host: () => ScrollHost | null) {
   })
 
   router.afterEach((to) => {
-    // Новая страница появляется в DOM на следующем тике, до этого ставить позицию некуда.
-    void nextTick(() => host()?.set(memory.restore(to.fullPath)))
+    afterPaint(() => host()?.set(memory.restore(to.fullPath)))
   })
 
   return memory

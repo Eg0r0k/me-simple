@@ -22,6 +22,11 @@ describe('createScrollMemory', () => {
   })
 })
 
+// Восстановление уходит через двойной requestAnimationFrame, поэтому ждём два кадра,
+// а не микротаску nextTick — иначе позиция ставится раньше, чем страница разложена.
+const twoFrames = () =>
+  new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+
 describe('useScrollMemory', () => {
   const Page = { template: '<div />' }
 
@@ -44,7 +49,7 @@ describe('useScrollMemory', () => {
     await router.push('/')
     scroll(600)
     await router.push('/projects')
-    await nextTick()
+    await twoFrames()
     expect(host.set).toHaveBeenLastCalledWith(0)
   })
 
@@ -53,9 +58,9 @@ describe('useScrollMemory', () => {
     await router.push('/')
     scroll(600)
     await router.push('/projects')
-    await nextTick()
+    await twoFrames()
     await router.push('/')
-    await nextTick()
+    await twoFrames()
     expect(host.set).toHaveBeenLastCalledWith(600)
   })
 
@@ -66,5 +71,27 @@ describe('useScrollMemory', () => {
     })
     useScrollMemory(router, () => null)
     await expect(router.push('/')).resolves.toBeUndefined()
+  })
+
+  it('без requestAnimationFrame восстанавливает через nextTick', async () => {
+    const router = createRouter({
+      history: createMemoryHistory(),
+      routes: [
+        { path: '/', component: Page },
+        { path: '/projects', component: Page },
+      ],
+    })
+    let position = 0
+    const host = { get: () => position, set: vi.fn((p: number) => (position = p)) }
+    useScrollMemory(router, () => host)
+
+    vi.stubGlobal('requestAnimationFrame', undefined)
+    try {
+      await router.push('/')
+      await nextTick()
+      expect(host.set).toHaveBeenLastCalledWith(0)
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 })
