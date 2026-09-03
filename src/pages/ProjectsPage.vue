@@ -49,7 +49,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
           <ProjectShot
             :project="project"
             :locale="previewLocale"
-            class="[transition:transform_300ms_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            class="[transition:scale_300ms_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         </div>
 
@@ -61,7 +61,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
             <span class="ms-auto t-label">{{ project.year }}</span>
             <IconArrowOutward
               v-if="project.url"
-              class="size-5 shrink-0 text-faint [transition:transform_var(--dur-hover)_var(--ease-standard)] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0"
+              class="size-5 shrink-0 text-faint [transition:translate_var(--dur-hover)_var(--ease-standard)] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0"
               aria-hidden="true"
             />
           </div>
