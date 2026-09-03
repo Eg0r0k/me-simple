@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { Button } from '@/components/ui/button'
 import { ListRow } from '@/components/ui/list-row'
+import { ProjectList } from '@/components/project-list'
 import IconMail from '~icons/material-symbols/mail-rounded'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import { MAILTO, links } from '@/data/contact'
@@ -74,22 +75,7 @@ const socials = links.filter((link) => link.id !== 'email')
         {{ t('projects.title') }}
       </h2>
 
-      <div class="flex flex-col">
-        <ListRow
-          v-for="project in projects"
-          :key="project.slug"
-          :as="project.url ? 'a' : 'article'"
-          :href="project.url"
-          :target="project.url ? '_blank' : undefined"
-          :rel="project.url ? 'noopener noreferrer' : undefined"
-          :tone="project.tone"
-          :icon="project.icon"
-          :title="project.title"
-          :caption="t(project.captionKey)"
-          :year="project.year"
-          :trailing-icon="project.url ? IconArrowOutward : null"
-        />
-      </div>
+      <ProjectList :projects="projects" />
     </section>
 
     <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-4)]">
