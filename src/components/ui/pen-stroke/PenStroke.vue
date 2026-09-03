@@ -20,7 +20,7 @@ const stop = watch(visible, (isVisible) => {
     <slot />
     <svg class="pen-stroke-ink" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true">
       <path
-        d="M 6 22 C 10 6, 58 2, 90 8 C 104 14, 98 34, 60 37 C 26 39, 0 33, 4 20 C 7 12, 30 9, 52 9"
+        d="M 10 25 C 6 10, 38 2, 66 3 C 90 4, 104 11, 99 22 C 94 33, 68 40, 42 38 C 20 37, 3 31, 6 22 C 9 15, 22 9, 40 7 C 62 5, 90 8, 98 18 C 102 25, 94 33, 76 36"
         pathLength="1"
       />
     </svg>
