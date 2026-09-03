@@ -154,6 +154,7 @@
   --dur-press: 100ms;
   --dur-hover: 140ms;
   --dur-surface: 180ms;
+  --dur-reveal: 300ms;
   --dur-loading: 1.6s;
   --press-scale: 0.96;
 }
@@ -329,7 +330,7 @@
 
   .marker-drawn::before {
     transform: scaleX(1);
-    transition: transform 0.5s var(--ease-standard);
+    transition: transform 0.5s var(--ease-standard) 0.25s;
   }
 
   @media (prefers-reduced-motion: reduce) {

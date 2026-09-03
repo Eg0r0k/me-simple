@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import IconTranslate from '~icons/material-symbols/translate-rounded'
 import IconCheck from '~icons/material-symbols/check-rounded'
@@ -19,18 +19,14 @@ import type { SupportedLanguage } from '@/app/i18n/languages'
 import { useTheme } from '@/composables/useTheme'
 import { useLocale } from '@/composables/useLocale'
 import { useSound } from '@/composables/useSound'
-import { ROUTE_NAMES } from '@/router/route-names'
 import { routeLocation } from '@/router/route-locations'
 
 const { t } = useI18n()
-const route = useRoute()
 const { isDark, toggleTheme } = useTheme()
 const { language, languages, setLanguage } = useLocale()
 const { cue } = useSound()
 
-const isHome = computed(() => route.name === ROUTE_NAMES.HOME)
-
-// §3.12: на телефоне тап-таргет 44px (радиус 14 по §4), с sm — обычный icon-sm 32/10.
+// На телефоне тап-таргет 44px, с sm и шире — обычный icon-sm 32px.
 const HEADER_ACTION =
   "size-[44px] rounded-4 [&_svg:not([class*='size-'])]:size-[20px] sm:size-[32px] sm:rounded-2 sm:[&_svg:not([class*='size-'])]:size-[16px]"
 
@@ -70,7 +66,6 @@ onUnmounted(() => clearInterval(timer))
     <RouterLink
       :to="routeLocation.home()"
       class="press-scale t-subheading shrink-0 rounded-2 no-underline"
-      :aria-current="isHome ? 'page' : undefined"
     >
       {{ t('common.brand') }}
     </RouterLink>

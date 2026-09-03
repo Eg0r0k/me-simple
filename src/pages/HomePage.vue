@@ -12,7 +12,7 @@ import { MAILTO, links } from '@/data/contact'
 import { experience } from '@/data/resume'
 import { projects } from '@/data/projects'
 import { routeLocation } from '@/router/route-locations'
-import IconCheck from '~icons/material-symbols/verified'
+import IconCheck from '~icons/material-symbols/verified-rounded'
 const { t } = useI18n()
 
 const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]

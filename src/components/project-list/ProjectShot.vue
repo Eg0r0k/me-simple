@@ -53,7 +53,7 @@ const TONE_INK: Record<ProjectTone, string> = {
       fetchpriority="low"
       draggable="false"
       :class="[
-        'absolute inset-0 size-full object-cover object-left-top select-none [transition:opacity_300ms_ease]',
+        'absolute inset-0 size-full object-cover object-left-top select-none [transition:opacity_var(--dur-reveal)_var(--ease-standard)] motion-reduce:transition-none',
         loaded ? 'opacity-100' : 'opacity-0',
       ]"
       @load="loaded = true"

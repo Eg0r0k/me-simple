@@ -49,7 +49,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
           <ProjectShot
             :project="project"
             :locale="previewLocale"
-            class="[transition:scale_300ms_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            class="[transition:scale_var(--dur-reveal)_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         </div>
 
