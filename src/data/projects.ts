@@ -8,7 +8,6 @@ export type ProjectTone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 export type PreviewLocale = 'ru' | 'en'
 
-// Кадр проекта: скриншот по языку либо команда для плашки, если скриншота нет.
 export type ProjectPreview =
   | { kind: 'image'; src: Partial<Record<PreviewLocale, string>> }
   | { kind: 'command'; command: string }

@@ -31,7 +31,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
     </Button>
 
     <header class="flex flex-col gap-[var(--space-3)]">
-      <span class="t-label">{{ counter }} · {{ t('projects.range') }}</span>
+      <span class="t-label">{{ counter }} &nbsp; {{ t('projects.range') }}</span>
       <h1 class="t-title m-0">{{ t('projects.title') }}</h1>
     </header>
 
@@ -43,13 +43,13 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
         :href="project.url"
         :target="project.url ? '_blank' : undefined"
         :rel="project.url ? 'noopener noreferrer' : undefined"
-        class="group press-scale flex flex-col gap-[var(--space-3)] rounded-card p-[var(--space-3)] no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk"
+        class="group press-scale flex flex-col gap-2 rounded-card p-2 no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] bg-surface"
       >
         <div class="overflow-hidden rounded-3">
           <ProjectShot
             :project="project"
             :locale="previewLocale"
-            class="[transition:scale_var(--dur-reveal)_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            class="[transition:scale_var(--dur-reveal)_var(--ease-standard)] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         </div>
 

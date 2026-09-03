@@ -13,13 +13,11 @@ const src = computed(() => resolvePreviewSrc(props.project.preview, props.locale
 const img = useTemplateRef<HTMLImageElement>('img')
 const loaded = ref(false)
 
-// Картинка из кэша уже готова к моменту монтирования: событие load не придёт.
 onMounted(() => {
   const el = img.value
   if (el && el.complete && el.naturalWidth > 0) loaded.value = true
 })
 
-// Новый кадр (смена языка) грузится заново и снова проявляется.
 watch(src, () => {
   loaded.value = false
 })
@@ -43,7 +41,6 @@ const TONE_INK: Record<ProjectTone, string> = {
 
 <template>
   <div class="relative aspect-video overflow-hidden bg-sunk">
-    <!-- alt пустой: название проекта стоит рядом текстом. -->
     <img
       v-if="src"
       ref="img"
