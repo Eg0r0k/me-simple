@@ -11,8 +11,20 @@ import { routeLocation } from '@/router/route-locations'
 
 const { t, locale } = useI18n()
 
+// Delays are plain numbers on purpose — computed ref in delay silently breaks the start
+const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
+const DELAY_HEADER = 0.06
+const DELAY_CARDS = 0.12
+const STAGGER = 0.05
+
 const counter = computed(() => t('projects.count', projects.length))
 const previewLocale = computed(() => toPreviewLocale(locale.value))
+
+const rise = (delay: number) => ({
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, delay, ease: EASE },
+})
 </script>
 
 <template>
@@ -20,6 +32,8 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
     class="mx-auto flex w-full max-w-[var(--column)] flex-col gap-[var(--space-8)] px-[var(--space-6)] pt-[var(--space-12)] pb-[var(--space-20)]"
   >
     <Button
+      v-motion
+      v-bind="rise(0)"
       :as="RouterLink"
       :to="routeLocation.home()"
       variant="ghost"
@@ -30,15 +44,17 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
       {{ t('projects.back') }}
     </Button>
 
-    <header class="flex flex-col gap-[var(--space-3)]">
+    <header v-motion v-bind="rise(DELAY_HEADER)" class="flex flex-col gap-[var(--space-3)]">
       <span class="t-label">{{ counter }} &nbsp; {{ t('projects.range') }}</span>
       <h1 class="t-title m-0">{{ t('projects.title') }}</h1>
     </header>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       <component
+        v-motion
+        v-bind="rise(DELAY_CARDS + index * STAGGER)"
         :is="project.url ? 'a' : 'article'"
-        v-for="project in projects"
+        v-for="(project, index) in projects"
         :key="project.slug"
         :href="project.url"
         :target="project.url ? '_blank' : undefined"
