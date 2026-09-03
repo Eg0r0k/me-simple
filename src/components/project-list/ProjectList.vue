@@ -27,6 +27,13 @@ const onPointerMove = (event: PointerEvent) => {
   pointerX.set(event.clientX)
   pointerY.set(event.clientY)
 }
+
+// pointerenter стоит перед pointermove в очереди событий, поэтому координаты
+// на первом наведении сеются здесь же, иначе карточка стартует из угла окна.
+const onRowEnter = (event: PointerEvent, slug: string) => {
+  onPointerMove(event)
+  hoveredSlug.value = slug
+}
 </script>
 
 <template>
@@ -44,7 +51,7 @@ const onPointerMove = (event: PointerEvent) => {
       :caption="t(project.captionKey)"
       :year="project.year"
       :trailing-icon="project.url ? IconArrowOutward : null"
-      @pointerenter="hoveredSlug = project.slug"
+      @pointerenter="onRowEnter($event, project.slug)"
     />
 
     <ProjectPreview

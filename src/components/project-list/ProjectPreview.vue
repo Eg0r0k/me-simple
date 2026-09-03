@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue'
 import type { MotionValue } from 'motion-v'
-import { motion, useSpring, useTransform } from 'motion-v'
+import { motion, useSpring, useTransform, useVelocity } from 'motion-v'
 import { usePreferredReducedMotion, useWindowSize } from '@vueuse/core'
 import type { PreviewLocale, Project } from '@/data/projects'
 import { CARD_HEIGHT, CARD_OFFSET, CARD_WIDTH, clampTilt, placeCard } from './preview'
@@ -27,8 +27,12 @@ const { width: viewportWidth } = useWindowSize()
 const x = useSpring(props.pointerX, FOLLOW)
 const y = useSpring(props.pointerY, FOLLOW)
 
+// getVelocity() сам по себе не подписывает useTransform: он не помечает себя как
+// прочитанный motion value, только get(). useVelocity(x) — отдельный motion value,
+// который сам обновляется каждый кадр и корректно триггерит tiltTarget.
+const xVelocity = useVelocity(x)
 // Наклон из скорости пружины по x, сам тоже через пружину, чтобы не дёргался.
-const tiltTarget = useTransform(() => (noMotion.value ? 0 : clampTilt(x.getVelocity())))
+const tiltTarget = useTransform(() => (noMotion.value ? 0 : clampTilt(xVelocity.get())))
 const rotate = useSpring(tiltTarget, TILT)
 
 // Сторона считается от текущего положения пружины: карточка перекидывается влево
