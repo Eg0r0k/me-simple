@@ -3,8 +3,7 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
-import { ProjectShot } from '@/components/project-list'
-import { toPreviewLocale } from '@/components/project-list/preview'
+import { ProjectShot, toPreviewLocale } from '@/components/project-list'
 import IconArrowBack from '~icons/material-symbols/arrow-back-rounded'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import { projects } from '@/data/projects'
@@ -20,7 +19,13 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
   <div
     class="mx-auto flex w-full max-w-[var(--column)] flex-col gap-[var(--space-8)] px-[var(--space-6)] pt-[var(--space-12)] pb-[var(--space-20)]"
   >
-    <Button :as="RouterLink" :to="routeLocation.home()" variant="ghost" size="sm" class="self-start">
+    <Button
+      :as="RouterLink"
+      :to="routeLocation.home()"
+      variant="ghost"
+      size="sm"
+      class="self-start -ms-[9px]"
+    >
       <IconArrowBack aria-hidden="true" />
       {{ t('projects.back') }}
     </Button>

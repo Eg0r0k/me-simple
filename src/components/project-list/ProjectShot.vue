@@ -36,6 +36,7 @@ const TONE_INK: Record<ProjectTone, string> = {
       alt=""
       decoding="async"
       draggable="false"
+      fetchpriority="low"
       class="absolute inset-0 size-full object-cover object-left-top select-none"
     />
     <div
