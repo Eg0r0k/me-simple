@@ -1,6 +1,7 @@
 {
   "title": "Contact",
-  "lead": "Reach me at any of these, I answer within a day.",
+  "lead": "Reach me at any of these, I answer within {day}.",
+  "day": "a day",
   "items": {
     "telegram": "Telegram",
     "github": "GitHub",
