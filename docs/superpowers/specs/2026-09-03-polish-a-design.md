@@ -70,10 +70,11 @@
 
 ## 5. Ховер карточек на `/projects`
 
-- Карточка получает класс `group`. Скриншот внутри обрезанной рамки:
-  `transition: transform 300ms var(--ease-standard)`, на ховере `scale(1.02)`.
-  Стрелка `arrow_outward`: `transition: transform var(--dur-hover) var(--ease-standard)`,
-  на ховере сдвиг `translate(2px, -2px)`.
+- Карточка получает класс `group`. Скриншот внутри обрезанной рамки: на ховере
+  `scale: 1.02`, переход `scale 300ms var(--ease-standard)`. Стрелка `arrow_outward`:
+  на ховере `translate: 2px -2px`, переход `translate var(--dur-hover) var(--ease-standard)`.
+  Tailwind 4 делает `scale-*` и `translate-*` нативными свойствами `scale`/`translate`,
+  а не `transform`, поэтому переход задаётся именно на них.
 - Только под `hover: hover` (Tailwind `hover:` так и работает). Под
   `prefers-reduced-motion: reduce` ховер-трансформы отключены (`motion-reduce:`).
 - Появлений при открытии страницы по-прежнему нет.
