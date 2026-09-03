@@ -35,7 +35,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
       <h1 class="t-title m-0">{{ t('projects.title') }}</h1>
     </header>
 
-    <div class="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2">
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
       <component
         :is="project.url ? 'a' : 'article'"
         v-for="project in projects"
@@ -43,7 +43,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
         :href="project.url"
         :target="project.url ? '_blank' : undefined"
         :rel="project.url ? 'noopener noreferrer' : undefined"
-        class="group press-scale flex flex-col gap-2 rounded-card p-2 no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] bg-surface"
+        class="group press-scale flex flex-col gap-[var(--space-3)] rounded-card p-2 no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] bg-surface"
       >
         <div class="overflow-hidden rounded-3">
           <ProjectShot
@@ -65,7 +65,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
               aria-hidden="true"
             />
           </div>
-          <p class="t-small m-0">{{ t(project.captionKey) }}</p>
+          <p class="m-0 text-sm t-label">{{ t(project.captionKey) }}</p>
         </div>
       </component>
     </div>
