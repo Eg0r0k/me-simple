@@ -26,8 +26,9 @@
     поверх `Map<string, number>`, неизвестный путь даёт `0`.
   - `useScrollMemory(router, host)` где `host: () => { get(): number; set(position): void } | null`.
     В `router.beforeEach` сохраняет `host().get()` для `from.fullPath` (если `from`
-    вообще был страницей, `from.matched.length > 0`). В `router.afterEach` после
-    `nextTick` вызывает `host().set(memory.restore(to.fullPath))`.
+    вообще был страницей, `from.matched.length > 0`). В `router.afterEach` после двух
+    `requestAnimationFrame` (страховка, чтобы новая страница успела разложиться; без rAF
+    падает на `nextTick`) вызывает `host().set(memory.restore(to.fullPath))`.
   - `App.vue` передаёт хост поверх `scrollable.container` (открытый `containerRef`):
     `get` читает `scrollTop`, `set` пишет `scrollTop`.
 - `scrollBehavior` из `src/router/index.ts` убирается: окно больше не прокручивается,
