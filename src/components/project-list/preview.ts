@@ -32,3 +32,10 @@ export function placeCard(
   const rightEdge = pointerX + CARD_OFFSET + cardWidth
   return rightEdge <= viewportWidth - VIEWPORT_MARGIN ? 'right' : 'left'
 }
+
+// Верх карточки: по центру курсора, но не ближе VIEWPORT_MARGIN к краям окна.
+export function clampCardY(pointerY: number, cardHeight: number, viewportHeight: number): number {
+  const top = pointerY - cardHeight / 2
+  const max = viewportHeight - cardHeight - VIEWPORT_MARGIN
+  return Math.min(Math.max(top, VIEWPORT_MARGIN), Math.max(VIEWPORT_MARGIN, max))
+}

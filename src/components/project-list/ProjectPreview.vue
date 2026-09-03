@@ -4,7 +4,15 @@ import type { MotionValue } from 'motion-v'
 import { motion, useSpring, useTransform, useVelocity } from 'motion-v'
 import { usePreferredReducedMotion, useWindowSize } from '@vueuse/core'
 import type { PreviewLocale, Project } from '@/data/projects'
-import { CARD_HEIGHT, CARD_OFFSET, CARD_WIDTH, clampTilt, placeCard } from './preview'
+import {
+  CARD_HEIGHT,
+  CARD_OFFSET,
+  CARD_WIDTH,
+  VIEWPORT_MARGIN,
+  clampCardY,
+  clampTilt,
+  placeCard,
+} from './preview'
 import ProjectShot from './ProjectShot.vue'
 
 const props = defineProps<{
@@ -21,7 +29,7 @@ const TILT = { stiffness: 200, damping: 30 }
 
 const reduced = usePreferredReducedMotion()
 const noMotion = computed(() => reduced.value === 'reduce')
-const { width: viewportWidth } = useWindowSize()
+const { width: viewportWidth, height: viewportHeight } = useWindowSize({ includeScrollbar: false })
 
 // Пружины идут за курсором; motion values обновляют DOM мимо рендера Vue.
 const x = useSpring(props.pointerX, FOLLOW)
@@ -36,14 +44,22 @@ const tiltTarget = useTransform(() => (noMotion.value ? 0 : clampTilt(xVelocity.
 const rotate = useSpring(tiltTarget, TILT)
 
 // Сторона считается от текущего положения пружины: карточка перекидывается влево
-// без анимации, когда её правый край упирается в поле окна.
+// без анимации, когда её правый край упирается в поле окна. Левая ветка сама
+// не даёт карточке уйти за левый край окна.
+// При reduced motion пружины не выключаются (useSpring не слушает MotionConfig),
+// поэтому здесь читаем сырые координаты курсора вместо x.get()/y.get() — тогда
+// карточка следует за курсором без задержки. useTransform пересобирает подписки
+// при каждом пересчёте, так что переключение noMotion подхватывается сразу.
 const translateX = useTransform(() => {
-  const px = x.get()
+  const px = noMotion.value ? props.pointerX.get() : x.get()
   return placeCard(px, CARD_WIDTH, viewportWidth.value) === 'right'
     ? px + CARD_OFFSET
-    : px - CARD_OFFSET - CARD_WIDTH
+    : Math.max(VIEWPORT_MARGIN, px - CARD_OFFSET - CARD_WIDTH)
 })
-const translateY = useTransform(() => y.get() - CARD_HEIGHT / 2)
+const translateY = useTransform(() => {
+  const py = noMotion.value ? props.pointerY.get() : y.get()
+  return clampCardY(py, CARD_HEIGHT, viewportHeight.value)
+})
 
 const visible = computed(() => props.activeSlug !== null)
 
@@ -62,8 +78,8 @@ watch(
 <template>
   <motion.div
     aria-hidden="true"
-    class="pointer-events-none fixed top-0 left-0 z-30 w-[280px] overflow-hidden rounded-3 bg-sunk shadow-2 will-change-transform"
-    :style="{ x: translateX, y: translateY, rotate }"
+    class="pointer-events-none fixed top-0 left-0 z-30 overflow-hidden rounded-3 bg-sunk shadow-2"
+    :style="{ x: translateX, y: translateY, rotate, width: `${CARD_WIDTH}px` }"
     :initial="false"
     :animate="{ opacity: visible ? 1 : 0, scale: visible || noMotion ? 1 : 0.96 }"
     :transition="{ duration: 0.18, ease: EASE }"
