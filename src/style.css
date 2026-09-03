@@ -307,7 +307,7 @@
   }
 
   /* Злая «me»: цвет и амплитуда тряски растут с --anger от 0 до 1. */
-  .brand-anger {
+  a.brand-anger {
     color: color-mix(in oklch, var(--fg), var(--danger) calc(var(--anger, 0) * 100%));
     transition:
       color var(--dur-hover) ease,
