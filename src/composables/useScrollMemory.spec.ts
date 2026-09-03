@@ -64,6 +64,17 @@ describe('useScrollMemory', () => {
     expect(host.set).toHaveBeenLastCalledWith(600)
   })
 
+  it('дублированная навигация не трогает позицию', async () => {
+    const { router, host, scroll } = setup()
+    await router.push('/')
+    await twoFrames()
+    scroll(600)
+    const callsBefore = host.set.mock.calls.length
+    await router.push('/').catch(() => {})
+    await twoFrames()
+    expect(host.set.mock.calls.length).toBe(callsBefore)
+  })
+
   it('без хоста ничего не делает и не падает', async () => {
     const router = createRouter({
       history: createMemoryHistory(),

@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { getCurrentScope, nextTick, onScopeDispose } from 'vue'
 import type { Router } from 'vue-router'
 
 export interface ScrollHost {
@@ -20,8 +20,8 @@ export function createScrollMemory() {
   }
 }
 
-// Ставить позицию можно только когда новая страница уже разложена браузером:
-// nextTick приходит раньше, до layout, и значение обрезается по высоте старой страницы.
+// Страховка: ставим позицию после отрисовки новой страницы, два кадра спустя;
+// без requestAnimationFrame падаем на nextTick.
 function afterPaint(callback: () => void) {
   if (typeof requestAnimationFrame === 'undefined') {
     void nextTick(callback)
@@ -35,16 +35,25 @@ function afterPaint(callback: () => void) {
 export function useScrollMemory(router: Router, host: () => ScrollHost | null) {
   const memory = createScrollMemory()
 
-  router.beforeEach((_to, from) => {
+  const stopBefore = router.beforeEach((_to, from) => {
     const current = host()
     if (current && from.matched.length > 0) {
       memory.save(from.fullPath, current.get())
     }
   })
 
-  router.afterEach((to) => {
+  const stopAfter = router.afterEach((to, _from, failure) => {
+    // При дублированной или отменённой навигации страница не меняется: позицию не трогаем.
+    if (failure) return
     afterPaint(() => host()?.set(memory.restore(to.fullPath)))
   })
+
+  if (getCurrentScope()) {
+    onScopeDispose(() => {
+      stopBefore()
+      stopAfter()
+    })
+  }
 
   return memory
 }
