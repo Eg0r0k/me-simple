@@ -19,7 +19,7 @@
 - Каждый нажимаемый элемент получает класс `press-scale`.
 - Мета-текст (счётчик, год) — класс `t-label`. Моно (`t-code`) только для `npm i lyra-audio`.
 - Иконки только `~icons/material-symbols/<name>-rounded`.
-- Reduced motion: `MotionConfig reduced-motion="user"` уже стоит в `App.vue`; внутри компонента дополнительно `usePreferredReducedMotion`.
+- Reduced motion: `MotionConfig reduced-motion="user"` в `App.vue` действует только на `:animate` у `motion.*`; пружины `useSpring` его не читают. Поэтому в компоненте `usePreferredReducedMotion` обязателен: под ним наклон 0, а позиция берётся из сырых значений курсора, минуя пружины.
 - Анимации появления секций только на главной. На `/projects` их нет.
 - `noUncheckedIndexedAccess` включён: индексация массива даёт `T | undefined`.
 - Комментарии в коде и тестах на русском, как в `src/lib/theme/clipPath.spec.ts`.
