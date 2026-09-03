@@ -19,7 +19,11 @@
   `opacity var(--dur-reveal) var(--ease-standard)`, `motion-reduce:transition-none`.
 - Картинка из кэша: если на монтировании слоя `img.complete && naturalWidth > 0`,
   слой сразу `loaded`.
-- Если новый `src` совпадает с верхним слоем, ничего не происходит.
+- Если новый `src` уже есть в стопке (на любой глубине), новый слой не создаётся: слои над
+  ним сбрасываются, и он снова становится верхним. Так быстрое переключение ru → en → ru
+  до загрузки en не плодит дубликаты.
+- Кадр, который не смог загрузиться (`error`), удаляется из стопки: остаётся прежний кадр,
+  а при первой загрузке подложка.
 - Плашка с командой (`kind: 'command'`) не меняется.
 - Подложка `--sunk` остаётся под стопкой, видна только до первой загрузки.
 
@@ -76,10 +80,12 @@
   - Таймер чистится в `onScopeDispose`.
 - `AppHeader.vue`: ссылка `me` получает `@click="poke"`, стиль
   `--anger: level`, класс `is-shaking` на время анимации (ставится по `shakeKey`,
-  снимается по `animationend`; повторный клик во время тряски перезапускает её через
-  снятие и постановку класса на следующем кадре).
+  снимается по `animationend.self`; повторный клик во время тряски перезапускает её:
+  класс снимается, после `nextTick` форсируется пересчёт стилей чтением `offsetWidth`,
+  и класс ставится снова. Под reduced motion класс не ставится вовсе).
 - Стили в `@layer components`:
-  - `.brand-anger { color: color-mix(in oklch, var(--fg), var(--danger) calc(var(--anger, 0) * 100%)); transition: color var(--dur-hover) ease; }`
+  - `a.brand-anger { color: color-mix(in oklch, var(--fg), var(--danger-ink) calc(var(--anger, 0) * 100%)); transition: color var(--dur-hover) ease; }`
+    (`--danger-ink`, а не `--danger`: на полной злости в светлой теме контраст остаётся выше 4.5:1).
   - `.brand-anger.is-shaking { animation: brand-shake 0.35s var(--ease-standard); }`
   - `@keyframes brand-shake` сдвигает по x на `calc(-2px - 6px * var(--anger))` и
     обратно, четыре качания, плюс поворот `calc(-1deg - 3deg * var(--anger))`.
