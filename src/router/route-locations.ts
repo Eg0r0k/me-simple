@@ -3,4 +3,5 @@ import { ROUTE_NAMES } from '@/router/route-names'
 
 export const routeLocation = {
   home: (): RouteLocationRaw => ({ name: ROUTE_NAMES.HOME }),
+  projects: (): RouteLocationRaw => ({ name: ROUTE_NAMES.PROJECTS }),
 } as const

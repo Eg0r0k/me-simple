@@ -4,6 +4,7 @@
   "range": "2024—2025",
   "all": "all projects",
   "open": "open",
+  "back": "Back home",
   "items": {
     "audiogram": "Tauri player: library, equaliser, recommendations.",
     "lyraAudio": "Browser audio: Web Audio API, equaliser, HLS.",

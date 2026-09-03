@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { ListRow } from '@/components/ui/list-row'
 import { ProjectList } from '@/components/project-list'
 import IconMail from '~icons/material-symbols/mail-rounded'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
+import IconArrowForward from '~icons/material-symbols/arrow-forward-rounded'
 import { MAILTO, links } from '@/data/contact'
 import { experience } from '@/data/resume'
 import { projects } from '@/data/projects'
+import { routeLocation } from '@/router/route-locations'
 import IconCheck from '~icons/material-symbols/verified'
 const { t } = useI18n()
 
@@ -71,9 +74,21 @@ const socials = links.filter((link) => link.id !== 'email')
     </section>
 
     <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-4)]">
-      <h2 class="m-0 text-[13.5px] font-semibold text-muted-foreground">
-        {{ t('projects.title') }}
-      </h2>
+      <RouterLink
+        :to="routeLocation.projects()"
+        class="press-scale group -mx-[12px] flex min-h-[44px] items-center justify-between rounded-3 px-[12px] no-underline"
+      >
+        <h2
+          class="m-0 flex items-center gap-1 text-[13.5px] font-semibold text-muted-foreground [transition:color_var(--dur-hover)_ease] group-hover:text-fg"
+        >
+          {{ t('projects.title') }}
+          <IconArrowForward
+            class="size-4 text-faint [transition:color_var(--dur-hover)_ease] group-hover:text-fg"
+            aria-hidden="true"
+          />
+        </h2>
+        <span class="t-label">{{ t('projects.count', projects.length) }}</span>
+      </RouterLink>
 
       <ProjectList :projects="projects" />
     </section>
