@@ -112,4 +112,15 @@ describe('ProjectShot', () => {
     await wrapper.setProps({ locale: 'en' })
     expect(wrapper.findAll('img')).toHaveLength(1)
   })
+
+  it('быстрое переключение туда-обратно не плодит дублирующиеся слои', async () => {
+    const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
+    await wrapper.get('img').trigger('load')
+    await wrapper.setProps({ locale: 'en' })
+    await wrapper.setProps({ locale: 'ru' })
+    const imgs = wrapper.findAll('img')
+    expect(imgs).toHaveLength(1)
+    expect(imgs[0]!.attributes('src')).toContain('ru')
+    expect(imgs[0]!.classes()).toContain('opacity-100')
+  })
 })

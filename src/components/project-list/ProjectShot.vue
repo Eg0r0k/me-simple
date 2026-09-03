@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import type { PreviewLocale, Project, ProjectTone } from '@/data/projects'
 import { resolvePreviewSrc } from './preview'
 
@@ -28,7 +28,13 @@ watch(
       layers.value = []
       return
     }
-    if (layers.value.at(-1)?.src === next) return
+    // Кадр уже есть в стопке (напр. быстрое ru→en→ru) — не дублировать слой,
+    // а вернуть его на вершину, обрезав всё, что успело лечь сверху.
+    const index = layers.value.findIndex((layer) => layer.src === next)
+    if (index >= 0) {
+      layers.value.splice(index + 1)
+      return
+    }
     layers.value.push({ src: next, loaded: false })
   },
   { immediate: true },
@@ -42,6 +48,8 @@ function markLoaded(layer: Layer) {
     if (index > 0) layers.value.splice(0, index)
   }, REVEAL_MS)
 }
+
+onUnmounted(() => clearTimeout(sweep))
 
 // Кадр из кэша может быть готов до того, как навесится обработчик load.
 function checkComplete(el: unknown, layer: Layer) {
