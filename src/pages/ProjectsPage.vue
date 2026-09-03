@@ -43,10 +43,14 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
         :href="project.url"
         :target="project.url ? '_blank' : undefined"
         :rel="project.url ? 'noopener noreferrer' : undefined"
-        class="press-scale flex flex-col gap-[var(--space-3)] rounded-card p-[var(--space-3)] no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk"
+        class="group press-scale flex flex-col gap-[var(--space-3)] rounded-card p-[var(--space-3)] no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk"
       >
         <div class="overflow-hidden rounded-3">
-          <ProjectShot :project="project" :locale="previewLocale" />
+          <ProjectShot
+            :project="project"
+            :locale="previewLocale"
+            class="[transition:transform_300ms_var(--ease-standard)] group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          />
         </div>
 
         <div class="flex flex-col gap-1 px-1">
@@ -57,7 +61,7 @@ const previewLocale = computed(() => toPreviewLocale(locale.value))
             <span class="ms-auto t-label">{{ project.year }}</span>
             <IconArrowOutward
               v-if="project.url"
-              class="size-5 shrink-0 text-faint"
+              class="size-5 shrink-0 text-faint [transition:transform_var(--dur-hover)_var(--ease-standard)] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0"
               aria-hidden="true"
             />
           </div>
