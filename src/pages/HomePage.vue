@@ -121,7 +121,7 @@ const socials = links.filter((link) => link.id !== 'email')
         <h2 class="m-0 text-[13.5px] font-semibold text-muted-foreground">
           {{ t('contact.title') }}
         </h2>
-        <I18nT keypath="contact.lead" tag="p" class="t-body text-muted-foreground">
+        <I18nT keypath="contact.lead" tag="p" scope="global" class="t-body text-muted-foreground">
           <template #day>
             <Marker>{{ t('contact.day') }}</Marker>
           </template>
