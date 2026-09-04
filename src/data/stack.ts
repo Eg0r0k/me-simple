@@ -13,5 +13,10 @@ export interface StackItem {
 export const stack: StackItem[] = [
   { id: 'vue', label: 'Vue', url: 'https://vuejs.org/', icon: IconVue },
   { id: 'nuxt', label: 'Nuxt', url: 'https://nuxt.com/', icon: IconNuxt },
-  { id: 'typescript', label: 'TypeScript', url: 'https://www.typescriptlang.org/', icon: IconTypeScript },
+  {
+    id: 'typescript',
+    label: 'TypeScript',
+    url: 'https://www.typescriptlang.org/',
+    icon: IconTypeScript,
+  },
 ]

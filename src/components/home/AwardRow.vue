@@ -17,7 +17,8 @@ defineProps<{
     :rel="url ? 'noopener noreferrer' : undefined"
     :class="[
       'flex items-baseline gap-[16px] -mx-[12px] rounded-4 px-[12px] py-[var(--row)] text-fg no-underline',
-      url && 'press-scale [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk',
+      url &&
+        'press-scale [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk',
     ]"
     :data-cuelume-hover="url ? 'whisper' : undefined"
   >
@@ -26,6 +27,10 @@ defineProps<{
       <span class="text-[15.5px] font-semibold tracking-[-0.012em]">{{ title }}</span>
       <span class="t-small">{{ subtitle }}</span>
     </span>
-    <IconArrowOutward v-if="url" class="size-5 shrink-0 self-center text-faint" aria-hidden="true" />
+    <IconArrowOutward
+      v-if="url"
+      class="size-5 shrink-0 self-center text-faint"
+      aria-hidden="true"
+    />
   </component>
 </template>

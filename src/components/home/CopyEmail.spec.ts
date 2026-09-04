@@ -3,8 +3,13 @@ import { mount } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
 import CopyEmail from './CopyEmail.vue'
 
-const i18n = createI18n({ legacy: false, locale: 'ru', messages: { ru: { contact: { copied: 'Скопировано' } } } })
-const mountEmail = () => mount(CopyEmail, { props: { email: 'a@b.c' }, global: { plugins: [i18n] } })
+const i18n = createI18n({
+  legacy: false,
+  locale: 'ru',
+  messages: { ru: { contact: { copied: 'Скопировано' } } },
+})
+const mountEmail = () =>
+  mount(CopyEmail, { props: { email: 'a@b.c' }, global: { plugins: [i18n] } })
 
 describe('CopyEmail', () => {
   beforeEach(() => vi.useFakeTimers())

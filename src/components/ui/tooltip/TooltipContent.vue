@@ -7,10 +7,13 @@ import { cn } from '@/lib/utils'
 
 defineOptions({ inheritAttrs: false })
 
-const props = withDefaults(defineProps<TooltipContentProps & { class?: HTMLAttributes['class'] }>(), {
-  side: 'bottom',
-  sideOffset: 8,
-})
+const props = withDefaults(
+  defineProps<TooltipContentProps & { class?: HTMLAttributes['class'] }>(),
+  {
+    side: 'bottom',
+    sideOffset: 8,
+  },
+)
 const emits = defineEmits<TooltipContentEmits>()
 const forwarded = useForwardPropsEmits(reactiveOmit(props, 'class'), emits)
 </script>

@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  nextTick,
-  ref,
-  useTemplateRef,
-  watch,
-  type ComponentPublicInstance,
-} from 'vue'
+import { nextTick, ref, useTemplateRef, watch, type ComponentPublicInstance } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'

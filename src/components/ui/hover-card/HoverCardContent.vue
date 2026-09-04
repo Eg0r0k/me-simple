@@ -7,10 +7,13 @@ import { cn } from '@/lib/utils'
 
 defineOptions({ inheritAttrs: false })
 
-const props = withDefaults(defineProps<HoverCardContentProps & { class?: HTMLAttributes['class'] }>(), {
-  side: 'top',
-  sideOffset: 8,
-})
+const props = withDefaults(
+  defineProps<HoverCardContentProps & { class?: HTMLAttributes['class'] }>(),
+  {
+    side: 'top',
+    sideOffset: 8,
+  },
+)
 const forwarded = useForwardProps(reactiveOmit(props, 'class'))
 </script>
 

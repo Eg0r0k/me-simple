@@ -25,7 +25,9 @@ describe('createScrollMemory', () => {
 // Восстановление уходит через двойной requestAnimationFrame, поэтому ждём два кадра,
 // а не микротаску nextTick — иначе позиция ставится раньше, чем страница разложена.
 const twoFrames = () =>
-  new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+  new Promise<void>((resolve) =>
+    requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+  )
 
 describe('useScrollMemory', () => {
   const Page = { template: '<div />' }

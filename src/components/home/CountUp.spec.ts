@@ -19,7 +19,9 @@ describe('CountUp', () => {
   beforeEach(() => {
     vi.useFakeTimers()
     // rAF через таймеры, чтобы крутить кадры руками
-    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => setTimeout(() => cb(performance.now()), 16))
+    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) =>
+      setTimeout(() => cb(performance.now()), 16),
+    )
   })
   afterEach(() => {
     vi.useRealTimers()
