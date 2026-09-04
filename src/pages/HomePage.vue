@@ -100,7 +100,7 @@ onMounted(() => {
           </p>
         </span>
       </div>
-      <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">
+      <div class="flex flex-col gap-[var(--space-3)]">
         <I18nT
           v-motion
           v-bind="rise(DELAY_LEAD)"
@@ -208,7 +208,7 @@ onMounted(() => {
     </section>
 
     <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-6)]">
-      <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">
+      <div class="flex flex-col gap-[var(--space-3)]">
         <h2 class="m-0 text-[13.5px] font-semibold text-muted-foreground">
           {{ t('contact.title') }}
         </h2>

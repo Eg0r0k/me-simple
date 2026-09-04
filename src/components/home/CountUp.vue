@@ -41,7 +41,7 @@ onScopeDispose(() => {
 <template>
   <span class="inline-block">
     <span
-      class="t-hand inline-block min-w-[1.1ch] align-[-0.08em] text-[1.45em] tabular-nums text-primary"
+      class="t-hand inline-block min-w-[1.1ch] align-[-0.08em] text-[1.45em] tabular-nums"
       aria-hidden="true"
       >{{ shown }}</span
     >
