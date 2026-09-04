@@ -1,0 +1,7 @@
+{
+  "items": {
+    "procifru": { "title": "PROTSIFRU", "subtitle": "winner" },
+    "yandexCup": { "title": "Yandex Cup, Frontend", "subtitle": "semi-finalist" },
+    "hackathons": { "title": "Gazprom and Mosprom hackathons", "subtitle": "finalist" }
+  }
+}

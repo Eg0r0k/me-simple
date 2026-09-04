@@ -7,6 +7,7 @@
   "city": "Moscow",
   "remote": "remotely",
   "open": "open to offers",
+  "more": "I like work where sound and graphics meet the web: a Tauri player, a Web Audio library, a microphone tuner. All of it open source.",
   "notes": {
     "city": "GMT+3, Europe/Moscow",
     "remote": { "title": "From home, on Moscow time", "text": "calls 10:00–19:00, open to business trips" },

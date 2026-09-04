@@ -15,8 +15,10 @@ import { routeLocation } from '@/router/route-locations'
 import IconCheck from '~icons/material-symbols/verified-rounded'
 import TechChip from '@/components/home/TechChip.vue'
 import HoverNote from '@/components/home/HoverNote.vue'
+import AwardRow from '@/components/home/AwardRow.vue'
 import { useMoscowTime } from '@/composables/useMoscowTime'
 import { stack } from '@/data/stack'
+import { awards } from '@/data/awards'
 const { t } = useI18n()
 const { time } = useMoscowTime()
 
@@ -25,6 +27,8 @@ const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
 const DELAY_FACE = 0
 const DELAY_LEAD = 0.08
 const DELAY_TECH = 0.14
+const DELAY_MORE = 0.2
+const DELAY_AWARDS = 0.26
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 8 },
@@ -100,6 +104,20 @@ const socials = links.filter((link) => link.id !== 'email')
             }}</HoverNote>
           </template>
         </I18nT>
+        <p v-motion v-bind="rise(DELAY_MORE)" class="t-body text-muted-foreground">
+          {{ t('home.more') }}
+        </p>
+      </div>
+
+      <div v-motion v-bind="rise(DELAY_AWARDS)" class="flex flex-col">
+        <AwardRow
+          v-for="award in awards"
+          :key="award.id"
+          :year="award.year"
+          :title="t(`awards.items.${award.id}.title`)"
+          :subtitle="t(`awards.items.${award.id}.subtitle`)"
+          :url="award.url"
+        />
       </div>
     </section>
 
