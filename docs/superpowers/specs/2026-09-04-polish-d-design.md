@@ -46,9 +46,28 @@ scan arrival`.
 - Тесты: `useSound` не тестируется (обёртка над библиотекой); проверка руками с
   включённым звуком.
 
-## 3. Акцент на «четыре года на Vue 3 и TypeScript»
+## 3. Акцент на «четыре года на Vue 3 и TypeScript» (вариант N)
 
-Выбирается по мокапу (L, M или N); раздел дописывается после выбора.
+- Первая строка `home.lead` получает плейсхолдеры: ru «{years} года на {stack}, делаю
+  интерфейсы, которые не тормозят.», en «{years} years with {stack}, building
+  interfaces that do not stutter.». Ключи: `home.years` «4», `home.stack` «Vue 3 и
+  TypeScript» / «Vue 3 and TypeScript». Рендер через `I18nT` (`scope="global"`,
+  `tag="p"`, те же классы и `rise(DELAY_LEAD)`).
+- Слот `years`: компонент `CountUp` (`src/components/home/CountUp.vue`, пропсы
+  `{ to: number; duration?: number (550); delay?: number (300) }`): рукописная цифра
+  классом `t-hand` 1.45em, `--primary`, `vertical-align: -0.08em`, `min-width: 1.1ch`,
+  `font-variant-numeric: tabular-nums`. После монтирования через `delay` мс считает от
+  0 до `to` за `duration` мс с замедлением (ease-out cubic) по `requestAnimationFrame`.
+  Один раз. Под `prefers-reduced-motion: reduce` и без rAF показывает `to` сразу.
+  Для скринридера: анимируемый текст `aria-hidden`, рядом `sr-only` с итоговым числом.
+- Слот `stack`: `span.tech-line` цвета `--fg` весом 500 с `::after` линией 2px
+  `--primary` радиусом 2px под текстом (`bottom: -2px`), `scaleX(0)` от левого края,
+  класс `is-on` выставляется после монтирования (следующий кадр) и даёт `scaleX(1)` с
+  переходом `transform 0.5s var(--ease-standard) 0.85s` (после счётчика). Под reduced
+  motion линия видна сразу без перехода. Стили в `src/style.css` `@layer components`.
+- Тесты `CountUp.spec.ts`: с фейковыми таймерами и застабленным rAF число доходит до
+  `to` и не больше; с reduced motion (застабленный `matchMedia`) сразу `to`;
+  `sr-only` содержит `to`.
 
 ## Ограничения дизайн-системы
 
