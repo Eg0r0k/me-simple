@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {
   nextTick,
-  onMounted,
-  onUnmounted,
   ref,
   useTemplateRef,
   watch,
@@ -28,6 +26,7 @@ import { useTheme } from '@/composables/useTheme'
 import { useLocale } from '@/composables/useLocale'
 import { useSound } from '@/composables/useSound'
 import { useAnger } from '@/composables/useAnger'
+import { useMoscowTime } from '@/composables/useMoscowTime'
 import { routeLocation } from '@/router/route-locations'
 import { usePreferredReducedMotion } from '@vueuse/core'
 
@@ -70,23 +69,7 @@ const selectLanguage = (code: SupportedLanguage) => {
   setLanguage(code)
 }
 
-const time = ref('')
-let timer: ReturnType<typeof setInterval>
-
-function updateTime() {
-  time.value = new Date().toLocaleTimeString('ru-RU', {
-    timeZone: 'Europe/Moscow',
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-}
-
-onMounted(() => {
-  updateTime()
-  timer = setInterval(updateTime, 1000)
-})
-
-onUnmounted(() => clearInterval(timer))
+const { time } = useMoscowTime()
 </script>
 
 <template>
