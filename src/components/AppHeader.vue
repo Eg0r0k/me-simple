@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import {
+  nextTick,
+  onMounted,
+  onUnmounted,
+  ref,
+  useTemplateRef,
+  watch,
+  type ComponentPublicInstance,
+} from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
@@ -21,6 +29,7 @@ import { useLocale } from '@/composables/useLocale'
 import { useSound } from '@/composables/useSound'
 import { useAnger } from '@/composables/useAnger'
 import { routeLocation } from '@/router/route-locations'
+import { usePreferredReducedMotion } from '@vueuse/core'
 
 const { t } = useI18n()
 const { isDark, toggleTheme } = useTheme()
@@ -29,13 +38,17 @@ const { cue } = useSound()
 
 const { level: anger, shakeKey, poke } = useAnger()
 const shaking = ref(false)
+const brand = useTemplateRef<ComponentPublicInstance>('brand')
+const reduced = usePreferredReducedMotion()
 
-// Повторный клик во время тряски: снять класс и вернуть на следующем кадре, чтобы анимация началась заново.
-watch(shakeKey, () => {
+// Повторный клик во время тряски: снять класс, форсировать пересчёт стилей и вернуть, чтобы анимация началась заново.
+watch(shakeKey, async () => {
+  if (reduced.value === 'reduce') return
   shaking.value = false
-  requestAnimationFrame(() => {
-    shaking.value = true
-  })
+  await nextTick()
+  const el = brand.value?.$el as HTMLElement | undefined
+  void el?.offsetWidth // форсируем пересчёт стилей, иначе анимация не перезапустится
+  shaking.value = true
 })
 
 const onBrandClick = () => {
@@ -81,12 +94,13 @@ onUnmounted(() => clearInterval(timer))
     class="mx-auto flex h-[72px] w-full max-w-[var(--column)] items-center gap-[var(--space-4)] px-[var(--space-6)]"
   >
     <RouterLink
+      ref="brand"
       :to="routeLocation.home()"
       class="brand-anger press-scale t-subheading shrink-0 rounded-2 no-underline"
       :class="{ 'is-shaking': shaking }"
       :style="{ '--anger': anger }"
       @click="onBrandClick"
-      @animationend="shaking = false"
+      @animationend.self="shaking = false"
     >
       {{ t('common.brand') }}
     </RouterLink>

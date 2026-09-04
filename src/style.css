@@ -308,7 +308,7 @@
 
   /* Злая «me»: цвет и амплитуда тряски растут с --anger от 0 до 1. */
   a.brand-anger {
-    color: color-mix(in oklch, var(--fg), var(--danger) calc(var(--anger, 0) * 100%));
+    color: color-mix(in oklch, var(--fg), var(--danger-ink) calc(var(--anger, 0) * 100%));
     transition:
       color var(--dur-hover) ease,
       transform var(--dur-press) var(--ease-standard);
@@ -344,7 +344,7 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
-    margin: 0 0.25em;
+    margin-inline: 0.3em 0.55em;
   }
 
   .pen-stroke-ink {
