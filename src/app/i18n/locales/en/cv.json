@@ -1,0 +1,64 @@
+{
+  "title": "CV",
+  "print": "Save as PDF",
+  "location": "Moscow, remote",
+  "summary": "Frontend developer with four years of commercial work on Vue 3, TypeScript and Nuxt. I build design systems, speed up SSR and SPA apps, and shape data layers on TanStack Query and WebSocket. In my free time I make open source about sound.",
+  "sections": {
+    "summary": "Summary",
+    "experience": "Experience",
+    "projects": "Projects",
+    "skills": "Stack",
+    "education": "Education",
+    "languages": "Languages",
+    "awards": "Competitions"
+  },
+  "jobs": {
+    "own": {
+      "company": "Own projects",
+      "role": "Frontend developer",
+      "period": "2026 — now",
+      "bullets": [
+        "Audiogram: a desktop player on Tauri 2, Vue 3 and TypeScript, 400+ commits and public releases.",
+        "lyra-audio: a browser audio library on the Web Audio API with an equaliser and HLS, published on npm.",
+        "TypeMore: a multiplayer typing trainer on Vue 3 and WebSocket with ratings and anti-cheat."
+      ]
+    },
+    "codeMasters": {
+      "company": "Code Masters",
+      "role": "Middle Frontend developer",
+      "period": "November 2023 — December 2025",
+      "bullets": [
+        "Designed and shipped a 25-component UI library on Vue 3, Nuxt and TypeScript that the company's internal products are built on.",
+        "Cut LCP from 2.5 to 1.2 seconds and raised Lighthouse by 30 points: code splitting, lazy loading, caching.",
+        "Built the data layer on TanStack Query with targeted caching and optimistic updates.",
+        "Optimised an SSR app for SEO and added RU/EN localisation.",
+        "Built filtering and search over tables of 1000+ rows with virtual scrolling.",
+        "Onboarded three developers and helped set up code review in a team of five."
+      ]
+    },
+    "novaCode": {
+      "company": "NovaCode Systems",
+      "role": "Frontend developer",
+      "period": "August 2022 — October 2023",
+      "bullets": [
+        "Designed a UI component system from scratch on Vue 3, TypeScript and shadcn with light and dark themes.",
+        "Built responsive, pixel-perfect layouts for six key pages from Figma.",
+        "Improved FCP, LCP and TTI by about 40% in Lighthouse through rendering and asset loading work.",
+        "Shipped a PWA with an offline mode on Service Workers.",
+        "Agreed API contracts with the Java and Spring backend over OpenAPI and typed the data in TypeScript."
+      ]
+    }
+  },
+  "skills": {
+    "frontend": "Frontend",
+    "data": "Data",
+    "ui": "UI",
+    "tools": "Tools"
+  },
+  "education": {
+    "degree": "Associate degree, 2025",
+    "school": "College No. 4, Moscow",
+    "field": "Information systems and programming"
+  },
+  "languages": ["Russian — native", "English — B1"]
+}

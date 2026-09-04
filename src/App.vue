@@ -1,10 +1,10 @@
 <template>
   <MotionConfig :reduced-motion="'user'">
-    <div class="flex h-dvh flex-col bg-background">
+    <div class="flex h-dvh flex-col bg-background print:block print:h-auto">
       <AppHeader class="shrink-0" />
 
       <Scrollable ref="scrollable" class="min-h-0 flex-1" focusable :label="t('common.content')">
-        <main class="pb-(--space-20)">
+        <main class="pb-(--space-20) print:pb-0">
           <RouterView />
         </main>
       </Scrollable>

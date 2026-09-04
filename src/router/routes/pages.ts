@@ -13,6 +13,11 @@ export const pageRoutes: RouteRecordRaw[] = [
     component: () => import('@/pages/ProjectsPage.vue'),
   },
   {
+    path: '/cv',
+    name: ROUTE_NAMES.CV,
+    component: () => import('@/pages/CvPage.vue'),
+  },
+  {
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },

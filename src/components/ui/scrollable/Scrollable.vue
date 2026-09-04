@@ -277,4 +277,24 @@ defineExpose({
 .scrollable-thumb.is-focused {
   background: var(--muted);
 }
+
+@media print {
+  .scrollable-wrapper,
+  .scrollable-direction-y {
+    height: auto;
+    overflow: visible !important;
+  }
+
+  .scrollable,
+  .scrollable-y {
+    position: static;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .scrollable-thumb-container {
+    display: none;
+  }
+}
 </style>

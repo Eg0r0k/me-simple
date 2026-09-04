@@ -9,10 +9,17 @@ export interface Job {
   period: string
   tone: ProjectTone
   icon: Component
+  url?: string
 }
 
 export const experience: Job[] = [
   { id: 'own', period: '', tone: 'mint', icon: IconBolt },
-  { id: 'codeMasters', period: '2023—2025', tone: 'sky', icon: IconDashboard },
+  {
+    id: 'codeMasters',
+    period: '2023—2025',
+    tone: 'sky',
+    icon: IconDashboard,
+    url: 'https://botb2b.ru',
+  },
   { id: 'novaCode', period: '2022—2023', tone: 'peri', icon: IconPalette },
 ]

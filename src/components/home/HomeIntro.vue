@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { I18nT, useI18n } from 'vue-i18n'
+import { RouterLink } from 'vue-router'
 import IconCheck from '~icons/material-symbols/verified-rounded'
 import type { StackItem } from '@/data/stack'
 import { useMoscowTime } from '@/composables/useMoscowTime'
 import { nextFrame } from '@/lib/frame'
 import { rise } from '@/lib/motion'
 import { publicUrl } from '@/lib/site'
+import { routeLocation } from '@/router/route-locations'
 import TechChip from './TechChip.vue'
 import HoverNote from './HoverNote.vue'
 import CountUp from './CountUp.vue'
@@ -56,7 +58,12 @@ onMounted(() => {
 
       <span class="flex min-w-0 flex-col leading-[1.45]">
         <h1 class="m-0 text-[16px] font-semibold tracking-[-0.012em] text-fg">
-          {{ t('home.name') }}
+          <RouterLink
+            :to="routeLocation.cv()"
+            :title="t('cv.title')"
+            class="rounded-1 text-fg underline decoration-primary/35 decoration-[1.5px] underline-offset-[3px] [transition:text-decoration-color_var(--dur-hover)_ease] hover:decoration-primary"
+            >{{ t('home.name') }}</RouterLink
+          >
           <IconCheck class="inline text-primary size-4 ml-1" />
         </h1>
         <p

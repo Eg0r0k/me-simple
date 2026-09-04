@@ -15,7 +15,7 @@ const HEADER_ACTION =
 
 <template>
   <header
-    class="mx-auto flex h-18 w-full max-w-(--column) items-center gap-(--space-4) px-(--space-6)"
+    class="print:hidden mx-auto flex h-18 w-full max-w-(--column) items-center gap-(--space-4) px-(--space-6)"
   >
     <BrandLink />
 

@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button'
 import { PenStroke } from '@/components/ui/pen-stroke'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import IconMail from '~icons/material-symbols/mail-rounded'
+import IconDescription from '~icons/material-symbols/description-rounded'
+import { RouterLink } from 'vue-router'
+import { routeLocation } from '@/router/route-locations'
 import type { ContactLink } from '@/data/contact'
 import { externalLinkAttrs } from '@/lib/links'
 import { reveal } from '@/lib/motion'
@@ -37,6 +40,10 @@ const { t } = useI18n()
         <Button as="a" :href="mailto" size="lg">
           <IconMail aria-hidden="true" />
           {{ t('home.actions.write') }}
+        </Button>
+        <Button :as="RouterLink" :to="routeLocation.cv()" variant="secondary" size="lg">
+          <IconDescription aria-hidden="true" />
+          {{ t('cv.title') }}
         </Button>
 
         <TooltipProvider>
