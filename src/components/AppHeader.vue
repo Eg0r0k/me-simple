@@ -55,6 +55,8 @@ const onBrandClick = () => {
   poke()
 }
 
+const onMenuToggle = (open: boolean) => cue(open ? 'bloom' : 'whisper')
+
 // На телефоне тап-таргет 44px, с sm и шире — обычный icon-sm 32px.
 const HEADER_ACTION =
   "size-[44px] rounded-4 [&_svg:not([class*='size-'])]:size-[20px] sm:size-[32px] sm:rounded-2 sm:[&_svg:not([class*='size-'])]:size-[16px]"
@@ -82,6 +84,7 @@ const { time } = useMoscowTime()
       class="brand-anger press-scale t-subheading shrink-0 rounded-2 no-underline"
       :class="{ 'is-shaking': shaking }"
       :style="{ '--anger': anger }"
+      data-cuelume-hover="whisper"
       @click="onBrandClick"
       @animationend.self="shaking = false"
     >
@@ -91,13 +94,14 @@ const { time } = useMoscowTime()
     <span class="ms-auto flex items-center gap-[var(--space-2)]">
       <span class="t-label hidden sm:block">{{ time }} {{ t('common.timezone') }}</span>
 
-      <DropdownMenu>
+      <DropdownMenu @update:open="onMenuToggle">
         <DropdownMenuTrigger as-child>
           <Button
             variant="ghost"
             size="icon-sm"
             :class="HEADER_ACTION"
             :aria-label="t('common.language.trigger')"
+            data-cuelume-hover="whisper"
           >
             <IconTranslate aria-hidden="true" />
           </Button>
@@ -119,13 +123,14 @@ const { time } = useMoscowTime()
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <SoundToggle :class="HEADER_ACTION" />
+      <SoundToggle :class="HEADER_ACTION" data-cuelume-hover="whisper" />
 
       <Button
         variant="ghost"
         size="icon-sm"
         :class="HEADER_ACTION"
         :aria-label="isDark ? t('common.theme.toLight') : t('common.theme.toDark')"
+        data-cuelume-hover="whisper"
         @click="switchTheme"
       >
         <component :is="isDark ? IconLightMode : IconDarkMode" aria-hidden="true" />

@@ -39,6 +39,7 @@ const rise = (delay: number) => ({
       variant="ghost"
       size="sm"
       class="self-start -ms-[9px]"
+      data-cuelume-hover="whisper"
     >
       <IconArrowBack aria-hidden="true" />
       {{ t('projects.back') }}
@@ -60,6 +61,7 @@ const rise = (delay: number) => ({
         :target="project.url ? '_blank' : undefined"
         :rel="project.url ? 'noopener noreferrer' : undefined"
         class="group press-scale flex flex-col gap-[var(--space-3)] rounded-card p-2 no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] bg-surface"
+        data-cuelume-hover="whisper"
       >
         <div class="overflow-hidden rounded-3">
           <ProjectShot

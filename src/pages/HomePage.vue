@@ -70,10 +70,18 @@ const socials = links.filter((link) => link.id !== 'email')
             {{ t('home.name') }}
             <IconCheck class="inline text-primary size-4 ml-1" />
           </h1>
-          <p class="m-0 flex flex-wrap items-center gap-x-[10px] gap-y-[2px] text-[16px] text-muted-foreground">
+          <p
+            class="m-0 flex flex-wrap items-center gap-x-[10px] gap-y-[2px] text-[16px] text-muted-foreground"
+          >
             {{ t('home.role') }}
             <span class="inline-flex items-center gap-[2px]">
-              <TechChip v-for="item in stack" :key="item.id" :label="item.label" :url="item.url" :icon="item.icon" />
+              <TechChip
+                v-for="item in stack"
+                :key="item.id"
+                :label="item.label"
+                :url="item.url"
+                :icon="item.icon"
+              />
             </span>
           </p>
         </span>
@@ -99,9 +107,13 @@ const socials = links.filter((link) => link.id !== 'email')
             }}</HoverNote>
           </template>
           <template #open>
-            <HoverNote :href="MAILTO" :title="t('home.notes.open.title')" :text="`${EMAIL}, ${t('home.notes.open.text')}`" dot>{{
-              t('home.open')
-            }}</HoverNote>
+            <HoverNote
+              :href="MAILTO"
+              :title="t('home.notes.open.title')"
+              :text="`${EMAIL}, ${t('home.notes.open.text')}`"
+              dot
+              >{{ t('home.open') }}</HoverNote
+            >
           </template>
         </I18nT>
         <p v-motion v-bind="rise(DELAY_MORE)" class="t-body text-muted-foreground">
@@ -114,6 +126,7 @@ const socials = links.filter((link) => link.id !== 'email')
       <RouterLink
         :to="routeLocation.projects()"
         class="press-scale group -mx-[12px] flex min-h-[44px] items-center justify-between rounded-3 px-[12px] no-underline"
+        data-cuelume-hover="whisper"
       >
         <h2
           class="m-0 flex items-center gap-1 text-[13.5px] font-semibold text-muted-foreground [transition:color_var(--dur-hover)_ease] group-hover:text-fg"
@@ -146,6 +159,7 @@ const socials = links.filter((link) => link.id !== 'email')
           :caption="t(`experience.items.${job.id}.company`)"
           :year="job.period"
           :trailing-icon="null"
+          data-cuelume-hover="whisper"
         >
           <p class="t-small">{{ t(`experience.items.${job.id}.summary`) }}</p>
         </ListRow>
@@ -182,10 +196,10 @@ const socials = links.filter((link) => link.id !== 'email')
       </div>
 
       <div class="flex flex-col gap-[var(--space-4)]">
-        <CopyEmail :email="EMAIL" />
+        <CopyEmail :email="EMAIL" data-cuelume-hover="whisper" />
 
         <div class="flex flex-wrap items-center gap-[var(--space-3)]">
-          <Button as="a" :href="MAILTO" size="lg">
+          <Button as="a" :href="MAILTO" size="lg" data-cuelume-hover="whisper">
             <IconMail aria-hidden="true" />
             {{ t('home.actions.write') }}
           </Button>
@@ -201,6 +215,7 @@ const socials = links.filter((link) => link.id !== 'email')
                   variant="secondary"
                   size="icon-lg"
                   :aria-label="t(`contact.items.${link.id}`)"
+                  data-cuelume-hover="whisper"
                 >
                   <component :is="link.icon" aria-hidden="true" />
                 </Button>
