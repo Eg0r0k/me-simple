@@ -48,7 +48,8 @@
     `EMAIL` + `home.notes.open.text` «отвечаю в течение дня» / «I answer within a day».
 - Часы: композабл `src/composables/useMoscowTime.ts` (`{ time: Ref<string> }`,
   интервал 1000 мс, формат `ru-RU` `HH:MM` в `Europe/Moscow`, чистится в
-  `onScopeDispose`). `AppHeader` переводится на него, своя копия логики удаляется.
+  `onScopeDispose`), общий на всех потребителей через `createSharedComposable`.
+  `AppHeader` переводится на него, своя копия логики удаляется.
 
 ### Третий абзац
 
@@ -65,8 +66,9 @@ tuner. All of it open source.». Тот же `t-body text-muted-foreground`, п�
   появление `reveal()` при попадании в кадр (решение автора: сначала список стоял в
   верхнем блоке без заголовка, как в мокапе E). Строки как в мокапе E: год классом `t-hand` 20px цвета `--primary` шириной 56px слева, затем
   название 15.5px semibold и подпись `t-small` в одной строке (на узком экране подпись
-  переносится). Строка: паддинг 8px 12px, `mx-[-12px]`, радиус `--radius-3`, по наведению
-  `--sunk`. Если у достижения есть `url`, строка — ссылка наружу со стрелкой
+  переносится). Строка по геометрии как `ListRow` по соседству: паддинг `--row` 12px,
+  `mx-[-12px]`, радиус `--radius-4`, зазор 16px, по наведению `--sunk`. Список
+  семантический: `ul > li`. Если у достижения есть `url`, строка — ссылка наружу со стрелкой
   `arrow_outward` как у проектов; иначе `article`.
 - Данные `src/data/awards.ts`: `{ id: 'procifru', year: 2025 }`,
   `{ id: 'yandexCup', year: 2024 }`, `{ id: 'hackathons', year: 2024 }`; `url`
@@ -86,7 +88,9 @@ tuner. All of it open source.». Тот же `t-body text-muted-foreground`, п�
 
 - Заголовок «Связь» и абзац с обводкой «дня» без изменений. Чипа статуса нет.
 - Под абзацем адрес почты крупно: `button` с текстом `EMAIL`, 24px semibold
-  `tracking-[-0.024em]` цвета `--fg`, без фона, `press-scale`. Снизу линия 3px
+  `tracking-[-0.024em]` цвета `--fg`, без фона, `press-scale`, справа иконка
+  `content_copy_rounded` 18px `--faint` как подсказка, что клик копирует;
+  `aria-label` «адрес, Скопировать» (`contact.copy`). Снизу под текстом линия 3px
   `--primary` радиусом 2px, в покое `scaleX(0)` от левого края, на наведении и фокусе
   `scaleX(1)` за 0.35s `--ease-standard`. Клик копирует адрес в буфер
   (`navigator.clipboard.writeText`, при отсутствии API — ничего не ломается) и на 1.4 с
@@ -140,4 +144,4 @@ tuner. All of it open source.». Тот же `t-body text-muted-foreground`, п�
 нажимаемого; переходы по `opacity`, `transform`, `color`, `background-color`; один
 primary-кнопка на экран («Написать»); рукопись только для годов; логотипы стека —
 осознанное исключение из правила про Material Symbols; всё появление только на главной
-и по одному разу; под reduced motion карточки и подсказки появляются без сдвига.
+и по одному разу; под reduced motion карточки и подсказки появляются без сдвига (только по opacity).
