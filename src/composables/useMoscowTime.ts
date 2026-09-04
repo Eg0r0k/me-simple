@@ -1,3 +1,4 @@
+import { createSharedComposable } from '@vueuse/core'
 import { onScopeDispose, ref } from 'vue'
 
 export function formatMoscowTime(date = new Date()) {
@@ -8,8 +9,7 @@ export function formatMoscowTime(date = new Date()) {
   })
 }
 
-// Одни часы на шапку и карточку «Москве»: тикают раз в секунду, чтобы минута менялась без задержки.
-export function useMoscowTime() {
+function createMoscowTime() {
   const time = ref(formatMoscowTime())
   const timer = setInterval(() => {
     time.value = formatMoscowTime()
@@ -17,3 +17,6 @@ export function useMoscowTime() {
   onScopeDispose(() => clearInterval(timer), true)
   return { time }
 }
+
+// Одни часы на шапку и карточку «Москве»: тикают раз в секунду, чтобы минута менялась без задержки.
+export const useMoscowTime = createSharedComposable(createMoscowTime)

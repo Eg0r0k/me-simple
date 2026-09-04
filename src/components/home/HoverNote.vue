@@ -15,7 +15,7 @@ defineProps<{
       <a
         v-if="href"
         :href="href"
-        class="press-scale inline-block text-primary underline decoration-primary/35 decoration-[1.5px] underline-offset-[3px] [transition:text-decoration-color_var(--dur-hover)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:decoration-primary"
+        class="text-primary underline decoration-primary/35 decoration-[1.5px] underline-offset-[3px] [transition:text-decoration-color_var(--dur-hover)_ease] hover:decoration-primary"
       >
         <slot />
       </a>
