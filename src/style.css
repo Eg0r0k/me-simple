@@ -478,6 +478,17 @@
     transform: none;
     rotate: 0deg;
   }
+
+  /* Дышащая точка-индикатор в hover-card. */
+  .ds-breathe {
+    animation: ds-breathe 2.4s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ds-breathe {
+      animation: none;
+    }
+  }
 }
 
 @keyframes ds-sweep {

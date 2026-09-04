@@ -8,14 +8,17 @@ import { ProjectList } from '@/components/project-list'
 import IconMail from '~icons/material-symbols/mail-rounded'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import IconArrowForward from '~icons/material-symbols/arrow-forward-rounded'
-import { MAILTO, links } from '@/data/contact'
+import { EMAIL, MAILTO, links } from '@/data/contact'
 import { experience } from '@/data/resume'
 import { projects } from '@/data/projects'
 import { routeLocation } from '@/router/route-locations'
 import IconCheck from '~icons/material-symbols/verified-rounded'
 import TechChip from '@/components/home/TechChip.vue'
+import HoverNote from '@/components/home/HoverNote.vue'
+import { useMoscowTime } from '@/composables/useMoscowTime'
 import { stack } from '@/data/stack'
 const { t } = useI18n()
+const { time } = useMoscowTime()
 
 const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
 
@@ -75,9 +78,28 @@ const socials = links.filter((link) => link.id !== 'email')
         <p v-motion v-bind="rise(DELAY_LEAD)" class="t-body text-muted-foreground">
           {{ t('home.lead') }}
         </p>
-        <p v-motion v-bind="rise(DELAY_TECH)" class="t-body text-muted-foreground">
-          {{ t('home.tech') }}
-        </p>
+        <I18nT
+          v-motion
+          v-bind="rise(DELAY_TECH)"
+          keypath="home.tech"
+          tag="p"
+          scope="global"
+          class="t-body text-muted-foreground"
+        >
+          <template #city>
+            <HoverNote :title="time" :text="t('home.notes.city')">{{ t('home.city') }}</HoverNote>
+          </template>
+          <template #remote>
+            <HoverNote :title="t('home.notes.remote.title')" :text="t('home.notes.remote.text')">{{
+              t('home.remote')
+            }}</HoverNote>
+          </template>
+          <template #open>
+            <HoverNote :href="MAILTO" :title="t('home.notes.open.title')" :text="`${EMAIL}, ${t('home.notes.open.text')}`" dot>{{
+              t('home.open')
+            }}</HoverNote>
+          </template>
+        </I18nT>
       </div>
     </section>
 

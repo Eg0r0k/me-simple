@@ -3,7 +3,15 @@
   "name": "Egor Bocharov",
   "role": "Frontend developer",
   "lead": "Four years with Vue 3 and TypeScript, building interfaces that do not stutter.",
-  "tech": "Based in Moscow, working remotely, open to offers.",
+  "tech": "Based in {city}, working {remote}, {open}.",
+  "city": "Moscow",
+  "remote": "remotely",
+  "open": "open to offers",
+  "notes": {
+    "city": "GMT+3, Europe/Moscow",
+    "remote": { "title": "From home, on Moscow time", "text": "calls 10:00–19:00, open to business trips" },
+    "open": { "title": "Looking for full-time", "text": "I answer within a day" }
+  },
   "actions": {
     "work": "See the work",
     "write": "Say hello"
