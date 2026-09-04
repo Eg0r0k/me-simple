@@ -50,14 +50,14 @@ onScopeDispose(() => clearTimeout(timer), true)
       <IconCopy
         data-icon="copy"
         :class="[
-          'absolute inset-0 size-full text-faint [transition:opacity_220ms_var(--ease-standard),scale_220ms_var(--ease-standard),rotate_220ms_var(--ease-standard)] motion-reduce:[transition:opacity_220ms_var(--ease-standard)]',
+          'absolute inset-0 size-full text-faint [transition:opacity_220ms_var(--ease-standard),scale_220ms_var(--ease-standard),rotate_220ms_var(--ease-standard)] motion-reduce:[transition:opacity_220ms_var(--ease-standard)] motion-reduce:scale-100 motion-reduce:rotate-0',
           copied ? 'opacity-0 scale-50 rotate-45' : 'opacity-100 scale-100 rotate-0',
         ]"
       />
       <IconCheck
         data-icon="check"
         :class="[
-          'absolute inset-0 size-full text-primary [transition:opacity_220ms_var(--ease-standard),scale_220ms_var(--ease-standard),rotate_220ms_var(--ease-standard)] motion-reduce:[transition:opacity_220ms_var(--ease-standard)]',
+          'absolute inset-0 size-full text-primary [transition:opacity_220ms_var(--ease-standard),scale_220ms_var(--ease-standard),rotate_220ms_var(--ease-standard)] motion-reduce:[transition:opacity_220ms_var(--ease-standard)] motion-reduce:scale-100 motion-reduce:rotate-0',
           copied ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-50 -rotate-45',
         ]"
       />

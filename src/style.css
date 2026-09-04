@@ -495,6 +495,7 @@
   /* Линия под стеком в первой строке: вырастает после счётчика. */
   .tech-line {
     position: relative;
+    display: inline-block;
     color: var(--fg);
     font-weight: var(--weight-medium);
   }
@@ -508,19 +509,19 @@
     height: 2px;
     border-radius: 2px;
     background: var(--primary);
-    transform: scaleX(0);
+    scale: 0 1;
     transform-origin: left center;
   }
 
   .tech-line.is-on::after {
-    transform: scaleX(1);
-    transition: transform 0.5s var(--ease-standard) 0.85s;
+    scale: 1 1;
+    transition: scale 0.5s var(--ease-standard) 0.85s;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .tech-line::after,
     .tech-line.is-on::after {
-      transform: scaleX(1);
+      scale: 1 1;
       transition: none;
     }
   }

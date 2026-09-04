@@ -15,13 +15,15 @@ let frame = 0
 let timer: ReturnType<typeof setTimeout> | undefined
 
 function run() {
-  const start = performance.now()
-  const tick = (now: number) => {
-    const p = Math.min(1, (now - start) / props.duration)
-    shown.value = Math.round(props.to * (1 - Math.pow(1 - p, 3)))
-    if (p < 1) frame = requestAnimationFrame(tick)
-  }
-  frame = requestAnimationFrame(tick)
+  frame = requestAnimationFrame((first) => {
+    const start = first
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / props.duration)
+      shown.value = Math.round(props.to * (1 - Math.pow(1 - p, 3)))
+      if (p < 1) frame = requestAnimationFrame(tick)
+    }
+    tick(first)
+  })
 }
 
 onMounted(() => {
@@ -39,12 +41,10 @@ onScopeDispose(() => {
 </script>
 
 <template>
-  <span class="inline-block">
-    <span
-      class="t-hand inline-block min-w-[1.1ch] align-[-0.08em] text-[1.45em] tabular-nums"
-      aria-hidden="true"
-      >{{ shown }}</span
-    >
+  <span>
+    <span class="t-hand w-[1.4ch] text-center align-[-0.08em] text-[1.45em]" aria-hidden="true">{{
+      shown
+    }}</span>
     <span class="sr-only">{{ to }}</span>
   </span>
 </template>
