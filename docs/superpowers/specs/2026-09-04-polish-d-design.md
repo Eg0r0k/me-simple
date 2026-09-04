@@ -15,7 +15,8 @@
   успешного копирования на 1.4 с классы меняются местами: копия уходит
   (`opacity-0 scale-50 rotate-45`), галочка приходит (`opacity-100 scale-100 rotate-0`)
   цветом `--primary`. Переходы `opacity`, `scale`, `rotate` по 220 мс
-  `--ease-standard`; под reduced motion только `opacity`.
+  `--ease-standard`; под reduced motion иконки не меняют `scale`/`rotate` вовсе, только
+  `opacity`.
 - Кнопка получает `aria-pressed` не нужно; `aria-label` остаётся «адрес, Скопировать».
 - Тест `CopyEmail.spec.ts` обновляется: после клика галочка получает класс
   `opacity-100`, копия `opacity-0`, через 1.4 с обратно; видимого текста «Скопировано»
@@ -55,12 +56,14 @@ scan arrival`.
   `tag="p"`, те же классы и `rise(DELAY_LEAD)`).
 - Слот `years`: компонент `CountUp` (`src/components/home/CountUp.vue`, пропсы
   `{ to: number; duration?: number (550); delay?: number (300) }`): рукописная цифра
-  классом `t-hand` 1.45em, `--primary`, `vertical-align: -0.08em`, `min-width: 1.1ch`,
-  `font-variant-numeric: tabular-nums`. После монтирования через `delay` мс считает от
+  классом `t-hand` 1.45em цветом текста (решение автора после просмотра: не primary),
+  `vertical-align: -0.08em`, фиксированная ширина `1.4ch` с центровкой, чтобы строка не
+  дёргалась во время счёта (у рукописного шрифта нет табличных цифр). После монтирования через `delay` мс считает от
   0 до `to` за `duration` мс с замедлением (ease-out cubic) по `requestAnimationFrame`.
   Один раз. Под `prefers-reduced-motion: reduce` и без rAF показывает `to` сразу.
   Для скринридера: анимируемый текст `aria-hidden`, рядом `sr-only` с итоговым числом.
-- Слот `stack`: `span.tech-line` цвета `--fg` весом 500 с `::after` линией 2px
+- Слот `stack`: `span.tech-line` (`display: inline-block`, чтобы фраза не рвалась на две
+  строки) цвета `--fg` весом 500 с `::after` линией 2px
   `--primary` радиусом 2px под текстом (`bottom: -2px`), `scaleX(0)` от левого края,
   класс `is-on` выставляется после монтирования (следующий кадр) и даёт `scaleX(1)` с
   переходом `transform 0.5s var(--ease-standard) 0.85s` (после счётчика). Под reduced
@@ -74,3 +77,8 @@ scan arrival`.
 Бордеров нет; переходы по `opacity`, `scale`, `rotate`, `stroke-dashoffset`; под reduced
 motion только `opacity`; звук только при включённом переключателе; иконки Material
 Symbols rounded.
+
+
+## Правки автора после реализации
+
+Абзацы описания и контактов больше не ограничены `52ch`, занимают всю колонку `--column`.
