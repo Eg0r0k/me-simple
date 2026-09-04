@@ -49,7 +49,19 @@ const onBrandClick = () => {
   poke()
 }
 
-const onMenuToggle = (open: boolean) => cue(open ? 'bloom' : 'whisper')
+// Флаг гасит whisper от закрытия меню, если оно закрылось из-за выбора языка (там уже играет tick).
+let selecting = false
+const onMenuToggle = (open: boolean) => {
+  if (open) {
+    cue('bloom')
+    return
+  }
+  if (selecting) {
+    selecting = false
+    return
+  }
+  cue('whisper')
+}
 
 // На телефоне тап-таргет 44px, с sm и шире — обычный icon-sm 32px.
 const HEADER_ACTION =
@@ -61,6 +73,7 @@ const switchTheme = (event: MouseEvent) => {
 }
 
 const selectLanguage = (code: SupportedLanguage) => {
+  selecting = true
   cue('tick')
   setLanguage(code)
 }

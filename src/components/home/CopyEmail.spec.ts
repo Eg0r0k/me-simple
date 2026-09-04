@@ -27,8 +27,13 @@ describe('CopyEmail', () => {
     await vi.advanceTimersByTimeAsync(0)
     expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-100')
     expect(wrapper.get('[data-icon="copy"]').classes()).toContain('opacity-0')
-    expect(wrapper.get('.sr-only').text()).toBe('Скопировано')
-    expect(wrapper.text().replace(/Скопировано/, '')).not.toContain('Скопировано')
+    expect(wrapper.find('.sr-only').text()).toBe('Скопировано')
+    expect(
+      wrapper
+        .findAll('span')
+        .filter((s) => !s.classes('sr-only'))
+        .every((s) => !s.text().includes('Скопировано')),
+    ).toBe(true)
     await vi.advanceTimersByTimeAsync(1400)
     expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
     expect(wrapper.get('[data-icon="copy"]').classes()).toContain('opacity-100')
@@ -39,6 +44,7 @@ describe('CopyEmail', () => {
     const wrapper = mountEmail()
     await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
     expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
+    expect(wrapper.find('.sr-only').text()).toBe('')
   })
 
   it('если writeText отклоняется, галочка не показывается и исключения нет', async () => {
@@ -48,5 +54,6 @@ describe('CopyEmail', () => {
     await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
     await vi.waitFor(() => expect(writeText).toHaveBeenCalledWith('a@b.c'))
     expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
+    expect(wrapper.find('.sr-only').text()).toBe('')
   })
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { I18nT, useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
@@ -46,6 +46,12 @@ const reveal = () => ({
 })
 
 const socials = links.filter((link) => link.id !== 'email')
+
+// Подстраховка от NaN, если ключ локали внезапно окажется не числом.
+const leadYears = computed(() => {
+  const n = Number(t('home.years'))
+  return Number.isFinite(n) ? n : 4
+})
 
 // Линия под стеком включается на следующий кадр после монтажа.
 const techLineOn = ref(false)
@@ -109,7 +115,7 @@ onMounted(() => {
           scope="global"
           class="t-body text-muted-foreground"
         >
-          <template #years><CountUp :to="Number(t('home.years'))" /></template>
+          <template #years><CountUp :to="leadYears" /></template>
           <template #stack>
             <span class="tech-line" :class="{ 'is-on': techLineOn }">{{ t('home.stack') }}</span>
           </template>

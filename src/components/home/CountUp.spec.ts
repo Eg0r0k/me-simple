@@ -17,11 +17,8 @@ function stubMatchMedia(reduce: boolean) {
 
 describe('CountUp', () => {
   beforeEach(() => {
+    // Vitest по умолчанию подделывает requestAnimationFrame вместе с таймерами.
     vi.useFakeTimers()
-    // rAF через таймеры, чтобы крутить кадры руками
-    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) =>
-      setTimeout(() => cb(performance.now()), 16),
-    )
   })
   afterEach(() => {
     vi.useRealTimers()
