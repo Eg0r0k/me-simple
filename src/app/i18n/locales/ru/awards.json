@@ -1,4 +1,5 @@
 {
+  "title": "Конкурсы",
   "items": {
     "procifru": { "title": "PROЦИФРУ", "subtitle": "победитель" },
     "yandexCup": { "title": "Yandex Cup, Frontend", "subtitle": "полуфиналист" },

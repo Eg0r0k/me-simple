@@ -29,7 +29,6 @@ const DELAY_FACE = 0
 const DELAY_LEAD = 0.08
 const DELAY_TECH = 0.14
 const DELAY_MORE = 0.2
-const DELAY_AWARDS = 0.26
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: 8 },
@@ -109,17 +108,6 @@ const socials = links.filter((link) => link.id !== 'email')
           {{ t('home.more') }}
         </p>
       </div>
-
-      <div v-motion v-bind="rise(DELAY_AWARDS)" class="flex flex-col">
-        <AwardRow
-          v-for="award in awards"
-          :key="award.id"
-          :year="award.year"
-          :title="t(`awards.items.${award.id}.title`)"
-          :subtitle="t(`awards.items.${award.id}.subtitle`)"
-          :url="award.url"
-        />
-      </div>
     </section>
 
     <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-4)]">
@@ -161,6 +149,23 @@ const socials = links.filter((link) => link.id !== 'email')
         >
           <p class="t-small">{{ t(`experience.items.${job.id}.summary`) }}</p>
         </ListRow>
+      </div>
+    </section>
+
+    <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-4)]">
+      <h2 class="m-0 text-[13.5px] font-semibold text-muted-foreground">
+        {{ t('awards.title') }}
+      </h2>
+
+      <div class="flex flex-col">
+        <AwardRow
+          v-for="award in awards"
+          :key="award.id"
+          :year="award.year"
+          :title="t(`awards.items.${award.id}.title`)"
+          :subtitle="t(`awards.items.${award.id}.subtitle`)"
+          :url="award.url"
+        />
       </div>
     </section>
 
