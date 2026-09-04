@@ -2,6 +2,7 @@
   "title": "Связь",
   "lead": "Пишите по любому из адресов, отвечаю в течение {day}.",
   "day": "дня",
+  "copied": "Скопировано",
   "items": {
     "telegram": "Telegram",
     "github": "GitHub",

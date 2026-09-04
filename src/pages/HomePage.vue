@@ -4,9 +4,9 @@ import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
 import { ListRow } from '@/components/ui/list-row'
 import { PenStroke } from '@/components/ui/pen-stroke'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { ProjectList } from '@/components/project-list'
 import IconMail from '~icons/material-symbols/mail-rounded'
-import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import IconArrowForward from '~icons/material-symbols/arrow-forward-rounded'
 import { EMAIL, MAILTO, links } from '@/data/contact'
 import { experience } from '@/data/resume'
@@ -16,6 +16,7 @@ import IconCheck from '~icons/material-symbols/verified-rounded'
 import TechChip from '@/components/home/TechChip.vue'
 import HoverNote from '@/components/home/HoverNote.vue'
 import AwardRow from '@/components/home/AwardRow.vue'
+import CopyEmail from '@/components/home/CopyEmail.vue'
 import { useMoscowTime } from '@/composables/useMoscowTime'
 import { stack } from '@/data/stack'
 import { awards } from '@/data/awards'
@@ -175,24 +176,34 @@ const socials = links.filter((link) => link.id !== 'email')
         </I18nT>
       </div>
 
-      <div class="flex flex-wrap items-center gap-x-[var(--space-6)] gap-y-[var(--space-2)]">
-        <Button as="a" :href="MAILTO" size="md">
-          <IconMail aria-hidden="true" />
-          {{ t('home.actions.write') }}
-        </Button>
+      <div class="flex flex-col gap-[var(--space-4)]">
+        <CopyEmail :email="EMAIL" />
 
-        <Button
-          v-for="link in socials"
-          as="a"
-          :key="link.id"
-          variant="link"
-          :href="link.url"
-          size="md"
-        >
-          <component :is="link.icon" class="size-[18px] shrink-0" aria-hidden="true" />
-          {{ t(`contact.items.${link.id}`) }}
-          <IconArrowOutward class="size-[15px] shrink-0 text-faint" aria-hidden="true" />
-        </Button>
+        <div class="flex flex-wrap items-center gap-[var(--space-3)]">
+          <Button as="a" :href="MAILTO" size="lg">
+            <IconMail aria-hidden="true" />
+            {{ t('home.actions.write') }}
+          </Button>
+
+          <TooltipProvider>
+            <Tooltip v-for="link in socials" :key="link.id">
+              <TooltipTrigger as-child>
+                <Button
+                  as="a"
+                  :href="link.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="secondary"
+                  size="icon-lg"
+                  :aria-label="t(`contact.items.${link.id}`)"
+                >
+                  <component :is="link.icon" aria-hidden="true" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{{ link.handle }}</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </div>
     </section>
   </div>
