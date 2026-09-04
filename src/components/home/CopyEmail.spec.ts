@@ -31,4 +31,13 @@ describe('CopyEmail', () => {
     await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
     expect(wrapper.text()).not.toContain('Скопировано')
   })
+
+  it('если writeText отклоняется, подпись не показывается и исключения нет', async () => {
+    const writeText = vi.fn().mockRejectedValue(new Error('denied'))
+    vi.stubGlobal('navigator', { clipboard: { writeText } })
+    const wrapper = mountEmail()
+    await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
+    await vi.waitFor(() => expect(writeText).toHaveBeenCalledWith('a@b.c'))
+    expect(wrapper.text()).not.toContain('Скопировано')
+  })
 })

@@ -16,7 +16,7 @@ defineProps<{
     :target="url ? '_blank' : undefined"
     :rel="url ? 'noopener noreferrer' : undefined"
     :class="[
-      'flex items-baseline gap-[12px] -mx-[12px] rounded-3 px-[12px] py-[8px] text-fg no-underline',
+      'flex items-baseline gap-[16px] -mx-[12px] rounded-4 px-[12px] py-[var(--row)] text-fg no-underline',
       url && 'press-scale [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk',
     ]"
   >

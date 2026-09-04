@@ -157,16 +157,16 @@ const socials = links.filter((link) => link.id !== 'email')
         {{ t('awards.title') }}
       </h2>
 
-      <div class="flex flex-col">
-        <AwardRow
-          v-for="award in awards"
-          :key="award.id"
-          :year="award.year"
-          :title="t(`awards.items.${award.id}.title`)"
-          :subtitle="t(`awards.items.${award.id}.subtitle`)"
-          :url="award.url"
-        />
-      </div>
+      <ul class="m-0 flex list-none flex-col p-0">
+        <li v-for="award in awards" :key="award.id">
+          <AwardRow
+            :year="award.year"
+            :title="t(`awards.items.${award.id}.title`)"
+            :subtitle="t(`awards.items.${award.id}.subtitle`)"
+            :url="award.url"
+          />
+        </li>
+      </ul>
     </section>
 
     <section v-motion v-bind="reveal()" class="flex flex-col gap-[var(--space-6)]">
