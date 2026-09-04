@@ -28,11 +28,11 @@ defineProps<{
       </span>
     </HoverCardTrigger>
     <HoverCardContent>
-      <span class="flex items-center gap-[6px] text-[15.5px] font-semibold tracking-[-0.012em] text-fg">
+      <span class="flex items-center gap-[6px] whitespace-nowrap text-[15.5px] font-semibold tracking-[-0.012em] text-fg">
         <span v-if="dot" class="ds-breathe size-[7px] shrink-0 rounded-full bg-mint" aria-hidden="true" />
         {{ title }}
       </span>
-      <span v-if="text" class="t-small">{{ text }}</span>
+      <span v-if="text" class="t-small break-words">{{ text }}</span>
     </HoverCardContent>
   </HoverCard>
 </template>

@@ -21,7 +21,7 @@ const forwarded = useForwardProps(reactiveOmit(props, 'class'))
       v-bind="{ ...$attrs, ...forwarded }"
       :class="
         cn(
-          'z-50 flex flex-col gap-[2px] rounded-3 bg-raised px-[12px] py-[10px] whitespace-nowrap shadow-2',
+          'z-50 flex max-w-[min(320px,calc(100vw-32px))] flex-col gap-[2px] rounded-3 bg-raised px-[12px] py-[10px] shadow-2',
           'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-bottom-1 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 motion-reduce:animate-none',
           props.class,
         )
