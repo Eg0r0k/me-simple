@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { I18nT, useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
@@ -17,6 +18,7 @@ import TechChip from '@/components/home/TechChip.vue'
 import HoverNote from '@/components/home/HoverNote.vue'
 import AwardRow from '@/components/home/AwardRow.vue'
 import CopyEmail from '@/components/home/CopyEmail.vue'
+import CountUp from '@/components/home/CountUp.vue'
 import { useMoscowTime } from '@/composables/useMoscowTime'
 import { stack } from '@/data/stack'
 import { awards } from '@/data/awards'
@@ -44,6 +46,18 @@ const reveal = () => ({
 })
 
 const socials = links.filter((link) => link.id !== 'email')
+
+// Линия под стеком включается на следующий кадр после монтажа.
+const techLineOn = ref(false)
+onMounted(() => {
+  if (typeof requestAnimationFrame !== 'undefined') {
+    requestAnimationFrame(() => {
+      techLineOn.value = true
+    })
+  } else {
+    techLineOn.value = true
+  }
+})
 </script>
 
 <template>
@@ -87,9 +101,19 @@ const socials = links.filter((link) => link.id !== 'email')
         </span>
       </div>
       <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">
-        <p v-motion v-bind="rise(DELAY_LEAD)" class="t-body text-muted-foreground">
-          {{ t('home.lead') }}
-        </p>
+        <I18nT
+          v-motion
+          v-bind="rise(DELAY_LEAD)"
+          keypath="home.lead"
+          tag="p"
+          scope="global"
+          class="t-body text-muted-foreground"
+        >
+          <template #years><CountUp :to="Number(t('home.years'))" /></template>
+          <template #stack>
+            <span class="tech-line" :class="{ 'is-on': techLineOn }">{{ t('home.stack') }}</span>
+          </template>
+        </I18nT>
         <I18nT
           v-motion
           v-bind="rise(DELAY_TECH)"
