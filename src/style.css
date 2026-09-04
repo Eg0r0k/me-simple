@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,400;0,600;1,500&display=swap');
+@import '@fontsource-variable/archivo';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/shantell-sans/600.css';
 
 @import 'tailwindcss';
 @import 'tw-animate-css';
@@ -121,8 +121,8 @@
   --row: 16px;
   --block: 80px;
 
-  --font-sans: Archivo, system-ui, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-sans: 'Archivo Variable', system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
   --font-hand: 'Shantell Sans', cursive;
   --text-display: 58px;
   --text-display-lh: 1.05;
