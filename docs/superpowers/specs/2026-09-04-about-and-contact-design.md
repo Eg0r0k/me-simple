@@ -33,7 +33,8 @@
 - Карточка на reka-ui `HoverCardRoot/Trigger/Portal/Content` (открывается по наведению
   и по фокусу с клавиатуры; `openDelay` 120, `closeDelay` 80, `side="top"`,
   `sideOffset` 8): фон `--raised`, тень `--shadow-2`, радиус `--radius-3`, паддинг 10px
-  12px, `white-space: nowrap`, появление `opacity` 0→1 + сдвиг 4px за `--dur-surface`
+  12px, ширина не больше `min(320px, 100vw - 32px)`, заголовок в одну строку, подпись
+  переносится, появление `opacity` 0→1 + сдвиг 4px за `--dur-surface`
   через классы `tw-animate-css`, как у выпадающего меню (`animate-in fade-in-0
   slide-in-from-bottom-1`). Заголовок 15.5px semibold, подпись `t-small`.
 - Содержимое:
