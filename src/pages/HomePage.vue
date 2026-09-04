@@ -156,7 +156,6 @@ onMounted(() => {
       <RouterLink
         :to="routeLocation.projects()"
         class="press-scale group -mx-[12px] flex min-h-[44px] items-center justify-between rounded-3 px-[12px] no-underline"
-        data-cuelume-hover="whisper"
       >
         <h2
           class="m-0 flex items-center gap-1 text-[13.5px] font-semibold text-muted-foreground [transition:color_var(--dur-hover)_ease] group-hover:text-fg"
@@ -189,7 +188,6 @@ onMounted(() => {
           :caption="t(`experience.items.${job.id}.company`)"
           :year="job.period"
           :trailing-icon="null"
-          data-cuelume-hover="whisper"
         >
           <p class="t-small">{{ t(`experience.items.${job.id}.summary`) }}</p>
         </ListRow>
@@ -226,10 +224,10 @@ onMounted(() => {
       </div>
 
       <div class="flex flex-col gap-[var(--space-4)]">
-        <CopyEmail :email="EMAIL" data-cuelume-hover="whisper" />
+        <CopyEmail :email="EMAIL" />
 
         <div class="flex flex-wrap items-center gap-[var(--space-3)]">
-          <Button as="a" :href="MAILTO" size="lg" data-cuelume-hover="whisper">
+          <Button as="a" :href="MAILTO" size="lg">
             <IconMail aria-hidden="true" />
             {{ t('home.actions.write') }}
           </Button>
@@ -245,7 +243,6 @@ onMounted(() => {
                   variant="secondary"
                   size="icon-lg"
                   :aria-label="t(`contact.items.${link.id}`)"
-                  data-cuelume-hover="whisper"
                 >
                   <component :is="link.icon" aria-hidden="true" />
                 </Button>

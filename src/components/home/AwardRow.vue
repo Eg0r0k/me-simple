@@ -20,7 +20,6 @@ defineProps<{
       url &&
         'press-scale [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] hover:bg-sunk',
     ]"
-    :data-cuelume-hover="url ? 'whisper' : undefined"
   >
     <span class="t-hand w-[56px] shrink-0 text-[20px] text-primary">{{ year }}</span>
     <span class="flex min-w-0 flex-1 flex-wrap items-baseline gap-x-[8px]">

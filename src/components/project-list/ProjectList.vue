@@ -51,7 +51,6 @@ const onRowEnter = (event: PointerEvent, slug: string) => {
       :caption="t(project.captionKey)"
       :year="project.year"
       :trailing-icon="project.url ? IconArrowOutward : null"
-      data-cuelume-hover="whisper"
       @pointerenter="onRowEnter($event, project.slug)"
     />
 

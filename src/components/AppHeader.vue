@@ -91,7 +91,6 @@ const { time } = useMoscowTime()
       class="brand-anger press-scale t-subheading shrink-0 rounded-2 no-underline"
       :class="{ 'is-shaking': shaking }"
       :style="{ '--anger': anger }"
-      data-cuelume-hover="whisper"
       @click="onBrandClick"
       @animationend.self="shaking = false"
     >
@@ -108,7 +107,6 @@ const { time } = useMoscowTime()
             size="icon-sm"
             :class="HEADER_ACTION"
             :aria-label="t('common.language.trigger')"
-            data-cuelume-hover="whisper"
           >
             <IconTranslate aria-hidden="true" />
           </Button>
@@ -130,14 +128,13 @@ const { time } = useMoscowTime()
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <SoundToggle :class="HEADER_ACTION" data-cuelume-hover="whisper" />
+      <SoundToggle :class="HEADER_ACTION" />
 
       <Button
         variant="ghost"
         size="icon-sm"
         :class="HEADER_ACTION"
         :aria-label="isDark ? t('common.theme.toLight') : t('common.theme.toDark')"
-        data-cuelume-hover="whisper"
         @click="switchTheme"
       >
         <component :is="isDark ? IconLightMode : IconDarkMode" aria-hidden="true" />
