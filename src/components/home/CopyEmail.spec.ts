@@ -13,31 +13,35 @@ describe('CopyEmail', () => {
     vi.unstubAllGlobals()
   })
 
-  it('копирует адрес и показывает подпись на 1.4 с', async () => {
+  it('копирует адрес, показывает галочку на 1.4 с и объявляет это скринридеру', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined)
     vi.stubGlobal('navigator', { clipboard: { writeText } })
     const wrapper = mountEmail()
     await wrapper.get('button').trigger('click')
     await vi.waitFor(() => expect(writeText).toHaveBeenCalledWith('a@b.c'))
     await vi.advanceTimersByTimeAsync(0)
-    expect(wrapper.text()).toContain('Скопировано')
+    expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-100')
+    expect(wrapper.get('[data-icon="copy"]').classes()).toContain('opacity-0')
+    expect(wrapper.get('.sr-only').text()).toBe('Скопировано')
+    expect(wrapper.text().replace(/Скопировано/, '')).not.toContain('Скопировано')
     await vi.advanceTimersByTimeAsync(1400)
-    expect(wrapper.text()).not.toContain('Скопировано')
+    expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
+    expect(wrapper.get('[data-icon="copy"]').classes()).toContain('opacity-100')
   })
 
   it('без clipboard клик ничего не ломает', async () => {
     vi.stubGlobal('navigator', {})
     const wrapper = mountEmail()
     await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
-    expect(wrapper.text()).not.toContain('Скопировано')
+    expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
   })
 
-  it('если writeText отклоняется, подпись не показывается и исключения нет', async () => {
+  it('если writeText отклоняется, галочка не показывается и исключения нет', async () => {
     const writeText = vi.fn().mockRejectedValue(new Error('denied'))
     vi.stubGlobal('navigator', { clipboard: { writeText } })
     const wrapper = mountEmail()
     await expect(wrapper.get('button').trigger('click')).resolves.toBeUndefined()
     await vi.waitFor(() => expect(writeText).toHaveBeenCalledWith('a@b.c'))
-    expect(wrapper.text()).not.toContain('Скопировано')
+    expect(wrapper.get('[data-icon="check"]').classes()).toContain('opacity-0')
   })
 })
