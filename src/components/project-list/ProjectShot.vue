@@ -51,6 +51,13 @@ function markLoaded(layer: Layer) {
 
 onUnmounted(() => clearTimeout(sweep))
 
+function dropLayer(layer: Layer) {
+  const index = layers.value.indexOf(layer)
+  if (index >= 0) layers.value.splice(index, 1)
+}
+
+// Мутация layers.value прямо во время рендера (ref-колбэк) — намеренно;
+// сходится благодаря guard !layer.loaded, повторный рендер его не зациклит.
 // Кадр из кэша может быть готов до того, как навесится обработчик load.
 function checkComplete(el: unknown, layer: Layer) {
   if (el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0 && !layer.loaded) {
@@ -92,6 +99,7 @@ const TONE_INK: Record<ProjectTone, string> = {
           layer.loaded ? 'opacity-100' : 'opacity-0',
         ]"
         @load="markLoaded(layer)"
+        @error="dropLayer(layer)"
       />
     </template>
     <div

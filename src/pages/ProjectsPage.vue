@@ -11,7 +11,7 @@ import { routeLocation } from '@/router/route-locations'
 
 const { t, locale } = useI18n()
 
-// Delays are plain numbers on purpose — computed ref in delay silently breaks the start
+// Задержки задаём числами: computed в delay ломает старт анимации молча.
 const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
 const DELAY_HEADER = 0.06
 const DELAY_CARDS = 0.12

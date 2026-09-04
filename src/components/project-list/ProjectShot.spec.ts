@@ -89,6 +89,20 @@ describe('ProjectShot', () => {
     expect(imgs[1]!.classes()).toContain('opacity-0')
   })
 
+  it('ошибка загрузки нового кадра убирает его, остаётся старый', async () => {
+    const wrapper = mount(ProjectShot, { props: { project: withImage, locale: 'ru' } })
+    await wrapper.get('img').trigger('load')
+    await wrapper.setProps({ locale: 'en' })
+    const imgs = wrapper.findAll('img')
+    expect(imgs).toHaveLength(2)
+
+    await imgs[1]!.trigger('error')
+
+    const remaining = wrapper.findAll('img')
+    expect(remaining).toHaveLength(1)
+    expect(remaining[0]!.attributes('src')).toContain('ru')
+  })
+
   describe('после загрузки нового кадра', () => {
     beforeEach(() => vi.useFakeTimers())
     afterEach(() => vi.useRealTimers())

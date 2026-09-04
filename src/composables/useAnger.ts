@@ -1,4 +1,4 @@
-import { getCurrentScope, onScopeDispose, ref } from 'vue'
+import { onScopeDispose, ref } from 'vue'
 
 export const ANGER_STEP = 0.2
 export const COOL_INTERVAL_MS = 100
@@ -28,7 +28,7 @@ export function useAnger() {
     if (timer === undefined) timer = setInterval(cool, COOL_INTERVAL_MS)
   }
 
-  if (getCurrentScope()) onScopeDispose(stop)
+  onScopeDispose(stop, true)
 
   return { level, shakeKey, poke }
 }
