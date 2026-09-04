@@ -58,10 +58,12 @@ where sound and graphics meet the web: a Tauri player, a Web Audio library, a mi
 tuner. All of it open source.». Тот же `t-body text-muted-foreground`, появление
 `rise` с задержкой после второго абзаца (`DELAY_MORE = 0.2`).
 
-### Достижения
+### Конкурсы (достижения)
 
-- После третьего абзаца, с отступом `--space-6`, список строк без заголовка (как в
-  мокапе E): год классом `t-hand` 20px цвета `--primary` шириной 56px слева, затем
+- Отдельная секция после «Опыта» и перед «Связью», в том же стиле, что соседние:
+  заголовок `awards.title` «Конкурсы» / «Competitions» 13.5px semibold `--muted`,
+  появление `reveal()` при попадании в кадр (решение автора: сначала список стоял в
+  верхнем блоке без заголовка, как в мокапе E). Строки как в мокапе E: год классом `t-hand` 20px цвета `--primary` шириной 56px слева, затем
   название 15.5px semibold и подпись `t-small` в одной строке (на узком экране подпись
   переносится). Строка: паддинг 8px 12px, `mx-[-12px]`, радиус `--radius-3`, по наведению
   `--sunk`. Если у достижения есть `url`, строка — ссылка наружу со стрелкой
@@ -73,7 +75,7 @@ tuner. All of it open source.». Тот же `t-body text-muted-foreground`, п�
   «Yandex Cup, Frontend» / «полуфиналист»; `items.hackathons` «Хакатоны Газпрома и
   Моспрома» / «финалист». en: «PROTSIFRU» / «winner»; «Yandex Cup, Frontend» /
   «semi-finalist»; «Gazprom and Mosprom hackathons» / «finalist».
-- Появление: одним блоком `rise(DELAY_AWARDS = 0.26)`.
+- Появление: как у остальных секций, `reveal()` один раз.
 
 ### Что остаётся
 
