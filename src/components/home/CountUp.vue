@@ -8,8 +8,6 @@ const props = withDefaults(defineProps<{ to: number; duration?: number; delay?: 
 })
 
 const reduced = usePreferredReducedMotion()
-// Значение reduced уже известно синхронно на этом шаге — задаём стартовое
-// число сразу, чтобы reduced-motion не ждал первого реактивного апдейта.
 const shown = ref(reduced.value === 'reduce' ? props.to : 0)
 let frame = 0
 let timer: ReturnType<typeof setTimeout> | undefined

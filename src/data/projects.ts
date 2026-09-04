@@ -1,10 +1,11 @@
 import type { Component } from 'vue'
+import type { Tone } from '@/lib/tone'
 import IconGraphicEq from '~icons/material-symbols/graphic-eq-rounded'
 import IconEqualizer from '~icons/material-symbols/equalizer-rounded'
 import IconKeyboard from '~icons/material-symbols/keyboard-rounded'
 import IconTune from '~icons/material-symbols/tune-rounded'
 
-export type ProjectTone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
+export type { Tone as ProjectTone } from '@/lib/tone'
 
 export type PreviewLocale = 'ru' | 'en'
 
@@ -17,7 +18,7 @@ export interface Project {
   title: string
   captionKey: string
   year: number
-  tone: ProjectTone
+  tone: Tone
   icon: Component
   url?: string
   preview: ProjectPreview

@@ -34,19 +34,18 @@ onScopeDispose(() => clearTimeout(timer), true)
 <template>
   <button
     type="button"
-    class="group press-scale m-0 inline-flex cursor-pointer items-center gap-[8px] bg-transparent p-0 text-left text-[24px] leading-[1.15] font-semibold tracking-[-0.024em] text-fg"
+    class="group press-scale m-0 inline-flex cursor-pointer items-center gap-2 bg-transparent p-0 text-left text-[24px] leading-[1.15] font-semibold tracking-[-0.024em] text-fg"
     :aria-label="`${email}, ${t('contact.copy')}`"
     @click="copy"
   >
     <span class="relative">
       {{ email }}
       <span
-        class="absolute inset-x-0 -bottom-[4px] h-[3px] origin-left scale-x-0 rounded-[2px] bg-primary [transition:scale_0.35s_var(--ease-standard)] group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
+        class="absolute inset-x-0 -bottom-1 h-0.75 origin-left scale-x-0 rounded-[2px] bg-primary [transition:scale_0.35s_var(--ease-standard)] group-hover:scale-x-100 group-focus-visible:scale-x-100 motion-reduce:transition-none"
         aria-hidden="true"
       />
     </span>
-    <!-- иконка копирования морфит в галочку вместо видимой подписи -->
-    <span class="relative size-[18px] shrink-0" aria-hidden="true">
+    <span class="relative size-4.5 shrink-0" aria-hidden="true">
       <IconCopy
         data-icon="copy"
         :class="[

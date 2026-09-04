@@ -5,6 +5,9 @@
   "all": "all projects",
   "open": "open",
   "back": "Back home",
+  "seo": {
+    "description": "Open source projects by Egor Bocharov: a Tauri music player, a Web Audio library, a typing trainer and a guitar tuner."
+  },
   "items": {
     "audiogram": "Tauri player: library, equaliser, recommendations.",
     "lyraAudio": "Browser audio: Web Audio API, equaliser, HLS.",

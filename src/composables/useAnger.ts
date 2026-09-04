@@ -4,7 +4,6 @@ export const ANGER_STEP = 0.2
 export const COOL_INTERVAL_MS = 100
 export const COOL_STEP = 0.005
 
-// Злость растёт от кликов и остывает сама: один клик отпускает примерно за 4 с.
 export function useAnger() {
   const level = ref(0)
   const shakeKey = ref(0)

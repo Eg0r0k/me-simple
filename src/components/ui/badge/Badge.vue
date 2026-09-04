@@ -28,7 +28,7 @@ const leading = computed(() => Boolean(props.icon) || showDot.value)
     "
   >
     <component :is="props.icon" v-if="props.icon" aria-hidden="true" />
-    <span v-else-if="showDot" class="size-[6px] shrink-0 rounded-full bg-current" />
+    <span v-else-if="showDot" class="size-1.5 shrink-0 rounded-full bg-current" />
     <slot />
   </span>
 </template>

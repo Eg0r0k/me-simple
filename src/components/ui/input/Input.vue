@@ -27,7 +27,7 @@ const modelValue = useVModel(props, 'modelValue', emits, {
     :aria-invalid="props.invalid || undefined"
     :class="
       cn(
-        'h-[40px] w-full min-w-0 rounded-2 bg-sunk px-[12px] text-[14px] text-fg outline-none',
+        'h-10 w-full min-w-0 rounded-2 bg-sunk px-3 text-[14px] text-fg outline-none',
         'placeholder:text-faint selection:bg-primary selection:text-on-primary',
         '[transition:background-color_var(--dur-hover)_ease,box-shadow_var(--dur-hover)_ease]',
         'focus-visible:shadow-[inset_0_0_0_2px_var(--primary)] focus-visible:outline-none',

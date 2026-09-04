@@ -21,7 +21,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     v-bind="forwarded"
     :class="
       cn(
-        'focus:bg-fill focus:text-accent-foreground relative flex h-[34px] cursor-default select-none items-center gap-2 rounded-1 pe-[10px] ps-8 text-[14px] outline-hidden data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\'size-\'])]:size-4',
+        'focus:bg-fill focus:text-accent-foreground relative flex h-8.5 cursor-default select-none items-center gap-2 rounded-1 pe-2.5 ps-8 text-[14px] outline-hidden data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*=\'size-\'])]:size-4',
         props.class,
       )
     "
@@ -29,7 +29,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
       <DropdownMenuItemIndicator>
         <slot name="indicator-icon">
-          <IconDot class="size-[10px] text-primary" aria-hidden="true" />
+          <IconDot class="size-2.5 text-primary" aria-hidden="true" />
         </slot>
       </DropdownMenuItemIndicator>
     </span>

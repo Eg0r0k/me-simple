@@ -15,11 +15,11 @@ const props = withDefaults(
 )
 
 const SHAPES: Record<Shape, string> = {
-  line: 'h-[11px] w-full rounded-[5px]',
-  title: 'h-[14px] w-3/5 rounded-xs',
-  tile: 'size-[36px] rounded-[11px]',
-  avatar: 'size-[36px] rounded-full',
-  plate: 'h-[132px] w-full rounded-3',
+  line: 'h-2.75 w-full rounded-[5px]',
+  title: 'h-3.5 w-3/5 rounded-xs',
+  tile: 'size-9 rounded-[11px]',
+  avatar: 'size-9 rounded-full',
+  plate: 'h-33 w-full rounded-3',
 }
 
 const shapeClass = computed(() => SHAPES[props.shape])
@@ -32,7 +32,7 @@ const shapeClass = computed(() => SHAPES[props.shape])
     :class="cn('relative overflow-hidden bg-sunk', shapeClass, props.class)"
   >
     <div
-      class="absolute inset-0 bg-[linear-gradient(90deg,transparent,var(--surface),transparent)] [animation:ds-sweep_var(--dur-loading)_linear_infinite] motion-reduce:animate-none"
+      class="absolute inset-0 bg-[linear-gradient(90deg,transparent,var(--surface),transparent)] animate-[ds-sweep_var(--dur-loading)_linear_infinite] motion-reduce:animate-none"
       :style="{ animationDelay: `${props.delay}s` }"
     />
   </div>

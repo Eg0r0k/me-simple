@@ -6,6 +6,7 @@ import { useMotionValue } from 'motion-v'
 import { ListRow } from '@/components/ui/list-row'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
 import type { Project } from '@/data/projects'
+import { externalLinkAttrs } from '@/lib/links'
 import { toPreviewLocale } from './preview'
 import ProjectPreview from './ProjectPreview.vue'
 
@@ -15,7 +16,6 @@ defineProps<{
 
 const { t, locale } = useI18n()
 
-// Карточка только там, где есть ховер и точный указатель. На таче список как был.
 const canHover = useMediaQuery('(hover: hover) and (pointer: fine)')
 
 const hoveredSlug = ref<string | null>(null)
@@ -28,8 +28,7 @@ const onPointerMove = (event: PointerEvent) => {
   pointerY.set(event.clientY)
 }
 
-// pointerenter стоит перед pointermove в очереди событий, поэтому координаты
-// на первом наведении сеются здесь же, иначе карточка стартует из угла окна.
+// pointerenter приходит раньше pointermove: без этого карточка стартует из угла окна.
 const onRowEnter = (event: PointerEvent, slug: string) => {
   onPointerMove(event)
   hoveredSlug.value = slug
@@ -42,9 +41,7 @@ const onRowEnter = (event: PointerEvent, slug: string) => {
       v-for="project in projects"
       :key="project.slug"
       :as="project.url ? 'a' : 'article'"
-      :href="project.url"
-      :target="project.url ? '_blank' : undefined"
-      :rel="project.url ? 'noopener noreferrer' : undefined"
+      v-bind="externalLinkAttrs(project.url)"
       :tone="project.tone"
       :icon="project.icon"
       :title="project.title"

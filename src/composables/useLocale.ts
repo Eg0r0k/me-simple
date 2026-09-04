@@ -8,12 +8,12 @@ import {
   SUPPORTED_LANGUAGES,
   type SupportedLanguage,
 } from '@/app/i18n/languages'
-import { DEFAULT_LOCALE, isSupportedLocale, setHtmlLangAttribute } from '@/app/i18n/utils'
+import { DEFAULT_LOCALE, isSupportedLocale } from '@/app/i18n/utils'
 
 const language = useStorage<SupportedLanguage>(LANGUAGE_STORAGE_KEY, 'system')
 
 export const useLocale = () => {
-  const { locale, t } = useI18n()
+  const { locale } = useI18n()
   const { language: browserLanguage } = useNavigatorLanguage()
 
   const systemLanguage = computed<SupportedLanguage>(() => {
@@ -38,8 +38,6 @@ export const useLocale = () => {
   const applyLanguage = (lang: SupportedLanguage) => {
     const effectiveLang = lang === 'system' ? systemLanguage.value : lang
     locale.value = effectiveLang
-    setHtmlLangAttribute(effectiveLang)
-    document.title = t('common.appTitle')
   }
 
   const setLanguage = (lang: SupportedLanguage) => {

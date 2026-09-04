@@ -25,5 +25,16 @@
   "meta": {
     "location": "Москва",
     "remote": "Удалённо"
+  },
+  "lighthouse": {
+    "title": "Этот сайт",
+    "caption": "Lighthouse, {date}",
+    "performance": "Скорость",
+    "accessibility": "Доступность",
+    "bestPractices": "Практики",
+    "seo": "SEO"
+  },
+  "seo": {
+    "description": "Егор Бочаров, frontend-разработчик из Москвы: 4 года на Vue 3 и TypeScript, открытый код про звук и графику в вебе. Открыт к предложениям."
   }
 }

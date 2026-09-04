@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch } from 'vue'
-import type { PreviewLocale, Project, ProjectTone } from '@/data/projects'
+import type { PreviewLocale, Project } from '@/data/projects'
+import { TONE_BG, TONE_INK } from '@/lib/tone'
+import { publicUrl } from '@/lib/site'
 import { resolvePreviewSrc } from './preview'
 
 const props = defineProps<{
@@ -8,7 +10,10 @@ const props = defineProps<{
   locale: PreviewLocale
 }>()
 
-const src = computed(() => resolvePreviewSrc(props.project.preview, props.locale))
+const src = computed(() => {
+  const path = resolvePreviewSrc(props.project.preview, props.locale)
+  return path ? publicUrl(path) : null
+})
 
 interface Layer {
   src: string
@@ -20,7 +25,6 @@ const REVEAL_MS = 300
 const layers = ref<Layer[]>([])
 let sweep: ReturnType<typeof setTimeout> | undefined
 
-// Новый кадр ложится сверху; старый остаётся, пока новый не загрузился.
 watch(
   src,
   (next) => {
@@ -28,8 +32,6 @@ watch(
       layers.value = []
       return
     }
-    // Кадр уже есть в стопке (напр. быстрое ru→en→ru) — не дублировать слой,
-    // а вернуть его на вершину, обрезав всё, что успело лечь сверху.
     const index = layers.value.findIndex((layer) => layer.src === next)
     if (index >= 0) {
       layers.value.splice(index + 1)
@@ -56,29 +58,11 @@ function dropLayer(layer: Layer) {
   if (index >= 0) layers.value.splice(index, 1)
 }
 
-// Мутация layers.value прямо во время рендера (ref-колбэк) — намеренно;
-// сходится благодаря guard !layer.loaded, повторный рендер его не зациклит.
-// Кадр из кэша может быть готов до того, как навесится обработчик load.
+// Кадр из кэша бывает complete раньше, чем навесится @load; guard по loaded не даёт зациклить рендер.
 function checkComplete(el: unknown, layer: Layer) {
   if (el instanceof HTMLImageElement && el.complete && el.naturalWidth > 0 && !layer.loaded) {
     markLoaded(layer)
   }
-}
-
-const TONE_BG: Record<ProjectTone, string> = {
-  sky: 'bg-sky-soft',
-  peri: 'bg-peri-soft',
-  amber: 'bg-amber-soft',
-  mint: 'bg-mint-soft',
-  clay: 'bg-clay-soft',
-}
-
-const TONE_INK: Record<ProjectTone, string> = {
-  sky: 'text-sky-ink',
-  peri: 'text-peri-ink',
-  amber: 'text-amber-ink',
-  mint: 'text-mint-ink',
-  clay: 'text-clay-ink',
 }
 </script>
 

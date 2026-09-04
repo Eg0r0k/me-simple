@@ -18,5 +18,4 @@ function createMoscowTime() {
   return { time }
 }
 
-// Одни часы на шапку и карточку «Москве»: тикают раз в секунду, чтобы минута менялась без задержки.
 export const useMoscowTime = createSharedComposable(createMoscowTime)

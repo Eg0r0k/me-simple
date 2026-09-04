@@ -8,8 +8,8 @@ export const badgeVariants = cva(
   {
     variants: {
       size: {
-        sm: "h-[20px] rounded-xs px-[7px] text-[11.5px] gap-[4px] [&_svg:not([class*='size-'])]:size-[13px]",
-        md: "h-[24px] rounded-sm px-[8px] text-[12.5px] gap-[5px] [&_svg:not([class*='size-'])]:size-[15px]",
+        sm: "h-5 rounded-xs px-1.75 text-[11.5px] gap-1 [&_svg:not([class*='size-'])]:size-3.25",
+        md: "h-6 rounded-sm px-2 text-[12.5px] gap-1.25 [&_svg:not([class*='size-'])]:size-3.75",
       },
       tone: {
         primary: 'bg-primary text-on-primary',
@@ -29,8 +29,8 @@ export const badgeVariants = cva(
       },
     },
     compoundVariants: [
-      { size: 'sm', leading: true, class: 'ps-[5px]' },
-      { size: 'md', leading: true, class: 'ps-[6px]' },
+      { size: 'sm', leading: true, class: 'ps-1.25' },
+      { size: 'md', leading: true, class: 'ps-1.5' },
     ],
     defaultVariants: {
       size: 'md',

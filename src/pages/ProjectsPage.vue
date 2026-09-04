@@ -3,33 +3,32 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { RouterLink } from 'vue-router'
 import { Button } from '@/components/ui/button'
-import { ProjectShot, toPreviewLocale } from '@/components/project-list'
+import { ProjectCard, toPreviewLocale } from '@/components/project-list'
 import IconArrowBack from '~icons/material-symbols/arrow-back-rounded'
-import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
+import { useSeo } from '@/composables/useSeo'
 import { projects } from '@/data/projects'
 import { routeLocation } from '@/router/route-locations'
+import { rise } from '@/lib/motion'
 
 const { t, locale } = useI18n()
 
+useSeo({
+  title: () => `${t('projects.title')} — ${t('home.name')}`,
+  description: () => t('projects.seo.description'),
+})
+
 // Задержки задаём числами: computed в delay ломает старт анимации молча.
-const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
 const DELAY_HEADER = 0.06
 const DELAY_CARDS = 0.12
 const STAGGER = 0.05
 
 const counter = computed(() => t('projects.count', projects.length))
 const previewLocale = computed(() => toPreviewLocale(locale.value))
-
-const rise = (delay: number) => ({
-  initial: { opacity: 0, y: 8 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, delay, ease: EASE },
-})
 </script>
 
 <template>
   <div
-    class="mx-auto flex w-full max-w-[var(--column)] flex-col gap-[var(--space-8)] px-[var(--space-6)] pt-[var(--space-12)] pb-[var(--space-20)]"
+    class="mx-auto flex w-full max-w-(--column) flex-col gap-(--space-8) px-(--space-6) pt-(--space-12) pb-(--space-20)"
   >
     <Button
       v-motion
@@ -38,52 +37,25 @@ const rise = (delay: number) => ({
       :to="routeLocation.home()"
       variant="ghost"
       size="sm"
-      class="self-start -ms-[9px]"
+      class="self-start -ms-2.25"
     >
       <IconArrowBack aria-hidden="true" />
       {{ t('projects.back') }}
     </Button>
 
-    <header v-motion v-bind="rise(DELAY_HEADER)" class="flex flex-col gap-[var(--space-3)]">
+    <header v-motion v-bind="rise(DELAY_HEADER)" class="flex flex-col gap-(--space-3)">
       <span class="t-label">{{ counter }} &nbsp; {{ t('projects.range') }}</span>
       <h1 class="t-title m-0">{{ t('projects.title') }}</h1>
     </header>
 
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      <component
-        v-motion
-        v-bind="rise(DELAY_CARDS + index * STAGGER)"
-        :is="project.url ? 'a' : 'article'"
+      <ProjectCard
         v-for="(project, index) in projects"
         :key="project.slug"
-        :href="project.url"
-        :target="project.url ? '_blank' : undefined"
-        :rel="project.url ? 'noopener noreferrer' : undefined"
-        class="group press-scale flex flex-col gap-[var(--space-3)] rounded-card p-2 no-underline text-fg [transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)] bg-surface"
-      >
-        <div class="overflow-hidden rounded-3">
-          <ProjectShot
-            :project="project"
-            :locale="previewLocale"
-            class="[transition:scale_var(--dur-reveal)_var(--ease-standard)] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-          />
-        </div>
-
-        <div class="flex flex-col gap-1 px-1">
-          <div class="flex items-center gap-2">
-            <span class="truncate text-[15.5px] font-semibold tracking-[-0.012em]">{{
-              project.title
-            }}</span>
-            <span class="ms-auto t-label">{{ project.year }}</span>
-            <IconArrowOutward
-              v-if="project.url"
-              class="size-5 shrink-0 text-faint [transition:translate_var(--dur-hover)_var(--ease-standard)] group-hover:translate-x-[2px] group-hover:-translate-y-[2px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 motion-reduce:group-hover:translate-y-0"
-              aria-hidden="true"
-            />
-          </div>
-          <p class="m-0 text-sm t-label">{{ t(project.captionKey) }}</p>
-        </div>
-      </component>
+        :project="project"
+        :locale="previewLocale"
+        :delay="DELAY_CARDS + index * STAGGER"
+      />
     </div>
   </div>
 </template>

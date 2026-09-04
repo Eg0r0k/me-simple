@@ -2,10 +2,6 @@ import { describe, it, expect } from 'vitest'
 import { buildThemeClipPath } from './clipPath'
 
 describe('buildThemeClipPath', () => {
-  // Псевдоэлементы ::view-transition-* живут в своей системе координат, размер
-  // которой не обязан совпадать с CSS-пикселями viewport (масштаб страницы).
-  // Проценты резолвятся от собственного бокса псевдоэлемента, поэтому один и тот
-  // же клик должен давать одну и ту же геометрию при любом масштабе.
   it('даёт одинаковый clip-path для одной точки при разном масштабе', () => {
     const at100 = buildThemeClipPath(960, 40, 1000, 800)
     const at200 = buildThemeClipPath(480, 20, 500, 400)

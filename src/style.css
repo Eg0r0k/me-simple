@@ -306,7 +306,6 @@
     }
   }
 
-  /* Злая «me»: цвет и амплитуда тряски растут с --anger от 0 до 1. */
   a.brand-anger {
     color: color-mix(in oklch, var(--fg), var(--danger-ink) calc(var(--anger, 0) * 100%));
     transition:
@@ -341,7 +340,6 @@
     }
   }
 
-  /* Обводка ручкой: svg чуть больше слова, штрих рисуется по stroke-dashoffset. */
   .pen-stroke {
     position: relative;
     display: inline-block;
@@ -481,7 +479,6 @@
     rotate: 0deg;
   }
 
-  /* Дышащая точка-индикатор в hover-card. */
   .ds-breathe {
     animation: ds-breathe 2.4s ease-in-out infinite;
   }
@@ -492,7 +489,6 @@
     }
   }
 
-  /* Линия под стеком в первой строке: вырастает после счётчика. */
   .tech-line {
     position: relative;
     display: inline-block;

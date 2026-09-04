@@ -1,12 +1,12 @@
-import { getCurrentScope, nextTick, onScopeDispose } from 'vue'
+import { getCurrentScope, onScopeDispose } from 'vue'
 import type { Router } from 'vue-router'
+import { afterPaint } from '@/lib/frame'
 
 export interface ScrollHost {
   get: () => number
   set: (position: number) => void
 }
 
-// Позиции прокрутки по полному пути: уход со страницы запоминает, приход восстанавливает.
 export function createScrollMemory() {
   const positions = new Map<string, number>()
 
@@ -20,18 +20,7 @@ export function createScrollMemory() {
   }
 }
 
-// Страховка: ставим позицию после отрисовки новой страницы, два кадра спустя;
-// без requestAnimationFrame падаем на nextTick.
-function afterPaint(callback: () => void) {
-  if (typeof requestAnimationFrame === 'undefined') {
-    void nextTick(callback)
-    return
-  }
-  requestAnimationFrame(() => requestAnimationFrame(callback))
-}
-
-// Окно не прокручивается, прокручивается контейнер Scrollable, поэтому
-// scrollBehavior роутера бесполезен: позицию ведём сами через хост контейнера.
+// Прокручивается контейнер Scrollable, а не окно, поэтому scrollBehavior роутера не подходит.
 export function useScrollMemory(router: Router, host: () => ScrollHost | null) {
   const memory = createScrollMemory()
 
@@ -43,7 +32,6 @@ export function useScrollMemory(router: Router, host: () => ScrollHost | null) {
   })
 
   const stopAfter = router.afterEach((to, _from, failure) => {
-    // При дублированной или отменённой навигации страница не меняется: позицию не трогаем.
     if (failure) return
     afterPaint(() => host()?.set(memory.restore(to.fullPath)))
   })

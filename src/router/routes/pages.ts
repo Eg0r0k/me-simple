@@ -13,7 +13,6 @@ export const pageRoutes: RouteRecordRaw[] = [
     component: () => import('@/pages/ProjectsPage.vue'),
   },
   {
-    // Любой чужой адрес возвращает на главную, а не в пустой экран.
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },

@@ -4,9 +4,8 @@ import type { Component, HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
+import type { Tone } from '@/lib/tone'
 import IconArrowOutward from '~icons/material-symbols/arrow-outward-rounded'
-
-type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 
 interface Props extends PrimitiveProps {
   tone?: Tone
@@ -41,7 +40,7 @@ const useHandIndex = computed(() => props.index !== undefined)
     :data-selected="props.selected ? '' : undefined"
     :class="
       cn(
-        'press-scale mx-[-12px] flex items-center gap-[16px] rounded-4 px-[12px] py-[var(--row)] no-underline',
+        'press-scale -mx-3 flex items-center gap-4 rounded-4 px-3 py-(--row) no-underline',
         '[transition:background-color_var(--dur-surface)_ease,transform_var(--dur-press)_var(--ease-standard)]',
         props.selected ? 'bg-sunk' : 'bg-transparent hover:bg-sunk',
         props.class,
@@ -67,7 +66,7 @@ const useHandIndex = computed(() => props.index !== undefined)
       <slot />
     </span>
 
-    <span class="flex shrink-0 items-center gap-[12px]">
+    <span class="flex shrink-0 items-center gap-3">
       <span v-if="props.year" class="t-label">{{ props.year }}</span>
       <component
         :is="trailingIcon"

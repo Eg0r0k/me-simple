@@ -25,5 +25,16 @@
   "meta": {
     "location": "Moscow",
     "remote": "Remote"
+  },
+  "lighthouse": {
+    "title": "This site",
+    "caption": "Lighthouse, {date}",
+    "performance": "Performance",
+    "accessibility": "Accessibility",
+    "bestPractices": "Best Practices",
+    "seo": "SEO"
+  },
+  "seo": {
+    "description": "Egor Bocharov, frontend developer in Moscow: 4 years with Vue 3 and TypeScript, open source work on audio and graphics for the web. Open to offers."
   }
 }

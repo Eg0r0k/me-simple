@@ -1,4 +1,5 @@
 import type { PreviewLocale, ProjectPreview } from '@/data/projects'
+import { clamp } from '@/lib/math'
 
 export const CARD_WIDTH = 280
 export const CARD_HEIGHT = (CARD_WIDTH * 9) / 16
@@ -11,19 +12,15 @@ export function toPreviewLocale(locale: string): PreviewLocale {
   return locale.startsWith('ru') ? 'ru' : 'en'
 }
 
-// Кадр текущего языка, иначе en, иначе первый, который есть. У плашки кадра нет.
 export function resolvePreviewSrc(preview: ProjectPreview, locale: PreviewLocale): string | null {
   if (preview.kind !== 'image') return null
   return preview.src[locale] ?? preview.src.en ?? Object.values(preview.src)[0] ?? null
 }
 
-// Наклон по горизонтальной скорости пружины, px/s → градусы, не больше ±6.
 export function clampTilt(velocity: number): number {
-  const raw = velocity * TILT_FACTOR
-  return Math.max(-TILT_MAX, Math.min(TILT_MAX, raw))
+  return clamp(velocity * TILT_FACTOR, -TILT_MAX, TILT_MAX)
 }
 
-// Карточка стоит справа от курсора, пока её правый край не упирается в поле окна.
 export function placeCard(
   pointerX: number,
   cardWidth: number,
@@ -33,9 +30,8 @@ export function placeCard(
   return rightEdge <= viewportWidth - VIEWPORT_MARGIN ? 'right' : 'left'
 }
 
-// Верх карточки: по центру курсора, но не ближе VIEWPORT_MARGIN к краям окна.
 export function clampCardY(pointerY: number, cardHeight: number, viewportHeight: number): number {
   const top = pointerY - cardHeight / 2
-  const max = viewportHeight - cardHeight - VIEWPORT_MARGIN
-  return Math.min(Math.max(top, VIEWPORT_MARGIN), Math.max(VIEWPORT_MARGIN, max))
+  const max = Math.max(VIEWPORT_MARGIN, viewportHeight - cardHeight - VIEWPORT_MARGIN)
+  return clamp(top, VIEWPORT_MARGIN, max)
 }

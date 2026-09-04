@@ -4,6 +4,7 @@ import type { MotionValue } from 'motion-v'
 import { motion, useSpring, useTransform, useVelocity } from 'motion-v'
 import { usePreferredReducedMotion, useWindowSize } from '@vueuse/core'
 import type { PreviewLocale, Project } from '@/data/projects'
+import { EASE } from '@/lib/motion'
 import {
   CARD_HEIGHT,
   CARD_OFFSET,
@@ -23,7 +24,6 @@ const props = defineProps<{
   locale: PreviewLocale
 }>()
 
-const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
 const FOLLOW = { stiffness: 400, damping: 40, mass: 1 }
 const TILT = { stiffness: 200, damping: 30 }
 
@@ -31,25 +31,15 @@ const reduced = usePreferredReducedMotion()
 const noMotion = computed(() => reduced.value === 'reduce')
 const { width: viewportWidth, height: viewportHeight } = useWindowSize({ includeScrollbar: false })
 
-// Пружины идут за курсором; motion values обновляют DOM мимо рендера Vue.
 const x = useSpring(props.pointerX, FOLLOW)
 const y = useSpring(props.pointerY, FOLLOW)
 
-// getVelocity() сам по себе не подписывает useTransform: он не помечает себя как
-// прочитанный motion value, только get(). useVelocity(x) — отдельный motion value,
-// который сам обновляется каждый кадр и корректно триггерит tiltTarget.
+// useVelocity, а не x.getVelocity(): последний не подписывает useTransform на обновления.
 const xVelocity = useVelocity(x)
-// Наклон из скорости пружины по x, сам тоже через пружину, чтобы не дёргался.
 const tiltTarget = useTransform(() => (noMotion.value ? 0 : clampTilt(xVelocity.get())))
 const rotate = useSpring(tiltTarget, TILT)
 
-// Сторона считается от текущего положения пружины: карточка перекидывается влево
-// без анимации, когда её правый край упирается в поле окна. Левая ветка сама
-// не даёт карточке уйти за левый край окна.
-// При reduced motion пружины не выключаются (useSpring не слушает MotionConfig),
-// поэтому здесь читаем сырые координаты курсора вместо x.get()/y.get() — тогда
-// карточка следует за курсором без задержки. useTransform пересобирает подписки
-// при каждом пересчёте, так что переключение noMotion подхватывается сразу.
+// useSpring не слушает MotionConfig, при reduced motion берём курсор напрямую.
 const translateX = useTransform(() => {
   const px = noMotion.value ? props.pointerX.get() : x.get()
   return placeCard(px, CARD_WIDTH, viewportWidth.value) === 'right'
@@ -63,7 +53,6 @@ const translateY = useTransform(() => {
 
 const visible = computed(() => props.activeSlug !== null)
 
-// При первом появлении пружина стартует из точки курсора, а не из угла окна.
 watch(
   () => props.activeSlug,
   (slug, prev) => {

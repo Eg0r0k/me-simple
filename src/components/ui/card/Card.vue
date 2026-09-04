@@ -4,9 +4,9 @@ import type { Component, HTMLAttributes } from 'vue'
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { cn } from '@/lib/utils'
+import { TONE_BG, TONE_FG, type Tone } from '@/lib/tone'
 import IconCategory from '~icons/material-symbols/category-rounded'
 
-type Tone = 'sky' | 'peri' | 'amber' | 'mint' | 'clay'
 type Variant = 'plate' | 'compact' | 'empty'
 
 interface Props extends PrimitiveProps {
@@ -27,22 +27,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const icon = computed(() => props.icon ?? IconCategory)
 
-const TONE_BG: Record<Tone, string> = {
-  sky: 'bg-sky-soft',
-  peri: 'bg-peri-soft',
-  amber: 'bg-amber-soft',
-  mint: 'bg-mint-soft',
-  clay: 'bg-clay-soft',
-}
-
-const TONE_FG: Record<Tone, string> = {
-  sky: 'text-sky',
-  peri: 'text-peri',
-  amber: 'text-amber',
-  mint: 'text-mint',
-  clay: 'text-clay',
-}
-
 const isEmpty = computed(() => props.variant === 'empty')
 const plateBg = computed(() => (isEmpty.value ? 'bg-background' : TONE_BG[props.tone]))
 const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.tone]))
@@ -57,23 +41,19 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
       cn(
         'rounded-card no-underline',
         isEmpty ? 'bg-sunk' : 'bg-surface',
-        props.variant === 'compact'
-          ? 'flex items-center gap-[12px] p-[20px]'
-          : 'flex flex-col gap-[12px] p-[10px]',
+        props.variant === 'compact' ? 'flex items-center gap-3 p-5' : 'flex flex-col gap-3 p-2.5',
         props.class,
       )
     "
   >
     <template v-if="props.variant === 'compact'">
       <span
-        :class="
-          cn('flex size-[36px] shrink-0 items-center justify-center rounded-3', plateBg, plateFg)
-        "
+        :class="cn('flex size-9 shrink-0 items-center justify-center rounded-3', plateBg, plateFg)"
       >
-        <component :is="icon" class="size-[20px] shrink-0" aria-hidden="true" />
+        <component :is="icon" class="size-5 shrink-0" aria-hidden="true" />
       </span>
-      <span class="flex min-w-0 flex-col gap-[2px]">
-        <span class="flex items-center gap-[8px]">
+      <span class="flex min-w-0 flex-col gap-0.5">
+        <span class="flex items-center gap-2">
           <span
             :class="
               cn(
@@ -93,17 +73,17 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
       <span
         :class="
           cn(
-            'flex h-[132px] shrink-0 items-center justify-center rounded-3',
+            'flex h-33 shrink-0 items-center justify-center rounded-3',
             plateBg,
             plateFg,
             isEmpty && 'bg-background',
           )
         "
       >
-        <component :is="icon" class="size-[40px] shrink-0" aria-hidden="true" />
+        <component :is="icon" class="size-10 shrink-0" aria-hidden="true" />
       </span>
-      <span class="flex flex-col gap-[6px] px-[8px] pb-[10px] pt-[2px]">
-        <span class="flex items-center gap-[8px]">
+      <span class="flex flex-col gap-1.5 px-2 pb-2.5 pt-0.5">
+        <span class="flex items-center gap-2">
           <span
             :class="
               cn(
@@ -115,7 +95,9 @@ const plateFg = computed(() => (isEmpty.value ? 'text-faint' : TONE_FG[props.ton
           >
           <span v-if="props.year" class="t-label ms-auto">{{ props.year }}</span>
         </span>
-        <span v-if="props.caption" class="t-small truncate leading-[1.5]">{{ props.caption }}</span>
+        <span v-if="props.caption" class="t-small truncate leading-normal">{{
+          props.caption
+        }}</span>
       </span>
       <slot />
     </template>
