@@ -13,6 +13,8 @@ import { experience } from '@/data/resume'
 import { projects } from '@/data/projects'
 import { routeLocation } from '@/router/route-locations'
 import IconCheck from '~icons/material-symbols/verified-rounded'
+import TechChip from '@/components/home/TechChip.vue'
+import { stack } from '@/data/stack'
 const { t } = useI18n()
 
 const EASE: [number, number, number, number] = [0.2, 0, 0.2, 1]
@@ -61,7 +63,12 @@ const socials = links.filter((link) => link.id !== 'email')
             {{ t('home.name') }}
             <IconCheck class="inline text-primary size-4 ml-1" />
           </h1>
-          <p class="m-0 text-[16px] text-muted-foreground">{{ t('home.role') }}</p>
+          <p class="m-0 flex flex-wrap items-center gap-x-[10px] gap-y-[2px] text-[16px] text-muted-foreground">
+            {{ t('home.role') }}
+            <span class="inline-flex items-center gap-[2px]">
+              <TechChip v-for="item in stack" :key="item.id" :label="item.label" :url="item.url" :icon="item.icon" />
+            </span>
+          </p>
         </span>
       </div>
       <div class="flex max-w-[52ch] flex-col gap-[var(--space-3)]">

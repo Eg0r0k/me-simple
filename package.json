@@ -34,6 +34,7 @@
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
+    "@iconify-json/logos": "^1.2.13",
     "@iconify-json/material-symbols": "^1.2.90",
     "@tsconfig/node24": "^24.0.4",
     "@types/node": "^24.12.2",
